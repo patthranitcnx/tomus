@@ -15,6 +15,7 @@ function parsePurchaseBody(body: Record<string, unknown>) {
   return {
     itemName,
     supplier: String(body.supplier ?? "").trim() || null,
+    address: String(body.address ?? "").trim() || null,
     quantity,
     unit: String(body.unit ?? "").trim() || null,
     unitPrice,

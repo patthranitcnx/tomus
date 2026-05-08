@@ -57,6 +57,7 @@ model Purchase {
   id           Int      @id @default(autoincrement())
   itemName     String
   supplier     String?
+  address      String?
   quantity     Float
   unit         String?
   unitPrice    Float

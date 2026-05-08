@@ -6,6 +6,7 @@ type Purchase = {
   id: number;
   itemName: string;
   supplier: string | null;
+  address: string | null;
   quantity: number;
   unit: string | null;
   unitPrice: number;
@@ -25,6 +26,7 @@ type PurchaseItemForm = {
 type PurchaseEditForm = {
   itemName: string;
   supplier: string;
+  address: string;
   quantity: string;
   unit: string;
   unitPrice: string;
@@ -58,6 +60,7 @@ export default function PurchasesPage() {
   const [editForm, setEditForm] = useState<PurchaseEditForm | null>(null);
   const [form, setForm] = useState({
     supplier: "",
+    address: "",
     purchaseDate: "",
     note: "",
   });
@@ -137,7 +140,7 @@ export default function PurchasesPage() {
     });
 
     if (response.ok) {
-      setForm({ supplier: "", purchaseDate: "", note: "" });
+      setForm({ supplier: "", address: "", purchaseDate: "", note: "" });
       setItems([createItem()]);
       await fetchPurchases();
     }
@@ -166,6 +169,7 @@ export default function PurchasesPage() {
     setEditForm({
       itemName: purchase.itemName,
       supplier: purchase.supplier || "",
+      address: purchase.address || "",
       quantity: String(purchase.quantity),
       unit: purchase.unit || "",
       unitPrice: String(purchase.unitPrice),
@@ -213,6 +217,23 @@ export default function PurchasesPage() {
     await fetchPurchases();
   };
 
+  const createCustomersFromPurchases = async () => {
+    try {
+      const res = await fetch("/api/purchases/create-customers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(`สร้างคู่ค้า ${data.count} รายสำเร็จ`);
+      } else {
+        alert(`ข้อผิดพลาด: ${data.error || "ไม่สามารถสร้างคู่ค้าได้"}`);
+      }
+    } catch (err) {
+      alert("ไม่สามารถสร้างคู่ค้าได้");
+    }
+  };
+
   return (
     <div className="page-shell">
       <header className="page-header">
@@ -236,6 +257,7 @@ export default function PurchasesPage() {
             <strong>{money.format(formTotal)}</strong>
           </div>
           <input placeholder="ผู้ขาย / ซัพพลายเออร์" value={form.supplier} onChange={(event) => setForm({ ...form, supplier: event.target.value })} />
+          <input placeholder="ที่อยู่ซัพพลายเออร์" value={form.address} onChange={(event) => setForm({ ...form, address: event.target.value })} />
           <input type="date" value={form.purchaseDate} onChange={(event) => setForm({ ...form, purchaseDate: event.target.value })} />
           <div className="line-items">
             {items.map((item, index) => (
@@ -312,6 +334,9 @@ export default function PurchasesPage() {
                 <p className="eyebrow">ทั้งหมด {purchases.length} รายการ</p>
                 <h2>ประวัติการซื้อ</h2>
               </div>
+              <button type="button" className="secondary" onClick={createCustomersFromPurchases}>
+                สร้างคู่ค้า
+              </button>
             </div>
 
             {loading ? (
@@ -356,6 +381,12 @@ export default function PurchasesPage() {
                                   placeholder="ผู้ขาย / ซัพพลายเออร์"
                                   value={editForm.supplier}
                                   onChange={(event) => updateEditForm({ supplier: event.target.value })}
+                                />
+                                <input
+                                  className="table-input"
+                                  placeholder="ที่อยู่"
+                                  value={editForm.address}
+                                  onChange={(event) => updateEditForm({ address: event.target.value })}
                                 />
                                 <textarea
                                   className="table-input table-textarea"

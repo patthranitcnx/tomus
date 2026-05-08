@@ -49,6 +49,7 @@ export async function POST(request: Request) {
   const body = await request.json();
   const purchaseDate = String(body.purchaseDate ?? "").trim();
   const supplier = String(body.supplier ?? "").trim() || null;
+  const address = String(body.address ?? "").trim() || null;
   const note = String(body.note ?? "").trim() || null;
   const items = getItemsFromBody(body);
 
@@ -62,6 +63,7 @@ export async function POST(request: Request) {
       return {
         itemName,
         supplier,
+        address,
         quantity,
         unit: String(item.unit ?? "").trim() || null,
         unitPrice,
