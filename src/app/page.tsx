@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowUpRight, FilePlus2, ReceiptText, ShoppingCart, TrendingUp, UserPlus, Users } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+import { readLocalPurchases } from "@/lib/local-purchases";
+import { readLocalExpenses, readLocalSaleRecords } from "@/lib/local-records";
 
 export const dynamic = "force-dynamic";
 
@@ -10,53 +12,105 @@ const money = new Intl.NumberFormat("th-TH", {
 });
 
 export default async function HomePage() {
-  const [customers, salespeople, invoiceSummary, purchaseSummary, saleRecordSummary, expenseSummary, invoices, commissions] = await Promise.all([
-    prisma.customer.count(),
-    prisma.salesperson.count(),
-    prisma.invoice.aggregate({
-      _count: true,
-      _sum: {
-        total: true,
-      },
-    }),
-    prisma.purchase.aggregate({
-      _count: true,
-      _sum: {
-        total: true,
-      },
-    }),
-    prisma.saleRecord.aggregate({
-      _count: true,
-      _sum: {
-        total: true,
-      },
-    }),
-    prisma.expense.aggregate({
-      _count: true,
-      _sum: {
-        amount: true,
-      },
-    }),
-    prisma.invoice.findMany({
-      include: {
-        customer: true,
-        salesperson: true,
-        commission: true,
-      },
-      orderBy: { createdAt: "desc" },
-      take: 6,
-    }),
-    prisma.commission.findMany(),
-  ]);
+  let customers = 0;
+  let salespeople = 0;
+  let invoiceCount = 0;
+  let totalSales = 0;
+  let totalPurchases = 0;
+  let purchaseCount = 0;
+  let totalSaleRecords = 0;
+  let saleRecordCount = 0;
+  let totalExpenses = 0;
+  let expenseCount = 0;
+  let totalCommissions = 0;
+  let unpaidCommissions = 0;
+  let invoices: Array<{
+    id: number;
+    invoiceNumber: string;
+    total: number;
+    status: string;
+    customer: { name: string };
+    salesperson: { name: string };
+  }> = [];
 
-  const totalSales = invoiceSummary._sum.total ?? 0;
-  const totalPurchases = purchaseSummary._sum.total ?? 0;
-  const totalSaleRecords = saleRecordSummary._sum.total ?? 0;
-  const totalExpenses = expenseSummary._sum.amount ?? 0;
-  const totalCommissions = commissions.reduce((sum, commission) => sum + commission.amount, 0);
-  const unpaidCommissions = commissions
-    .filter((commission) => !commission.paid)
-    .reduce((sum, commission) => sum + commission.amount, 0);
+  try {
+    const [
+      customerCount,
+      salespersonCount,
+      invoiceSummary,
+      purchaseSummary,
+      saleRecordSummary,
+      expenseSummary,
+      latestInvoices,
+      commissions,
+    ] = await Promise.all([
+      prisma.customer.count(),
+      prisma.salesperson.count(),
+      prisma.invoice.aggregate({
+        _count: true,
+        _sum: {
+          total: true,
+        },
+      }),
+      prisma.purchase.aggregate({
+        _count: true,
+        _sum: {
+          total: true,
+        },
+      }),
+      prisma.saleRecord.aggregate({
+        _count: true,
+        _sum: {
+          total: true,
+        },
+      }),
+      prisma.expense.aggregate({
+        _count: true,
+        _sum: {
+          amount: true,
+        },
+      }),
+      prisma.invoice.findMany({
+        include: {
+          customer: true,
+          salesperson: true,
+          commission: true,
+        },
+        orderBy: { createdAt: "desc" },
+        take: 6,
+      }),
+      prisma.commission.findMany(),
+    ]);
+
+    customers = customerCount;
+    salespeople = salespersonCount;
+    invoiceCount = invoiceSummary._count;
+    totalSales = invoiceSummary._sum.total ?? 0;
+    totalPurchases = purchaseSummary._sum.total ?? 0;
+    purchaseCount = purchaseSummary._count;
+    totalSaleRecords = saleRecordSummary._sum.total ?? 0;
+    saleRecordCount = saleRecordSummary._count;
+    totalExpenses = expenseSummary._sum.amount ?? 0;
+    expenseCount = expenseSummary._count;
+    totalCommissions = commissions.reduce((sum, commission) => sum + commission.amount, 0);
+    unpaidCommissions = commissions
+      .filter((commission) => !commission.paid)
+      .reduce((sum, commission) => sum + commission.amount, 0);
+    invoices = latestInvoices;
+  } catch {
+    const [purchases, saleRecords, expenses] = await Promise.all([
+      readLocalPurchases(),
+      readLocalSaleRecords(),
+      readLocalExpenses(),
+    ]);
+
+    totalPurchases = purchases.reduce((sum, purchase) => sum + purchase.total, 0);
+    purchaseCount = purchases.length;
+    totalSaleRecords = saleRecords.reduce((sum, saleRecord) => sum + saleRecord.total, 0);
+    saleRecordCount = saleRecords.length;
+    totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+    expenseCount = expenses.length;
+  }
 
   return (
     <div className="page-shell">
@@ -81,22 +135,22 @@ export default async function HomePage() {
         <article className="metric-card accent-green">
           <span>รายการขาย</span>
           <strong>{money.format(totalSaleRecords)}</strong>
-          <small>จากรายการขาย {saleRecordSummary._count} รายการ</small>
+          <small>จากรายการขาย {saleRecordCount} รายการ</small>
         </article>
         <article className="metric-card accent-blue">
           <span>รายการซื้อ</span>
           <strong>{money.format(totalPurchases)}</strong>
-          <small>จากรายการซื้อ {purchaseSummary._count} รายการ</small>
+          <small>จากรายการซื้อ {purchaseCount} รายการ</small>
         </article>
         <article className="metric-card accent-amber">
           <span>ค่าใช้จ่าย</span>
           <strong>{money.format(totalExpenses)}</strong>
-          <small>จากค่าใช้จ่าย {expenseSummary._count} รายการ</small>
+          <small>จากค่าใช้จ่าย {expenseCount} รายการ</small>
         </article>
         <article className="metric-card accent-red">
           <span>คอมมิชชั่นค้างจ่าย</span>
           <strong>{money.format(unpaidCommissions)}</strong>
-          <small>ใบแจ้งหนี้ {invoiceSummary._count} ใบ · {money.format(totalSales)}</small>
+          <small>ใบแจ้งหนี้ {invoiceCount} ใบ · {money.format(totalSales)}</small>
         </article>
       </section>
 

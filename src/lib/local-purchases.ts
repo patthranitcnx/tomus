@@ -14,10 +14,13 @@ export type LocalPurchase = {
   createdAt: string;
 };
 
-const dataDir = path.join(process.cwd(), ".local-data");
+const dataDir = process.env.VERCEL
+  ? path.join("/tmp", "fertilizer-crm-data")
+  : path.join(process.cwd(), ".local-data");
 const dataFile = path.join(dataDir, "purchases.json");
 
-export const canUseLocalPurchases = () => process.env.NODE_ENV !== "production";
+export const canUseLocalPurchases = () =>
+  process.env.NODE_ENV !== "production" || !process.env.DATABASE_URL;
 
 export async function readLocalPurchases() {
   try {

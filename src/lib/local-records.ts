@@ -24,9 +24,12 @@ export type LocalExpense = {
   createdAt: string;
 };
 
-const dataDir = path.join(process.cwd(), ".local-data");
+const dataDir = process.env.VERCEL
+  ? path.join("/tmp", "fertilizer-crm-data")
+  : path.join(process.cwd(), ".local-data");
 
-export const canUseLocalRecords = () => process.env.NODE_ENV !== "production";
+export const canUseLocalRecords = () =>
+  process.env.NODE_ENV !== "production" || !process.env.DATABASE_URL;
 
 async function readRecords<T>(fileName: string) {
   try {
