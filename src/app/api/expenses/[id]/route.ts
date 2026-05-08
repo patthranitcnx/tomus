@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { canUseLocalRecords, deleteLocalExpense } from "@/lib/local-records";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -16,6 +17,12 @@ export async function DELETE(
 
     return NextResponse.json({ ok: true });
   } catch (error) {
+    if (canUseLocalRecords()) {
+      const deleted = await deleteLocalExpense(Number(params.id));
+
+      return NextResponse.json({ ok: deleted });
+    }
+
     return NextResponse.json({ error: "Failed to delete expense" }, { status: 500 });
   }
 }
