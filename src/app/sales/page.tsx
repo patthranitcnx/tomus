@@ -14,6 +14,8 @@ type Salesperson = {
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
+  minimumFractionDigits: 3,
+  maximumFractionDigits: 3,
 });
 
 export default function SalesPage() {

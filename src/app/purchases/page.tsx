@@ -25,6 +25,8 @@ type PurchaseItemForm = {
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
+  minimumFractionDigits: 3,
+  maximumFractionDigits: 3,
 });
 
 const createItem = (): PurchaseItemForm => ({
@@ -155,10 +157,10 @@ export default function PurchasesPage() {
                 </div>
                 <input required placeholder="ชื่อสินค้า เช่น ปุ๋ยสูตร 15-15-15" value={item.itemName} onChange={(event) => updateItem(item.id, { itemName: event.target.value })} />
                 <div className="form-row">
-                  <input required min="0" step="0.01" type="number" placeholder="จำนวน" value={item.quantity} onChange={(event) => updateItem(item.id, { quantity: event.target.value })} />
+                  <input required min="0" step="0.001" type="number" placeholder="จำนวน" value={item.quantity} onChange={(event) => updateItem(item.id, { quantity: event.target.value })} />
                   <input placeholder="หน่วย" value={item.unit} onChange={(event) => updateItem(item.id, { unit: event.target.value })} />
                 </div>
-                <input required min="0" step="0.01" type="number" placeholder="ราคาต่อหน่วย" value={item.unitPrice} onChange={(event) => updateItem(item.id, { unitPrice: event.target.value })} />
+                <input required min="0" step="0.001" type="number" placeholder="ราคาต่อหน่วย" value={item.unitPrice} onChange={(event) => updateItem(item.id, { unitPrice: event.target.value })} />
                 <p className="line-total">
                   รวม {money.format((Number(item.quantity) || 0) * (Number(item.unitPrice) || 0))}
                 </p>

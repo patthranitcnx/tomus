@@ -17,6 +17,8 @@ type SaleRecord = {
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
+  minimumFractionDigits: 3,
+  maximumFractionDigits: 3,
 });
 
 export default function SaleRecordsPage() {
@@ -92,10 +94,10 @@ export default function SaleRecordsPage() {
           <input required placeholder="ชื่อสินค้า เช่น ปุ๋ยยูเรีย 46-0-0" value={form.itemName} onChange={(event) => setForm({ ...form, itemName: event.target.value })} />
           <input placeholder="ลูกค้า" value={form.customer} onChange={(event) => setForm({ ...form, customer: event.target.value })} />
           <div className="form-row">
-            <input required min="0" step="0.01" type="number" placeholder="จำนวน" value={form.quantity} onChange={(event) => setForm({ ...form, quantity: event.target.value })} />
+            <input required min="0" step="0.001" type="number" placeholder="จำนวน" value={form.quantity} onChange={(event) => setForm({ ...form, quantity: event.target.value })} />
             <input placeholder="หน่วย" value={form.unit} onChange={(event) => setForm({ ...form, unit: event.target.value })} />
           </div>
-          <input required min="0" step="0.01" type="number" placeholder="ราคาขายต่อหน่วย" value={form.unitPrice} onChange={(event) => setForm({ ...form, unitPrice: event.target.value })} />
+          <input required min="0" step="0.001" type="number" placeholder="ราคาขายต่อหน่วย" value={form.unitPrice} onChange={(event) => setForm({ ...form, unitPrice: event.target.value })} />
           <input type="date" value={form.saleDate} onChange={(event) => setForm({ ...form, saleDate: event.target.value })} />
           <textarea placeholder="หมายเหตุ" value={form.note} onChange={(event) => setForm({ ...form, note: event.target.value })} />
           <button disabled={saving}>{saving ? "กำลังบันทึก..." : "บันทึกรายการขาย"}</button>

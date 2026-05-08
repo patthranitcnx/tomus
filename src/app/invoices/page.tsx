@@ -31,6 +31,8 @@ type Invoice = {
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
+  minimumFractionDigits: 3,
+  maximumFractionDigits: 3,
 });
 
 const statusOptions = ["PENDING", "PAID", "CANCELLED"];
@@ -174,7 +176,7 @@ export default function InvoicesPage() {
           <input
             required
             min="0"
-            step="0.01"
+            step="0.001"
             type="number"
             placeholder="ยอดรวม"
             value={form.total}
@@ -183,7 +185,7 @@ export default function InvoicesPage() {
           <input
             required
             min="0"
-            step="0.01"
+            step="0.001"
             type="number"
             placeholder="อัตราคอมมิชชั่น (%)"
             value={form.commissionRate}

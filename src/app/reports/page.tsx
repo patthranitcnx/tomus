@@ -30,6 +30,13 @@ type CommissionData = {
   paid: boolean;
 };
 
+const money = new Intl.NumberFormat("th-TH", {
+  style: "currency",
+  currency: "THB",
+  minimumFractionDigits: 3,
+  maximumFractionDigits: 3,
+});
+
 export default function ReportsPage() {
   const [report, setReport] = useState<ReportData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -111,13 +118,13 @@ export default function ReportsPage() {
         <div className="metric-card accent-green">
           <h3>ยอดขายรวม</h3>
           <p>
-            ฿{report.totalSales.toFixed(2)}
+            {money.format(report.totalSales)}
           </p>
         </div>
         <div className="metric-card accent-blue">
           <h3>คอมมิชชั่นรวม</h3>
           <p>
-            ฿{report.totalCommissions.toFixed(2)}
+            {money.format(report.totalCommissions)}
           </p>
         </div>
         <div className="metric-card accent-amber">
@@ -129,13 +136,13 @@ export default function ReportsPage() {
         <div className="metric-card accent-green">
           <h3>คอมมิชชั่นที่จ่ายแล้ว</h3>
           <p>
-            ฿{report.paidCommissions.toFixed(2)}
+            {money.format(report.paidCommissions)}
           </p>
         </div>
         <div className="metric-card accent-red">
           <h3>คอมมิชชั่นค้างจ่าย</h3>
           <p>
-            ฿{report.unpaidCommissions.toFixed(2)}
+            {money.format(report.unpaidCommissions)}
           </p>
         </div>
       </div>
@@ -155,8 +162,8 @@ export default function ReportsPage() {
               {report.salesByPerson.map((person) => (
                 <tr key={person.name}>
                   <td>{person.name}</td>
-                  <td>฿{person.total.toFixed(2)}</td>
-                  <td>฿{person.commission.toFixed(2)}</td>
+                  <td>{money.format(person.total)}</td>
+                  <td>{money.format(person.commission)}</td>
                 </tr>
               ))}
             </tbody>
