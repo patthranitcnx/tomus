@@ -5,6 +5,7 @@ out
 .env
 .env.*
 !.env.example
+.local-data
 *.db
 *.db-journal
 *.pkg

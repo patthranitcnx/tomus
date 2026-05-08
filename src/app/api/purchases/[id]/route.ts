@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { canUseLocalPurchases, deleteLocalPurchase } from "@/lib/local-purchases";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -16,6 +17,12 @@ export async function DELETE(
 
     return NextResponse.json({ ok: true });
   } catch (error) {
+    if (canUseLocalPurchases()) {
+      const deleted = await deleteLocalPurchase(Number(params.id));
+
+      return NextResponse.json({ ok: deleted });
+    }
+
     return NextResponse.json({ error: "Failed to delete purchase" }, { status: 500 });
   }
 }
