@@ -232,7 +232,8 @@ button:disabled {
 
 .panel h2,
 .card h2,
-.form h2 {
+.form h2,
+.section-header h2 {
   margin: 0;
   font-size: 1.05rem;
 }

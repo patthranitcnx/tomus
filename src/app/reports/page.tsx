@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 
 interface ReportData {
   totalSales: number;
+  totalPurchases: number;
+  totalExpenses: number;
+  totalProfit: number;
   totalCommissions: number;
   invoiceCount: number;
   paidCommissions: number;
@@ -30,6 +33,18 @@ type CommissionData = {
   paid: boolean;
 };
 
+type PurchaseData = {
+  total: number;
+};
+
+type SaleRecordData = {
+  total: number;
+};
+
+type ExpenseData = {
+  amount: number;
+};
+
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
@@ -47,20 +62,34 @@ export default function ReportsPage() {
 
   const fetchReport = async () => {
     try {
-      const [invRes, commRes] = await Promise.all([
+      const [invRes, commRes, purchaseRes, saleRecordRes, expenseRes] = await Promise.all([
         fetch('/api/invoices'),
         fetch('/api/commissions'),
+        fetch('/api/purchases'),
+        fetch('/api/sale-records'),
+        fetch('/api/expenses'),
       ]);
 
       const invoiceData = await invRes.json();
       const commissionData = await commRes.json();
+      const purchaseData = await purchaseRes.json();
+      const saleRecordData = await saleRecordRes.json();
+      const expenseData = await expenseRes.json();
       const invoices: InvoiceData[] = Array.isArray(invoiceData) ? invoiceData : [];
       const commissions: CommissionData[] = Array.isArray(commissionData) ? commissionData : [];
+      const purchases: PurchaseData[] = Array.isArray(purchaseData) ? purchaseData : [];
+      const saleRecords: SaleRecordData[] = Array.isArray(saleRecordData) ? saleRecordData : [];
+      const expenses: ExpenseData[] = Array.isArray(expenseData) ? expenseData : [];
 
-      const totalSales = invoices.reduce(
+      const invoiceSales = invoices.reduce(
         (sum, inv) => sum + inv.total,
         0
       );
+      const saleRecordSales = saleRecords.reduce((sum, saleRecord) => sum + saleRecord.total, 0);
+      const totalSales = saleRecords.length > 0 ? saleRecordSales : invoiceSales;
+      const totalPurchases = purchases.reduce((sum, purchase) => sum + purchase.total, 0);
+      const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+      const totalProfit = totalSales - totalPurchases - totalExpenses;
       const totalCommissions = commissions.reduce(
         (sum, c) => sum + c.amount,
         0
@@ -84,6 +113,9 @@ export default function ReportsPage() {
 
       setReport({
         totalSales,
+        totalPurchases,
+        totalExpenses,
+        totalProfit,
         totalCommissions,
         invoiceCount: invoices.length,
         paidCommissions,
@@ -114,38 +146,75 @@ export default function ReportsPage() {
         </div>
       </header>
 
-      <div className="grid">
-        <div className="metric-card accent-green">
-          <h3>ยอดขายรวม</h3>
-          <p>
-            {money.format(report.totalSales)}
-          </p>
+      <section>
+        <div className="section-header">
+          <div>
+            <p className="eyebrow">บัญชี</p>
+            <h2>สรุปยอดบัญชี</h2>
+          </div>
         </div>
-        <div className="metric-card accent-blue">
-          <h3>คอมมิชชั่นรวม</h3>
-          <p>
-            {money.format(report.totalCommissions)}
-          </p>
+        <div className="grid">
+          <div className="metric-card accent-green">
+            <h3>ยอดขายรวม</h3>
+            <p>
+              {money.format(report.totalSales)}
+            </p>
+          </div>
+          <div className="metric-card accent-blue">
+            <h3>ยอดซื้อรวม</h3>
+            <p>
+              {money.format(report.totalPurchases)}
+            </p>
+          </div>
+          <div className="metric-card accent-amber">
+            <h3>ค่าใช้จ่ายรวม</h3>
+            <p>
+              {money.format(report.totalExpenses)}
+            </p>
+          </div>
+          <div className={`metric-card ${report.totalProfit >= 0 ? "accent-green" : "accent-red"}`}>
+            <h3>กำไรรวม</h3>
+            <p>
+              {money.format(report.totalProfit)}
+            </p>
+          </div>
         </div>
-        <div className="metric-card accent-amber">
-          <h3>ใบแจ้งหนี้ทั้งหมด</h3>
-          <p>
-            {report.invoiceCount}
-          </p>
+      </section>
+
+      <section>
+        <div className="section-header">
+          <div>
+            <p className="eyebrow">เอกสารขาย</p>
+            <h2>ใบแจ้งหนี้และคอมมิชชั่น</h2>
+          </div>
         </div>
-        <div className="metric-card accent-green">
-          <h3>คอมมิชชั่นที่จ่ายแล้ว</h3>
-          <p>
-            {money.format(report.paidCommissions)}
-          </p>
+        <div className="grid">
+          <div className="metric-card accent-blue">
+            <h3>คอมมิชชั่นรวม</h3>
+            <p>
+              {money.format(report.totalCommissions)}
+            </p>
+          </div>
+          <div className="metric-card accent-amber">
+            <h3>ใบแจ้งหนี้ทั้งหมด</h3>
+            <p>
+              {report.invoiceCount}
+            </p>
+          </div>
+          <div className="metric-card accent-green">
+            <h3>คอมมิชชั่นที่จ่ายแล้ว</h3>
+            <p>
+              {money.format(report.paidCommissions)}
+            </p>
+          </div>
+          <div className="metric-card accent-red">
+            <h3>คอมมิชชั่นค้างจ่าย</h3>
+            <p>
+              {money.format(report.unpaidCommissions)}
+            </p>
+          </div>
         </div>
-        <div className="metric-card accent-red">
-          <h3>คอมมิชชั่นค้างจ่าย</h3>
-          <p>
-            {money.format(report.unpaidCommissions)}
-          </p>
-        </div>
-      </div>
+      </section>
 
       <section className="panel">
         <h2>ยอดขายและคอมมิชชั่นตามเซลส์</h2>
