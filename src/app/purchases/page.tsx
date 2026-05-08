@@ -217,23 +217,6 @@ export default function PurchasesPage() {
     await fetchPurchases();
   };
 
-  const createCustomersFromPurchases = async () => {
-    try {
-      const res = await fetch("/api/purchases/create-customers", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await res.json();
-      if (res.ok) {
-        alert(`สร้างคู่ค้า ${data.count} รายสำเร็จ`);
-      } else {
-        alert(`ข้อผิดพลาด: ${data.error || "ไม่สามารถสร้างคู่ค้าได้"}`);
-      }
-    } catch (err) {
-      alert("ไม่สามารถสร้างคู่ค้าได้");
-    }
-  };
-
   return (
     <div className="page-shell">
       <header className="page-header">
@@ -334,9 +317,6 @@ export default function PurchasesPage() {
                 <p className="eyebrow">ทั้งหมด {purchases.length} รายการ</p>
                 <h2>ประวัติการซื้อ</h2>
               </div>
-              <button type="button" className="secondary" onClick={createCustomersFromPurchases}>
-                สร้างคู่ค้า
-              </button>
             </div>
 
             {loading ? (

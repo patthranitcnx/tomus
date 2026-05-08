@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   BarChart3,
   FileText,
+  Handshake,
   LayoutDashboard,
   ReceiptText,
   ShoppingCart,
@@ -16,6 +17,7 @@ import {
 
 const navItems = [
   { href: "/", label: "แดชบอร์ด", icon: LayoutDashboard },
+  { href: "/partners", label: "สร้างคู่ค้า", icon: Handshake },
   { href: "/customers", label: "ลูกค้า", icon: Users },
   { href: "/purchases", label: "รายการซื้อ", icon: ShoppingCart },
   { href: "/sale-records", label: "รายการขาย", icon: TrendingUp },
