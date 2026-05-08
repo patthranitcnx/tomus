@@ -2,11 +2,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, FileText, LayoutDashboard, Sprout, Users, WalletCards } from "lucide-react";
+import {
+  BarChart3,
+  FileText,
+  LayoutDashboard,
+  ReceiptText,
+  ShoppingCart,
+  Sprout,
+  TrendingUp,
+  Users,
+  WalletCards,
+} from "lucide-react";
 
 const navItems = [
   { href: "/", label: "แดชบอร์ด", icon: LayoutDashboard },
   { href: "/customers", label: "ลูกค้า", icon: Users },
+  { href: "/purchases", label: "รายการซื้อ", icon: ShoppingCart },
+  { href: "/sale-records", label: "รายการขาย", icon: TrendingUp },
+  { href: "/expenses", label: "ค่าใช้จ่าย", icon: ReceiptText },
   { href: "/invoices", label: "ใบแจ้งหนี้", icon: FileText },
   { href: "/sales", label: "ทีมขาย", icon: WalletCards },
   { href: "/reports", label: "รายงาน", icon: BarChart3 },

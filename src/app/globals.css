@@ -417,6 +417,7 @@ button:disabled {
 
 .form input,
 .form select,
+.form textarea,
 .search-input,
 .inline-select {
   width: 100%;
@@ -430,6 +431,7 @@ button:disabled {
 
 .form input:focus,
 .form select:focus,
+.form textarea:focus,
 .search-input:focus,
 .inline-select:focus {
   outline: none;
@@ -439,6 +441,86 @@ button:disabled {
 
 .search-input {
   max-width: 280px;
+}
+
+.form textarea {
+  min-height: 5.3rem;
+  padding: 0.72rem 0.75rem;
+  resize: vertical;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(92px, 0.55fr);
+  gap: 0.65rem;
+}
+
+.line-items {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.line-item {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.75rem;
+  border: 1px solid #dfe7e4;
+  border-radius: 0.5rem;
+  background: #f8fbfa;
+}
+
+.line-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.line-total {
+  margin: 0;
+  color: #176b52;
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+.btn-ghost {
+  min-height: 2rem;
+  padding: 0 0.65rem;
+  background: transparent;
+  color: #52665e;
+  border: 1px solid #cbd8d3;
+  font-size: 0.82rem;
+}
+
+.btn-ghost:hover {
+  background: #eef5f2;
+  color: #176b52;
+}
+
+.mini-total {
+  min-width: 220px;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #dfe7e4;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(35, 49, 45, 0.07);
+}
+
+.mini-total span,
+.mini-total strong {
+  display: block;
+}
+
+.mini-total span {
+  color: #60716b;
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.mini-total strong {
+  margin-top: 0.18rem;
+  font-size: 1.25rem;
 }
 
 .table-wrap {

@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Customer {
@@ -51,4 +51,40 @@ model Commission {
   amount         Float
   paid           Boolean  @default(false)
   paidAt         DateTime?
+}
+
+model Purchase {
+  id           Int      @id @default(autoincrement())
+  itemName     String
+  supplier     String?
+  quantity     Float
+  unit         String?
+  unitPrice    Float
+  total        Float
+  purchaseDate DateTime @default(now())
+  note         String?
+  createdAt    DateTime @default(now())
+}
+
+model SaleRecord {
+  id        Int      @id @default(autoincrement())
+  itemName  String
+  customer  String?
+  quantity  Float
+  unit      String?
+  unitPrice Float
+  total     Float
+  saleDate  DateTime @default(now())
+  note      String?
+  createdAt DateTime @default(now())
+}
+
+model Expense {
+  id          Int      @id @default(autoincrement())
+  title       String
+  category    String
+  amount      Float
+  expenseDate DateTime @default(now())
+  note        String?
+  createdAt   DateTime @default(now())
 }

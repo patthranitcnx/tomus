@@ -4,9 +4,11 @@ out
 .DS_Store
 .env
 .env.*
+!.env.example
 *.db
 *.db-journal
 *.pkg
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+preview-*.png

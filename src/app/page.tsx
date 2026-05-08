@@ -1,6 +1,8 @@
 import Link from "next/link";
-import { ArrowUpRight, FilePlus2, ReceiptText, UserPlus, Users } from "lucide-react";
+import { ArrowUpRight, FilePlus2, ReceiptText, ShoppingCart, TrendingUp, UserPlus, Users } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+
+export const dynamic = "force-dynamic";
 
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
@@ -8,13 +10,31 @@ const money = new Intl.NumberFormat("th-TH", {
 });
 
 export default async function HomePage() {
-  const [customers, salespeople, invoiceSummary, invoices, commissions] = await Promise.all([
+  const [customers, salespeople, invoiceSummary, purchaseSummary, saleRecordSummary, expenseSummary, invoices, commissions] = await Promise.all([
     prisma.customer.count(),
     prisma.salesperson.count(),
     prisma.invoice.aggregate({
       _count: true,
       _sum: {
         total: true,
+      },
+    }),
+    prisma.purchase.aggregate({
+      _count: true,
+      _sum: {
+        total: true,
+      },
+    }),
+    prisma.saleRecord.aggregate({
+      _count: true,
+      _sum: {
+        total: true,
+      },
+    }),
+    prisma.expense.aggregate({
+      _count: true,
+      _sum: {
+        amount: true,
       },
     }),
     prisma.invoice.findMany({
@@ -30,6 +50,9 @@ export default async function HomePage() {
   ]);
 
   const totalSales = invoiceSummary._sum.total ?? 0;
+  const totalPurchases = purchaseSummary._sum.total ?? 0;
+  const totalSaleRecords = saleRecordSummary._sum.total ?? 0;
+  const totalExpenses = expenseSummary._sum.amount ?? 0;
   const totalCommissions = commissions.reduce((sum, commission) => sum + commission.amount, 0);
   const unpaidCommissions = commissions
     .filter((commission) => !commission.paid)
@@ -47,33 +70,33 @@ export default async function HomePage() {
             <UserPlus size={18} />
             เพิ่มลูกค้า
           </Link>
-          <Link className="button" href="/invoices">
+          <Link className="button" href="/sale-records">
             <FilePlus2 size={18} />
-            ออกใบแจ้งหนี้
+            เพิ่มรายการขาย
           </Link>
         </div>
       </header>
 
       <section className="metric-grid">
         <article className="metric-card accent-green">
-          <span>ยอดขายล่าสุด</span>
-          <strong>{money.format(totalSales)}</strong>
-          <small>จากใบแจ้งหนี้ {invoiceSummary._count} ใบ</small>
+          <span>รายการขาย</span>
+          <strong>{money.format(totalSaleRecords)}</strong>
+          <small>จากรายการขาย {saleRecordSummary._count} รายการ</small>
         </article>
         <article className="metric-card accent-blue">
-          <span>ลูกค้า</span>
-          <strong>{customers}</strong>
-          <small>รายชื่อในระบบ</small>
+          <span>รายการซื้อ</span>
+          <strong>{money.format(totalPurchases)}</strong>
+          <small>จากรายการซื้อ {purchaseSummary._count} รายการ</small>
         </article>
         <article className="metric-card accent-amber">
-          <span>ทีมขาย</span>
-          <strong>{salespeople}</strong>
-          <small>คนที่พร้อมรับงานขาย</small>
+          <span>ค่าใช้จ่าย</span>
+          <strong>{money.format(totalExpenses)}</strong>
+          <small>จากค่าใช้จ่าย {expenseSummary._count} รายการ</small>
         </article>
         <article className="metric-card accent-red">
           <span>คอมมิชชั่นค้างจ่าย</span>
           <strong>{money.format(unpaidCommissions)}</strong>
-          <small>จากคอมมิชชั่นรวม {money.format(totalCommissions)}</small>
+          <small>ใบแจ้งหนี้ {invoiceSummary._count} ใบ · {money.format(totalSales)}</small>
         </article>
       </section>
 
@@ -122,6 +145,18 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="quick-actions">
+            <Link href="/purchases">
+              <ShoppingCart size={18} />
+              เพิ่มรายการซื้อ
+            </Link>
+            <Link href="/sale-records">
+              <TrendingUp size={18} />
+              เพิ่มรายการขาย
+            </Link>
+            <Link href="/expenses">
+              <ReceiptText size={18} />
+              บันทึกค่าใช้จ่าย
+            </Link>
             <Link href="/customers">
               <Users size={18} />
               จัดการลูกค้า
