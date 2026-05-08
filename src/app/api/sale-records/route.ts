@@ -23,18 +23,17 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
-  const body = await request.json();
+function parseSaleRecordBody(body: Record<string, unknown>) {
   const itemName = String(body.itemName ?? "").trim();
   const quantity = Number(body.quantity);
   const unitPrice = Number(body.unitPrice);
   const saleDate = String(body.saleDate ?? "").trim();
 
   if (!itemName || !Number.isFinite(quantity) || !Number.isFinite(unitPrice) || quantity <= 0 || unitPrice < 0) {
-    return NextResponse.json({ error: "Invalid sale record data" }, { status: 400 });
+    return null;
   }
 
-  const saleRecordData = {
+  return {
     itemName,
     customer: String(body.customer ?? "").trim() || null,
     quantity,
@@ -44,21 +43,46 @@ export async function POST(request: Request) {
     saleDate: saleDate ? new Date(saleDate) : new Date(),
     note: String(body.note ?? "").trim() || null,
   };
+}
+
+export async function POST(request: Request) {
+  const body = (await request.json()) as Record<string, unknown>;
+  const items = Array.isArray(body.items) ? body.items : [body];
+  const saleRecordsData = items.map((item) =>
+    parseSaleRecordBody({
+      ...(item as Record<string, unknown>),
+      customer: body.customer,
+      saleDate: body.saleDate,
+      note: body.note,
+    }),
+  );
+
+  if (saleRecordsData.length === 0 || saleRecordsData.some((record) => record === null)) {
+    return NextResponse.json({ error: "Invalid sale record data" }, { status: 400 });
+  }
+
+  const validSaleRecordsData = saleRecordsData.filter((record) => record !== null);
 
   try {
-    const saleRecord = await prisma.saleRecord.create({
-      data: saleRecordData,
+    const saleRecords = await prisma.saleRecord.createMany({
+      data: validSaleRecordsData,
     });
 
-    return NextResponse.json(saleRecord, { status: 201 });
+    return NextResponse.json(saleRecords, { status: 201 });
   } catch (error) {
     if (canUseLocalRecords()) {
-      const saleRecord = await createLocalSaleRecord({
-        ...saleRecordData,
-        saleDate: saleRecordData.saleDate.toISOString(),
-      });
+      const saleRecords = [];
 
-      return NextResponse.json(saleRecord, { status: 201 });
+      for (const saleRecordData of validSaleRecordsData) {
+        const saleRecord = await createLocalSaleRecord({
+          ...saleRecordData,
+          saleDate: saleRecordData.saleDate.toISOString(),
+        });
+
+        saleRecords.push(saleRecord);
+      }
+
+      return NextResponse.json({ count: saleRecords.length, saleRecords }, { status: 201 });
     }
 
     return NextResponse.json({ error: "Failed to create sale record" }, { status: 500 });

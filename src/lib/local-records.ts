@@ -77,6 +77,34 @@ export async function deleteLocalSaleRecord(id: number) {
   return records.length !== nextRecords.length;
 }
 
+export async function updateLocalSaleRecord(
+  id: number,
+  values: Omit<LocalSaleRecord, "id" | "createdAt">,
+) {
+  const records = await readLocalSaleRecords();
+  let updatedRecord: LocalSaleRecord | null = null;
+  const nextRecords = records.map((record) => {
+    if (record.id !== id) {
+      return record;
+    }
+
+    updatedRecord = {
+      ...record,
+      ...values,
+    };
+
+    return updatedRecord;
+  });
+
+  if (!updatedRecord) {
+    return null;
+  }
+
+  await writeRecords("sale-records.json", nextRecords);
+
+  return updatedRecord;
+}
+
 export async function readLocalExpenses() {
   return readRecords<LocalExpense>("expenses.json");
 }
