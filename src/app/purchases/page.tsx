@@ -49,8 +49,17 @@ export default function PurchasesPage() {
   const [items, setItems] = useState<PurchaseItemForm[]>([createItem()]);
 
   const total = useMemo(() => purchases.reduce((sum, item) => sum + item.total, 0), [purchases]);
+  const sortedPurchases = useMemo(
+    () =>
+      [...purchases].sort((a, b) => {
+        const dateDiff = new Date(a.purchaseDate).getTime() - new Date(b.purchaseDate).getTime();
+
+        return dateDiff || a.id - b.id;
+      }),
+    [purchases],
+  );
   const dailySummary = useMemo(() => {
-    const summary = purchases.reduce<Record<string, { date: Date; count: number; total: number }>>(
+    const summary = sortedPurchases.reduce<Record<string, { date: Date; count: number; total: number }>>(
       (result, purchase) => {
         const date = new Date(purchase.purchaseDate);
         const key = date.toISOString().slice(0, 10);
@@ -67,8 +76,8 @@ export default function PurchasesPage() {
       {},
     );
 
-    return Object.values(summary).sort((a, b) => b.date.getTime() - a.date.getTime());
-  }, [purchases]);
+    return Object.values(summary).sort((a, b) => a.date.getTime() - b.date.getTime());
+  }, [sortedPurchases]);
   const formTotal = useMemo(
     () =>
       items.reduce((sum, item) => {
@@ -259,7 +268,7 @@ export default function PurchasesPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {purchases.map((purchase) => (
+                    {sortedPurchases.map((purchase) => (
                       <tr key={purchase.id}>
                         <td>{new Date(purchase.purchaseDate).toLocaleDateString("th-TH")}</td>
                         <td>
