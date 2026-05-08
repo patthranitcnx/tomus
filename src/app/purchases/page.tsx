@@ -49,6 +49,26 @@ export default function PurchasesPage() {
   const [items, setItems] = useState<PurchaseItemForm[]>([createItem()]);
 
   const total = useMemo(() => purchases.reduce((sum, item) => sum + item.total, 0), [purchases]);
+  const dailySummary = useMemo(() => {
+    const summary = purchases.reduce<Record<string, { date: Date; count: number; total: number }>>(
+      (result, purchase) => {
+        const date = new Date(purchase.purchaseDate);
+        const key = date.toISOString().slice(0, 10);
+
+        if (!result[key]) {
+          result[key] = { date, count: 0, total: 0 };
+        }
+
+        result[key].count += 1;
+        result[key].total += purchase.total;
+
+        return result;
+      },
+      {},
+    );
+
+    return Object.values(summary).sort((a, b) => b.date.getTime() - a.date.getTime());
+  }, [purchases]);
   const formTotal = useMemo(
     () =>
       items.reduce((sum, item) => {
@@ -174,50 +194,92 @@ export default function PurchasesPage() {
           <button disabled={saving}>{saving ? "กำลังบันทึก..." : `บันทึก ${items.length} รายการ`}</button>
         </form>
 
-        <section className="panel">
-          <div className="section-header">
-            <div>
-              <p className="eyebrow">ทั้งหมด {purchases.length} รายการ</p>
-              <h2>ประวัติการซื้อ</h2>
+        <div className="content-stack">
+          <section className="panel">
+            <div className="section-header">
+              <div>
+                <p className="eyebrow">สรุปรายวัน</p>
+                <h2>ยอดซื้อในแต่ละวัน</h2>
+              </div>
             </div>
-          </div>
 
-          {loading ? (
-            <p className="muted">กำลังโหลดข้อมูล...</p>
-          ) : (
-            <div className="table-wrap">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>วันที่</th>
-                    <th>สินค้า</th>
-                    <th>จำนวน</th>
-                    <th>ราคาต่อหน่วย</th>
-                    <th>รวม</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {purchases.map((purchase) => (
-                    <tr key={purchase.id}>
-                      <td>{new Date(purchase.purchaseDate).toLocaleDateString("th-TH")}</td>
-                      <td>
-                        <strong>{purchase.itemName}</strong>
-                        <span>{purchase.supplier || purchase.note || "-"}</span>
-                      </td>
-                      <td>{purchase.quantity} {purchase.unit || ""}</td>
-                      <td>{money.format(purchase.unitPrice)}</td>
-                      <td>{money.format(purchase.total)}</td>
-                      <td>
-                        <button className="btn-danger" onClick={() => deletePurchase(purchase.id)}>ลบ</button>
-                      </td>
+            {loading ? (
+              <p className="muted">กำลังโหลดข้อมูล...</p>
+            ) : (
+              <div className="table-wrap">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>วันที่</th>
+                      <th>จำนวนรายการ</th>
+                      <th>ยอดซื้อรวม</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {dailySummary.length === 0 ? (
+                      <tr>
+                        <td colSpan={3}>ยังไม่มีรายการซื้อ</td>
+                      </tr>
+                    ) : (
+                      dailySummary.map((day) => (
+                        <tr key={day.date.toISOString()}>
+                          <td>{day.date.toLocaleDateString("th-TH")}</td>
+                          <td>{day.count}</td>
+                          <td>{money.format(day.total)}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </section>
+
+          <section className="panel">
+            <div className="section-header">
+              <div>
+                <p className="eyebrow">ทั้งหมด {purchases.length} รายการ</p>
+                <h2>ประวัติการซื้อ</h2>
+              </div>
             </div>
-          )}
-        </section>
+
+            {loading ? (
+              <p className="muted">กำลังโหลดข้อมูล...</p>
+            ) : (
+              <div className="table-wrap">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>วันที่</th>
+                      <th>สินค้า</th>
+                      <th>จำนวน</th>
+                      <th>ราคาต่อหน่วย</th>
+                      <th>รวม</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {purchases.map((purchase) => (
+                      <tr key={purchase.id}>
+                        <td>{new Date(purchase.purchaseDate).toLocaleDateString("th-TH")}</td>
+                        <td>
+                          <strong>{purchase.itemName}</strong>
+                          <span>{purchase.supplier || purchase.note || "-"}</span>
+                        </td>
+                        <td>{purchase.quantity} {purchase.unit || ""}</td>
+                        <td>{money.format(purchase.unitPrice)}</td>
+                        <td>{money.format(purchase.total)}</td>
+                        <td>
+                          <button className="btn-danger" onClick={() => deletePurchase(purchase.id)}>ลบ</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </section>
+        </div>
       </section>
     </div>
   );

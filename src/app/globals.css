@@ -211,6 +211,11 @@ button:disabled {
   gap: 0.9rem;
 }
 
+.content-stack {
+  display: grid;
+  gap: 0.9rem;
+}
+
 .panel,
 .card,
 .metric-card {
