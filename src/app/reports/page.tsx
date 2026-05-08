@@ -33,8 +33,8 @@ type CommissionData = {
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
-  minimumFractionDigits: 3,
-  maximumFractionDigits: 3,
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
 });
 
 export default function ReportsPage() {

@@ -9,8 +9,8 @@ export const dynamic = "force-dynamic";
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
-  minimumFractionDigits: 3,
-  maximumFractionDigits: 3,
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
 });
 
 export default async function HomePage() {

@@ -14,8 +14,8 @@ type Expense = {
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
-  minimumFractionDigits: 3,
-  maximumFractionDigits: 3,
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
 });
 
 const categories = ["ค่าขนส่ง", "ค่าแรง", "ค่าน้ำมัน", "ค่าเช่า", "สำนักงาน", "อื่น ๆ"];
