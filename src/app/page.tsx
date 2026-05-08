@@ -134,26 +134,26 @@ export default async function HomePage() {
       </header>
 
       <section className="metric-grid">
-        <article className="metric-card accent-green">
+        <Link className="metric-card accent-green" href="/sale-records">
           <span>รายการขาย</span>
           <strong>{money.format(totalSaleRecords)}</strong>
           <small>จากรายการขาย {saleRecordCount} รายการ</small>
-        </article>
-        <article className="metric-card accent-blue">
+        </Link>
+        <Link className="metric-card accent-blue" href="/purchases">
           <span>รายการซื้อ</span>
           <strong>{money.format(totalPurchases)}</strong>
           <small>จากรายการซื้อ {purchaseCount} รายการ</small>
-        </article>
-        <article className="metric-card accent-amber">
+        </Link>
+        <Link className="metric-card accent-amber" href="/expenses">
           <span>ค่าใช้จ่าย</span>
           <strong>{money.format(totalExpenses)}</strong>
           <small>จากค่าใช้จ่าย {expenseCount} รายการ</small>
-        </article>
-        <article className="metric-card accent-red">
+        </Link>
+        <Link className="metric-card accent-red" href="/invoices">
           <span>คอมมิชชั่นค้างจ่าย</span>
           <strong>{money.format(unpaidCommissions)}</strong>
           <small>ใบแจ้งหนี้ {invoiceCount} ใบ · {money.format(totalSales)}</small>
-        </article>
+        </Link>
       </section>
 
       <section className="dashboard-grid">
