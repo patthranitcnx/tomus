@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Customer {
+  id        Int       @id @default(autoincrement())
+  name      String
+  phone     String?
+  email     String?
+  address   String?
+  invoices  Invoice[]
+  createdAt DateTime  @default(now())
+}
+
+model Salesperson {
+  id           Int         @id @default(autoincrement())
+  name         String
+  email        String?
+  phone        String?
+  invoices     Invoice[]
+  commissions  Commission[]
+  createdAt    DateTime    @default(now())
+}
+
+model Invoice {
+  id             Int            @id @default(autoincrement())
+  invoiceNumber  String         @unique
+  customer       Customer       @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId     Int
+  salesperson    Salesperson    @relation(fields: [salespersonId], references: [id], onDelete: Cascade)
+  salespersonId  Int
+  total          Float
+  commissionRate Float
+  commission     Commission?
+  status         String         @default("PENDING")
+  dueDate        DateTime?
+  createdAt      DateTime       @default(now())
+}
+
+model Commission {
+  id             Int      @id @default(autoincrement())
+  invoice        Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId      Int      @unique
+  salesperson    Salesperson @relation(fields: [salespersonId], references: [id], onDelete: Cascade)
+  salespersonId  Int
+  amount         Float
+  paid           Boolean  @default(false)
+  paidAt         DateTime?
+}
