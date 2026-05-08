@@ -63,3 +63,31 @@ export async function deleteLocalPurchase(id: number) {
 
   return purchases.length !== nextPurchases.length;
 }
+
+export async function updateLocalPurchase(
+  id: number,
+  values: Omit<LocalPurchase, "id" | "createdAt">,
+) {
+  const purchases = await readLocalPurchases();
+  let updatedPurchase: LocalPurchase | null = null;
+  const nextPurchases = purchases.map((purchase) => {
+    if (purchase.id !== id) {
+      return purchase;
+    }
+
+    updatedPurchase = {
+      ...purchase,
+      ...values,
+    };
+
+    return updatedPurchase;
+  });
+
+  if (!updatedPurchase) {
+    return null;
+  }
+
+  await writeLocalPurchases(nextPurchases);
+
+  return updatedPurchase;
+}

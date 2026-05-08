@@ -22,6 +22,16 @@ type PurchaseItemForm = {
   unitPrice: string;
 };
 
+type PurchaseEditForm = {
+  itemName: string;
+  supplier: string;
+  quantity: string;
+  unit: string;
+  unitPrice: string;
+  purchaseDate: string;
+  note: string;
+};
+
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
@@ -37,10 +47,15 @@ const createItem = (): PurchaseItemForm => ({
   unitPrice: "",
 });
 
+const toDateInputValue = (date: string) => new Date(date).toISOString().slice(0, 10);
+
 export default function PurchasesPage() {
   const [purchases, setPurchases] = useState<Purchase[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [updating, setUpdating] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<PurchaseEditForm | null>(null);
   const [form, setForm] = useState({
     supplier: "",
     purchaseDate: "",
@@ -144,6 +159,53 @@ export default function PurchasesPage() {
     setItems((currentItems) =>
       currentItems.length === 1 ? currentItems : currentItems.filter((item) => item.id !== id),
     );
+  };
+
+  const startEdit = (purchase: Purchase) => {
+    setEditingId(purchase.id);
+    setEditForm({
+      itemName: purchase.itemName,
+      supplier: purchase.supplier || "",
+      quantity: String(purchase.quantity),
+      unit: purchase.unit || "",
+      unitPrice: String(purchase.unitPrice),
+      purchaseDate: toDateInputValue(purchase.purchaseDate),
+      note: purchase.note || "",
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditForm(null);
+  };
+
+  const updateEditForm = (values: Partial<PurchaseEditForm>) => {
+    setEditForm((currentForm) => (currentForm ? { ...currentForm, ...values } : currentForm));
+  };
+
+  const saveEdit = async (id: number) => {
+    if (!editForm) {
+      return;
+    }
+
+    setUpdating(true);
+
+    const response = await fetch(`/api/purchases/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...editForm,
+        quantity: Number(editForm.quantity),
+        unitPrice: Number(editForm.unitPrice),
+      }),
+    });
+
+    if (response.ok) {
+      cancelEdit();
+      await fetchPurchases();
+    }
+
+    setUpdating(false);
   };
 
   const deletePurchase = async (id: number) => {
@@ -270,17 +332,102 @@ export default function PurchasesPage() {
                   <tbody>
                     {sortedPurchases.map((purchase) => (
                       <tr key={purchase.id}>
-                        <td>{new Date(purchase.purchaseDate).toLocaleDateString("th-TH")}</td>
-                        <td>
-                          <strong>{purchase.itemName}</strong>
-                          <span>{purchase.supplier || purchase.note || "-"}</span>
-                        </td>
-                        <td>{purchase.quantity} {purchase.unit || ""}</td>
-                        <td>{money.format(purchase.unitPrice)}</td>
-                        <td>{money.format(purchase.total)}</td>
-                        <td>
-                          <button className="btn-danger" onClick={() => deletePurchase(purchase.id)}>ลบ</button>
-                        </td>
+                        {editingId === purchase.id && editForm ? (
+                          <>
+                            <td>
+                              <input
+                                className="table-input"
+                                type="date"
+                                value={editForm.purchaseDate}
+                                onChange={(event) => updateEditForm({ purchaseDate: event.target.value })}
+                              />
+                            </td>
+                            <td>
+                              <div className="table-field-stack">
+                                <input
+                                  className="table-input"
+                                  required
+                                  placeholder="ชื่อสินค้า"
+                                  value={editForm.itemName}
+                                  onChange={(event) => updateEditForm({ itemName: event.target.value })}
+                                />
+                                <input
+                                  className="table-input"
+                                  placeholder="ผู้ขาย / ซัพพลายเออร์"
+                                  value={editForm.supplier}
+                                  onChange={(event) => updateEditForm({ supplier: event.target.value })}
+                                />
+                                <textarea
+                                  className="table-input table-textarea"
+                                  placeholder="หมายเหตุ"
+                                  value={editForm.note}
+                                  onChange={(event) => updateEditForm({ note: event.target.value })}
+                                />
+                              </div>
+                            </td>
+                            <td>
+                              <div className="table-field-stack table-field-stack--small">
+                                <input
+                                  className="table-input"
+                                  required
+                                  min="0"
+                                  step="0.001"
+                                  type="number"
+                                  placeholder="จำนวน"
+                                  value={editForm.quantity}
+                                  onChange={(event) => updateEditForm({ quantity: event.target.value })}
+                                />
+                                <input
+                                  className="table-input"
+                                  placeholder="หน่วย"
+                                  value={editForm.unit}
+                                  onChange={(event) => updateEditForm({ unit: event.target.value })}
+                                />
+                              </div>
+                            </td>
+                            <td>
+                              <input
+                                className="table-input"
+                                required
+                                min="0"
+                                step="0.001"
+                                type="number"
+                                value={editForm.unitPrice}
+                                onChange={(event) => updateEditForm({ unitPrice: event.target.value })}
+                              />
+                            </td>
+                            <td>{money.format((Number(editForm.quantity) || 0) * (Number(editForm.unitPrice) || 0))}</td>
+                            <td>
+                              <div className="table-actions">
+                                <button disabled={updating} onClick={() => saveEdit(purchase.id)}>
+                                  {updating ? "บันทึก..." : "บันทึก"}
+                                </button>
+                                <button className="btn-ghost" onClick={cancelEdit}>
+                                  ยกเลิก
+                                </button>
+                              </div>
+                            </td>
+                          </>
+                        ) : (
+                          <>
+                            <td>{new Date(purchase.purchaseDate).toLocaleDateString("th-TH")}</td>
+                            <td>
+                              <strong>{purchase.itemName}</strong>
+                              <span>{purchase.supplier || purchase.note || "-"}</span>
+                            </td>
+                            <td>{purchase.quantity} {purchase.unit || ""}</td>
+                            <td>{money.format(purchase.unitPrice)}</td>
+                            <td>{money.format(purchase.total)}</td>
+                            <td>
+                              <div className="table-actions">
+                                <button className="btn-ghost" onClick={() => startEdit(purchase)}>
+                                  แก้ไข
+                                </button>
+                                <button className="btn-danger" onClick={() => deletePurchase(purchase.id)}>ลบ</button>
+                              </div>
+                            </td>
+                          </>
+                        )}
                       </tr>
                     ))}
                   </tbody>
