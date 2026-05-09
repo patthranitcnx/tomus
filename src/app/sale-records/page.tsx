@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, Fragment, useEffect, useMemo, useState } from "react";
 
 type SaleRecord = {
   id: number;
@@ -73,8 +73,8 @@ export default function SaleRecordsPage() {
       }),
     [saleRecords],
   );
-  const dailySales = useMemo(() => {
-    const grouped = saleRecords.reduce<Record<string, { label: string; total: number; count: number }>>((summary, saleRecord) => {
+  const dailySaleGroups = useMemo(() => {
+    const grouped = sortedSaleRecords.reduce<Record<string, { label: string; total: number; count: number; records: SaleRecord[] }>>((summary, saleRecord) => {
       const date = new Date(saleRecord.saleDate);
       const key = [
         date.getFullYear(),
@@ -91,11 +91,13 @@ export default function SaleRecordsPage() {
           }),
           total: 0,
           count: 0,
+          records: [],
         };
       }
 
       summary[key].total += saleRecord.total;
       summary[key].count += 1;
+      summary[key].records.push(saleRecord);
 
       return summary;
     }, {});
@@ -103,7 +105,7 @@ export default function SaleRecordsPage() {
     return Object.entries(grouped)
       .map(([date, summary]) => ({ date, ...summary }))
       .sort((a, b) => b.date.localeCompare(a.date));
-  }, [saleRecords]);
+  }, [sortedSaleRecords]);
   const formTotal = useMemo(
     () =>
       items.reduce((sum, item) => {
@@ -286,20 +288,10 @@ export default function SaleRecordsPage() {
 
           {loading ? (
             <p className="muted">กำลังโหลดข้อมูล...</p>
-          ) : dailySales.length === 0 ? (
+          ) : dailySaleGroups.length === 0 ? (
             <p className="muted">ยังไม่มีรายการขาย</p>
           ) : (
             <div className="content-stack">
-              <div className="daily-total-grid" aria-label="ยอดขายรวมแต่ละวัน">
-                {dailySales.map((day) => (
-                  <article className="daily-total-card" key={day.date}>
-                    <span>{day.label}</span>
-                    <strong>{money.format(day.total)}</strong>
-                    <small>{day.count} รายการ</small>
-                  </article>
-                ))}
-              </div>
-
               <div className="table-wrap">
                 <table className="table">
                   <thead>
@@ -313,105 +305,119 @@ export default function SaleRecordsPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {sortedSaleRecords.map((saleRecord) => (
-                      <tr key={saleRecord.id}>
-                        {editingId === saleRecord.id && editForm ? (
-                          <>
-                            <td>
-                              <input
-                                className="table-input"
-                                type="date"
-                                value={editForm.saleDate}
-                                onChange={(event) => updateEditForm({ saleDate: event.target.value })}
-                              />
-                            </td>
-                            <td>
-                              <div className="table-field-stack">
-                                <input
-                                  className="table-input"
-                                  required
-                                  placeholder="ชื่อสินค้า"
-                                  value={editForm.itemName}
-                                  onChange={(event) => updateEditForm({ itemName: event.target.value })}
-                                />
-                                <input
-                                  className="table-input"
-                                  placeholder="ลูกค้า"
-                                  value={editForm.customer}
-                                  onChange={(event) => updateEditForm({ customer: event.target.value })}
-                                />
-                                <textarea
-                                  className="table-input table-textarea"
-                                  placeholder="หมายเหตุ"
-                                  value={editForm.note}
-                                  onChange={(event) => updateEditForm({ note: event.target.value })}
-                                />
-                              </div>
-                            </td>
-                            <td>
-                              <div className="table-field-stack table-field-stack--small">
-                                <input
-                                  className="table-input"
-                                  required
-                                  min="0"
-                                  step="0.001"
-                                  type="number"
-                                  placeholder="จำนวน"
-                                  value={editForm.quantity}
-                                  onChange={(event) => updateEditForm({ quantity: event.target.value })}
-                                />
-                                <input
-                                  className="table-input"
-                                  placeholder="หน่วย"
-                                  value={editForm.unit}
-                                  onChange={(event) => updateEditForm({ unit: event.target.value })}
-                                />
-                              </div>
-                            </td>
-                            <td>
-                              <input
-                                className="table-input"
-                                required
-                                min="0"
-                                step="0.001"
-                                type="number"
-                                value={editForm.unitPrice}
-                                onChange={(event) => updateEditForm({ unitPrice: event.target.value })}
-                              />
-                            </td>
-                            <td>{money.format((Number(editForm.quantity) || 0) * (Number(editForm.unitPrice) || 0))}</td>
-                            <td>
-                              <div className="table-actions">
-                                <button type="button" disabled={updating} onClick={() => saveEdit(saleRecord.id)}>
-                                  {updating ? "บันทึก..." : "บันทึก"}
-                                </button>
-                                <button type="button" className="btn-ghost" onClick={cancelEdit}>
-                                  ยกเลิก
-                                </button>
-                              </div>
-                            </td>
-                          </>
-                        ) : (
-                          <>
-                            <td>{new Date(saleRecord.saleDate).toLocaleDateString("th-TH")}</td>
-                            <td>
-                              <strong>{saleRecord.itemName}</strong>
-                              <span>{saleRecord.customer || saleRecord.note || "-"}</span>
-                            </td>
-                            <td>{saleRecord.quantity} {saleRecord.unit || ""}</td>
-                            <td>{money.format(saleRecord.unitPrice)}</td>
-                            <td>{money.format(saleRecord.total)}</td>
-                            <td>
-                              <div className="table-actions">
-                                <button type="button" className="btn-ghost" onClick={() => startEdit(saleRecord)}>
-                                  แก้ไข
-                                </button>
-                                <button type="button" className="btn-danger" onClick={() => deleteSaleRecord(saleRecord.id)}>ลบ</button>
-                              </div>
-                            </td>
-                          </>
-                        )}
-                      </tr>
+                    {dailySaleGroups.map((day) => (
+                      <Fragment key={day.date}>
+                        <tr className="daily-summary-row">
+                          <td colSpan={4}>
+                            <strong>{day.label}</strong>
+                            <span>{day.count} รายการ</span>
+                          </td>
+                          <td>
+                            <strong>{money.format(day.total)}</strong>
+                          </td>
+                          <td></td>
+                        </tr>
+                        {day.records.map((saleRecord) => (
+                          <tr key={saleRecord.id}>
+                            {editingId === saleRecord.id && editForm ? (
+                              <>
+                                <td>
+                                  <input
+                                    className="table-input"
+                                    type="date"
+                                    value={editForm.saleDate}
+                                    onChange={(event) => updateEditForm({ saleDate: event.target.value })}
+                                  />
+                                </td>
+                                <td>
+                                  <div className="table-field-stack">
+                                    <input
+                                      className="table-input"
+                                      required
+                                      placeholder="ชื่อสินค้า"
+                                      value={editForm.itemName}
+                                      onChange={(event) => updateEditForm({ itemName: event.target.value })}
+                                    />
+                                    <input
+                                      className="table-input"
+                                      placeholder="ลูกค้า"
+                                      value={editForm.customer}
+                                      onChange={(event) => updateEditForm({ customer: event.target.value })}
+                                    />
+                                    <textarea
+                                      className="table-input table-textarea"
+                                      placeholder="หมายเหตุ"
+                                      value={editForm.note}
+                                      onChange={(event) => updateEditForm({ note: event.target.value })}
+                                    />
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="table-field-stack table-field-stack--small">
+                                    <input
+                                      className="table-input"
+                                      required
+                                      min="0"
+                                      step="0.001"
+                                      type="number"
+                                      placeholder="จำนวน"
+                                      value={editForm.quantity}
+                                      onChange={(event) => updateEditForm({ quantity: event.target.value })}
+                                    />
+                                    <input
+                                      className="table-input"
+                                      placeholder="หน่วย"
+                                      value={editForm.unit}
+                                      onChange={(event) => updateEditForm({ unit: event.target.value })}
+                                    />
+                                  </div>
+                                </td>
+                                <td>
+                                  <input
+                                    className="table-input"
+                                    required
+                                    min="0"
+                                    step="0.001"
+                                    type="number"
+                                    value={editForm.unitPrice}
+                                    onChange={(event) => updateEditForm({ unitPrice: event.target.value })}
+                                  />
+                                </td>
+                                <td>{money.format((Number(editForm.quantity) || 0) * (Number(editForm.unitPrice) || 0))}</td>
+                                <td>
+                                  <div className="table-actions">
+                                    <button type="button" disabled={updating} onClick={() => saveEdit(saleRecord.id)}>
+                                      {updating ? "บันทึก..." : "บันทึก"}
+                                    </button>
+                                    <button type="button" className="btn-ghost" onClick={cancelEdit}>
+                                      ยกเลิก
+                                    </button>
+                                  </div>
+                                </td>
+                              </>
+                            ) : (
+                              <>
+                                <td>{new Date(saleRecord.saleDate).toLocaleDateString("th-TH")}</td>
+                                <td>
+                                  <strong>{saleRecord.itemName}</strong>
+                                  <span>{saleRecord.customer || saleRecord.note || "-"}</span>
+                                </td>
+                                <td>{saleRecord.quantity} {saleRecord.unit || ""}</td>
+                                <td>{money.format(saleRecord.unitPrice)}</td>
+                                <td>{money.format(saleRecord.total)}</td>
+                                <td>
+                                  <div className="table-actions">
+                                    <button type="button" className="btn-ghost" onClick={() => startEdit(saleRecord)}>
+                                      แก้ไข
+                                    </button>
+                                    <button type="button" className="btn-danger" onClick={() => deleteSaleRecord(saleRecord.id)}>ลบ</button>
+                                  </div>
+                                </td>
+                              </>
+                            )}
+                          </tr>
+                        ))}
+                      </Fragment>
                     ))}
                   </tbody>
                 </table>
