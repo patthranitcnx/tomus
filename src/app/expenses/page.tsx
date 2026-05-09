@@ -24,6 +24,7 @@ export default function ExpensesPage() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState("all");
   const [form, setForm] = useState({
     title: "",
     category: "ค่าขนส่ง",
@@ -33,6 +34,43 @@ export default function ExpensesPage() {
   });
 
   const total = useMemo(() => expenses.reduce((sum, item) => sum + item.amount, 0), [expenses]);
+  const monthlyExpenses = useMemo(() => {
+    const grouped = expenses.reduce<Record<string, { label: string; total: number; count: number }>>((summary, expense) => {
+      const date = new Date(expense.expenseDate);
+      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+
+      if (!summary[key]) {
+        summary[key] = {
+          label: date.toLocaleDateString("th-TH", { month: "long", year: "numeric" }),
+          total: 0,
+          count: 0,
+        };
+      }
+
+      summary[key].total += expense.amount;
+      summary[key].count += 1;
+
+      return summary;
+    }, {});
+
+    return Object.entries(grouped)
+      .map(([month, summary]) => ({ month, ...summary }))
+      .sort((a, b) => b.month.localeCompare(a.month));
+  }, [expenses]);
+  const selectedMonthSummary = monthlyExpenses.find((month) => month.month === selectedMonth);
+  const filteredExpenses = useMemo(() => {
+    if (selectedMonth === "all") {
+      return expenses;
+    }
+
+    return expenses.filter((expense) => {
+      const date = new Date(expense.expenseDate);
+      const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+
+      return month === selectedMonth;
+    });
+  }, [expenses, selectedMonth]);
+  const visibleTotal = selectedMonthSummary?.total ?? total;
 
   const fetchExpenses = async () => {
     const response = await fetch("/api/expenses");
@@ -79,8 +117,8 @@ export default function ExpensesPage() {
           <h1>บันทึกค่าใช้จ่าย</h1>
         </div>
         <article className="mini-total">
-          <span>ค่าใช้จ่ายรวม</span>
-          <strong>{money.format(total)}</strong>
+          <span>{selectedMonthSummary ? `ค่าใช้จ่าย${selectedMonthSummary.label}` : "ค่าใช้จ่ายรวม"}</span>
+          <strong>{money.format(visibleTotal)}</strong>
         </article>
       </header>
 
@@ -102,13 +140,35 @@ export default function ExpensesPage() {
         <section className="panel">
           <div className="section-header">
             <div>
-              <p className="eyebrow">ทั้งหมด {expenses.length} รายการ</p>
-              <h2>ประวัติค่าใช้จ่าย</h2>
+              <p className="eyebrow">
+                {selectedMonthSummary ? `${selectedMonthSummary.count} รายการในเดือนนี้` : `ทั้งหมด ${expenses.length} รายการ`}
+              </p>
+              <h2>{selectedMonthSummary ? `ค่าใช้จ่าย${selectedMonthSummary.label}` : "ประวัติค่าใช้จ่าย"}</h2>
             </div>
+          </div>
+
+          <div className="month-filter" aria-label="เลือกเดือนค่าใช้จ่าย">
+            <button className={selectedMonth === "all" ? "active" : ""} type="button" onClick={() => setSelectedMonth("all")}>
+              ทุกเดือน
+              <span>{money.format(total)}</span>
+            </button>
+            {monthlyExpenses.map((month) => (
+              <button
+                className={selectedMonth === month.month ? "active" : ""}
+                key={month.month}
+                type="button"
+                onClick={() => setSelectedMonth(month.month)}
+              >
+                {month.label}
+                <span>{money.format(month.total)}</span>
+              </button>
+            ))}
           </div>
 
           {loading ? (
             <p className="muted">กำลังโหลดข้อมูล...</p>
+          ) : filteredExpenses.length === 0 ? (
+            <p className="muted">ยังไม่มีค่าใช้จ่ายในเดือนนี้</p>
           ) : (
             <div className="table-wrap">
               <table className="table">
@@ -122,7 +182,7 @@ export default function ExpensesPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {expenses.map((expense) => (
+                  {filteredExpenses.map((expense) => (
                     <tr key={expense.id}>
                       <td>{new Date(expense.expenseDate).toLocaleDateString("th-TH")}</td>
                       <td>

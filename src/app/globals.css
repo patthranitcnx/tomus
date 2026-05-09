@@ -538,6 +538,75 @@ button:disabled {
   font-size: 1.25rem;
 }
 
+.month-filter {
+  display: flex;
+  gap: 0.55rem;
+  margin: 0 0 0.85rem;
+  overflow-x: auto;
+  padding-bottom: 0.15rem;
+}
+
+.month-filter button {
+  flex: 0 0 auto;
+  display: grid;
+  justify-items: start;
+  gap: 0.18rem;
+  min-width: 150px;
+  min-height: 3.4rem;
+  padding: 0.55rem 0.75rem;
+  background: #ffffff;
+  color: #24352e;
+  border: 1px solid #d8e0dd;
+  box-shadow: none;
+}
+
+.month-filter button:hover,
+.month-filter button.active {
+  background: #176b52;
+  color: #ffffff;
+  border-color: #176b52;
+}
+
+.month-filter span {
+  color: #60716b;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.month-filter button:hover span,
+.month-filter button.active span {
+  color: #dceee8;
+}
+
+.daily-total-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.65rem;
+}
+
+.daily-total-card {
+  display: grid;
+  gap: 0.22rem;
+  min-height: 5.4rem;
+  padding: 0.75rem;
+  border: 1px solid #dfe7e4;
+  border-radius: 0.5rem;
+  background: #f8fbfa;
+}
+
+.daily-total-card span,
+.daily-total-card small {
+  color: #60716b;
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.daily-total-card strong {
+  color: #16202a;
+  font-size: 1.2rem;
+  line-height: 1.15;
+}
+
 .table-wrap {
   width: 100%;
   overflow-x: auto;
