@@ -647,32 +647,6 @@ button:disabled {
   background: #f8fbfa;
 }
 
-.table tbody tr.daily-summary-row {
-  background: #edf7f1;
-}
-
-.table tbody tr.daily-summary-row:hover {
-  background: #edf7f1;
-}
-
-.daily-summary-row td {
-  border-top: 1px solid #cfe0d8;
-  border-bottom-color: #cfe0d8;
-  color: #176b52;
-  vertical-align: middle;
-}
-
-.daily-summary-row strong {
-  font-size: 0.95rem;
-}
-
-.daily-summary-row span {
-  display: inline;
-  margin: 0 0 0 0.45rem;
-  color: #60716b;
-  font-size: 0.82rem;
-}
-
 .table td span {
   display: block;
   color: #65776f;
