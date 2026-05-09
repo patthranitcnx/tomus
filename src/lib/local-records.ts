@@ -130,3 +130,31 @@ export async function deleteLocalExpense(id: number) {
 
   return records.length !== nextRecords.length;
 }
+
+export async function updateLocalExpense(
+  id: number,
+  values: Omit<LocalExpense, "id" | "createdAt">,
+) {
+  const records = await readLocalExpenses();
+  let updatedExpense: LocalExpense | null = null;
+  const nextRecords = records.map((record) => {
+    if (record.id !== id) {
+      return record;
+    }
+
+    updatedExpense = {
+      ...record,
+      ...values,
+    };
+
+    return updatedExpense;
+  });
+
+  if (!updatedExpense) {
+    return null;
+  }
+
+  await writeRecords("expenses.json", nextRecords);
+
+  return updatedExpense;
+}

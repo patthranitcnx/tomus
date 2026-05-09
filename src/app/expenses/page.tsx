@@ -11,6 +11,14 @@ type Expense = {
   note: string | null;
 };
 
+type ExpenseEditForm = {
+  title: string;
+  category: string;
+  amount: string;
+  expenseDate: string;
+  note: string;
+};
+
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
@@ -19,11 +27,15 @@ const money = new Intl.NumberFormat("th-TH", {
 });
 
 const categories = ["ค่าขนส่ง", "ค่าแรง", "ค่าน้ำมัน", "ค่าเช่า", "สำนักงาน", "อื่น ๆ"];
+const toDateInputValue = (date: string) => new Date(date).toISOString().slice(0, 10);
 
 export default function ExpensesPage() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [updating, setUpdating] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<ExpenseEditForm | null>(null);
   const [selectedMonth, setSelectedMonth] = useState("all");
   const [form, setForm] = useState({
     title: "",
@@ -102,6 +114,50 @@ export default function ExpensesPage() {
     }
 
     setSaving(false);
+  };
+
+  const startEdit = (expense: Expense) => {
+    setEditingId(expense.id);
+    setEditForm({
+      title: expense.title,
+      category: expense.category,
+      amount: String(expense.amount),
+      expenseDate: toDateInputValue(expense.expenseDate),
+      note: expense.note || "",
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditForm(null);
+  };
+
+  const updateEditForm = (values: Partial<ExpenseEditForm>) => {
+    setEditForm((currentForm) => (currentForm ? { ...currentForm, ...values } : currentForm));
+  };
+
+  const saveEdit = async (id: number) => {
+    if (!editForm) {
+      return;
+    }
+
+    setUpdating(true);
+
+    const response = await fetch(`/api/expenses/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...editForm,
+        amount: Number(editForm.amount),
+      }),
+    });
+
+    if (response.ok) {
+      cancelEdit();
+      await fetchExpenses();
+    }
+
+    setUpdating(false);
   };
 
   const deleteExpense = async (id: number) => {
@@ -184,16 +240,85 @@ export default function ExpensesPage() {
                 <tbody>
                   {filteredExpenses.map((expense) => (
                     <tr key={expense.id}>
-                      <td>{new Date(expense.expenseDate).toLocaleDateString("th-TH")}</td>
-                      <td>
-                        <strong>{expense.title}</strong>
-                        <span>{expense.note || "-"}</span>
-                      </td>
-                      <td>{expense.category}</td>
-                      <td>{money.format(expense.amount)}</td>
-                      <td>
-                        <button className="btn-danger" onClick={() => deleteExpense(expense.id)}>ลบ</button>
-                      </td>
+                      {editingId === expense.id && editForm ? (
+                        <>
+                          <td>
+                            <input
+                              className="table-input"
+                              type="date"
+                              value={editForm.expenseDate}
+                              onChange={(event) => updateEditForm({ expenseDate: event.target.value })}
+                            />
+                          </td>
+                          <td>
+                            <div className="table-field-stack">
+                              <input
+                                className="table-input"
+                                required
+                                placeholder="รายการ"
+                                value={editForm.title}
+                                onChange={(event) => updateEditForm({ title: event.target.value })}
+                              />
+                              <textarea
+                                className="table-input table-textarea"
+                                placeholder="หมายเหตุ"
+                                value={editForm.note}
+                                onChange={(event) => updateEditForm({ note: event.target.value })}
+                              />
+                            </div>
+                          </td>
+                          <td>
+                            <select
+                              className="table-input"
+                              value={editForm.category}
+                              onChange={(event) => updateEditForm({ category: event.target.value })}
+                            >
+                              {categories.map((category) => (
+                                <option key={category} value={category}>{category}</option>
+                              ))}
+                            </select>
+                          </td>
+                          <td>
+                            <input
+                              className="table-input"
+                              required
+                              min="0"
+                              step="0.001"
+                              type="number"
+                              value={editForm.amount}
+                              onChange={(event) => updateEditForm({ amount: event.target.value })}
+                            />
+                          </td>
+                          <td>
+                            <div className="table-actions">
+                              <button type="button" disabled={updating} onClick={() => saveEdit(expense.id)}>
+                                {updating ? "บันทึก..." : "บันทึก"}
+                              </button>
+                              <button type="button" className="btn-ghost" onClick={cancelEdit}>
+                                ยกเลิก
+                              </button>
+                            </div>
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td>{new Date(expense.expenseDate).toLocaleDateString("th-TH")}</td>
+                          <td>
+                            <strong>{expense.title}</strong>
+                            <span>{expense.note || "-"}</span>
+                          </td>
+                          <td>{expense.category}</td>
+                          <td>{money.format(expense.amount)}</td>
+                          <td>
+                            <div className="table-actions">
+                              <button type="button" className="btn-ghost" onClick={() => startEdit(expense)}>
+                                แก้ไข
+                              </button>
+                              <button type="button" className="btn-danger" onClick={() => deleteExpense(expense.id)}>ลบ</button>
+                            </div>
+                          </td>
+                        </>
+                      )}
                     </tr>
                   ))}
                 </tbody>
