@@ -23,6 +23,9 @@ export default function CustomersPage() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -73,6 +76,30 @@ export default function CustomersPage() {
     setSaving(false);
   };
 
+  const importSaleRecordCustomers = async () => {
+    setImporting(true);
+    setMessage(null);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/customers/import-sale-records", {
+        method: "POST",
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage(data.message || "นำเข้ารายชื่อลูกค้าสำเร็จ");
+        await fetchCustomers();
+      } else {
+        setError(data.error || "ไม่สามารถนำเข้ารายชื่อลูกค้าได้");
+      }
+    } catch {
+      setError("ไม่สามารถนำเข้ารายชื่อลูกค้าได้");
+    }
+
+    setImporting(false);
+  };
+
   const deleteCustomer = async (id: number) => {
     await fetch(`/api/customers/${id}`, { method: "DELETE" });
     await fetchCustomers();
@@ -121,6 +148,9 @@ export default function CustomersPage() {
               <p className="eyebrow">ทั้งหมด {customers.length} ราย</p>
               <h2>รายชื่อลูกค้า</h2>
             </div>
+            <button type="button" className="btn-ghost" onClick={importSaleRecordCustomers} disabled={importing}>
+              {importing ? "กำลังดึง..." : "ดึงจากรายการขาย"}
+            </button>
             <input
               className="search-input"
               placeholder="ค้นหาลูกค้า"
@@ -132,6 +162,9 @@ export default function CustomersPage() {
           {loading ? (
             <p className="muted">กำลังโหลดข้อมูล...</p>
           ) : (
+            <>
+            {message && <p className="muted" style={{ color: "var(--success, #059669)" }}>{message}</p>}
+            {error && <p className="muted" style={{ color: "#dc2626" }}>{error}</p>}
             <div className="table-wrap">
               <table className="table">
                 <thead>
@@ -170,6 +203,7 @@ export default function CustomersPage() {
                 </tbody>
               </table>
             </div>
+            </>
           )}
         </section>
       </section>

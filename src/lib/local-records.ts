@@ -5,6 +5,8 @@ export type LocalSaleRecord = {
   id: number;
   itemName: string;
   customer: string | null;
+  customerPhone: string | null;
+  customerAddress: string | null;
   quantity: number;
   unit: string | null;
   unitPrice: number;

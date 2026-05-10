@@ -6,6 +6,8 @@ type SaleRecord = {
   id: number;
   itemName: string;
   customer: string | null;
+  customerPhone: string | null;
+  customerAddress: string | null;
   quantity: number;
   unit: string | null;
   unitPrice: number;
@@ -25,6 +27,8 @@ type SaleItemForm = {
 type SaleEditForm = {
   itemName: string;
   customer: string;
+  customerPhone: string;
+  customerAddress: string;
   quantity: string;
   unit: string;
   unitPrice: string;
@@ -58,6 +62,8 @@ export default function SaleRecordsPage() {
   const [editForm, setEditForm] = useState<SaleEditForm | null>(null);
   const [form, setForm] = useState({
     customer: "",
+    customerPhone: "",
+    customerAddress: "",
     saleDate: "",
     note: "",
   });
@@ -148,7 +154,7 @@ export default function SaleRecordsPage() {
     });
 
     if (response.ok) {
-      setForm({ customer: "", saleDate: "", note: "" });
+      setForm({ customer: "", customerPhone: "", customerAddress: "", saleDate: "", note: "" });
       setItems([createItem()]);
       await fetchSaleRecords();
     }
@@ -177,6 +183,8 @@ export default function SaleRecordsPage() {
     setEditForm({
       itemName: saleRecord.itemName,
       customer: saleRecord.customer || "",
+      customerPhone: saleRecord.customerPhone || "",
+      customerAddress: saleRecord.customerAddress || "",
       quantity: String(saleRecord.quantity),
       unit: saleRecord.unit || "",
       unitPrice: String(saleRecord.unitPrice),
@@ -247,6 +255,8 @@ export default function SaleRecordsPage() {
             <strong>{money.format(formTotal)}</strong>
           </div>
           <input placeholder="ลูกค้า" value={form.customer} onChange={(event) => setForm({ ...form, customer: event.target.value })} />
+          <input placeholder="เบอร์โทรลูกค้า" value={form.customerPhone} onChange={(event) => setForm({ ...form, customerPhone: event.target.value })} />
+          <input placeholder="ที่อยู่ลูกค้า" value={form.customerAddress} onChange={(event) => setForm({ ...form, customerAddress: event.target.value })} />
           <input type="date" value={form.saleDate} onChange={(event) => setForm({ ...form, saleDate: event.target.value })} />
           <div className="line-items">
             {items.map((item, index) => (
@@ -370,6 +380,18 @@ export default function SaleRecordsPage() {
                                   value={editForm.customer}
                                   onChange={(event) => updateEditForm({ customer: event.target.value })}
                                 />
+                                <input
+                                  className="table-input"
+                                  placeholder="เบอร์โทรลูกค้า"
+                                  value={editForm.customerPhone}
+                                  onChange={(event) => updateEditForm({ customerPhone: event.target.value })}
+                                />
+                                <input
+                                  className="table-input"
+                                  placeholder="ที่อยู่ลูกค้า"
+                                  value={editForm.customerAddress}
+                                  onChange={(event) => updateEditForm({ customerAddress: event.target.value })}
+                                />
                                 <textarea
                                   className="table-input table-textarea"
                                   placeholder="หมายเหตุ"
@@ -427,6 +449,9 @@ export default function SaleRecordsPage() {
                             <td>
                               <strong>{saleRecord.itemName}</strong>
                               <span>{saleRecord.customer || saleRecord.note || "-"}</span>
+                              {(saleRecord.customerPhone || saleRecord.customerAddress) && (
+                                <span>{[saleRecord.customerPhone, saleRecord.customerAddress].filter(Boolean).join(" · ")}</span>
+                              )}
                             </td>
                             <td>{saleRecord.quantity} {saleRecord.unit || ""}</td>
                             <td>{money.format(saleRecord.unitPrice)}</td>

@@ -68,16 +68,18 @@ model Purchase {
 }
 
 model SaleRecord {
-  id        Int      @id @default(autoincrement())
-  itemName  String
-  customer  String?
-  quantity  Float
-  unit      String?
-  unitPrice Float
-  total     Float
-  saleDate  DateTime @default(now())
-  note      String?
-  createdAt DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  itemName        String
+  customer        String?
+  customerPhone   String?
+  customerAddress String?
+  quantity        Float
+  unit            String?
+  unitPrice       Float
+  total           Float
+  saleDate        DateTime @default(now())
+  note            String?
+  createdAt       DateTime @default(now())
 }
 
 model Expense {

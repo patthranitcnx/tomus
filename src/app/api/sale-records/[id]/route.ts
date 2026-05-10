@@ -15,6 +15,8 @@ function parseSaleRecordBody(body: Record<string, unknown>) {
   return {
     itemName,
     customer: String(body.customer ?? "").trim() || null,
+    customerPhone: String(body.customerPhone ?? "").trim() || null,
+    customerAddress: String(body.customerAddress ?? "").trim() || null,
     quantity,
     unit: String(body.unit ?? "").trim() || null,
     unitPrice,

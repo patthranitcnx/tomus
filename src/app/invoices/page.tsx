@@ -28,6 +28,16 @@ type Invoice = {
   } | null;
 };
 
+type InvoiceEditForm = {
+  invoiceNumber: string;
+  customerId: string;
+  salespersonId: string;
+  total: string;
+  commissionRate: string;
+  status: string;
+  dueDate: string;
+};
+
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
@@ -36,6 +46,7 @@ const money = new Intl.NumberFormat("th-TH", {
 });
 
 const statusOptions = ["PENDING", "PAID", "CANCELLED"];
+const toDateInputValue = (date: string | null) => (date ? new Date(date).toISOString().slice(0, 10) : "");
 
 export default function InvoicesPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -43,6 +54,9 @@ export default function InvoicesPage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [updating, setUpdating] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<InvoiceEditForm | null>(null);
   const [form, setForm] = useState({
     invoiceNumber: "",
     customerId: "",
@@ -106,6 +120,55 @@ export default function InvoicesPage() {
     }
 
     setSaving(false);
+  };
+
+  const startEdit = (invoice: Invoice) => {
+    setEditingId(invoice.id);
+    setEditForm({
+      invoiceNumber: invoice.invoiceNumber,
+      customerId: String(invoice.customer.id),
+      salespersonId: String(invoice.salesperson.id),
+      total: String(invoice.total),
+      commissionRate: String(invoice.commissionRate),
+      status: invoice.status,
+      dueDate: toDateInputValue(invoice.dueDate),
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditForm(null);
+  };
+
+  const updateEditForm = (values: Partial<InvoiceEditForm>) => {
+    setEditForm((currentForm) => (currentForm ? { ...currentForm, ...values } : currentForm));
+  };
+
+  const saveEdit = async (id: number) => {
+    if (!editForm) {
+      return;
+    }
+
+    setUpdating(true);
+
+    const response = await fetch(`/api/invoices/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...editForm,
+        customerId: Number(editForm.customerId),
+        salespersonId: Number(editForm.salespersonId),
+        total: Number(editForm.total),
+        commissionRate: Number(editForm.commissionRate),
+      }),
+    });
+
+    if (response.ok) {
+      cancelEdit();
+      await fetchData();
+    }
+
+    setUpdating(false);
   };
 
   const updateStatus = async (id: number, status: string) => {
@@ -240,47 +303,150 @@ export default function InvoicesPage() {
                 <tbody>
                   {invoices.map((invoice) => (
                     <tr key={invoice.id}>
-                      <td>
-                        <strong>{invoice.invoiceNumber}</strong>
-                        <span>{invoice.dueDate ? `ครบกำหนด ${new Date(invoice.dueDate).toLocaleDateString("th-TH")}` : "ไม่ระบุวันครบกำหนด"}</span>
-                      </td>
-                      <td>
-                        {invoice.customer.name}
-                        <span>{invoice.salesperson.name}</span>
-                      </td>
-                      <td>{money.format(invoice.total)}</td>
-                      <td>
-                        <select
-                          className="inline-select"
-                          value={invoice.status}
-                          onChange={(event) => updateStatus(invoice.id, event.target.value)}
-                        >
-                          {statusOptions.map((status) => (
-                            <option key={status} value={status}>
-                              {status}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                      <td>
-                        {invoice.commission ? (
-                          <label className="check-row">
-                            <input
-                              type="checkbox"
-                              checked={invoice.commission.paid}
-                              onChange={(event) => updateCommissionPaid(invoice.commission!.id, event.target.checked)}
-                            />
-                            {money.format(invoice.commission.amount)}
-                          </label>
-                        ) : (
-                          "-"
-                        )}
-                      </td>
-                      <td>
-                        <button className="btn-danger" onClick={() => deleteInvoice(invoice.id)}>
-                          ลบ
-                        </button>
-                      </td>
+                      {editingId === invoice.id && editForm ? (
+                        <>
+                          <td>
+                            <div className="table-field-stack">
+                              <input
+                                className="table-input"
+                                required
+                                placeholder="เลขที่ใบแจ้งหนี้"
+                                value={editForm.invoiceNumber}
+                                onChange={(event) => updateEditForm({ invoiceNumber: event.target.value })}
+                              />
+                              <input
+                                className="table-input"
+                                type="date"
+                                value={editForm.dueDate}
+                                onChange={(event) => updateEditForm({ dueDate: event.target.value })}
+                              />
+                            </div>
+                          </td>
+                          <td>
+                            <div className="table-field-stack">
+                              <select
+                                className="table-input"
+                                required
+                                value={editForm.customerId}
+                                onChange={(event) => updateEditForm({ customerId: event.target.value })}
+                              >
+                                {customers.map((customer) => (
+                                  <option key={customer.id} value={customer.id}>
+                                    {customer.name}
+                                  </option>
+                                ))}
+                              </select>
+                              <select
+                                className="table-input"
+                                required
+                                value={editForm.salespersonId}
+                                onChange={(event) => updateEditForm({ salespersonId: event.target.value })}
+                              >
+                                {salespeople.map((person) => (
+                                  <option key={person.id} value={person.id}>
+                                    {person.name}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="table-field-stack table-field-stack--small">
+                              <input
+                                className="table-input"
+                                required
+                                min="0"
+                                step="0.001"
+                                type="number"
+                                value={editForm.total}
+                                onChange={(event) => updateEditForm({ total: event.target.value })}
+                              />
+                              <input
+                                className="table-input"
+                                required
+                                min="0"
+                                step="0.001"
+                                type="number"
+                                value={editForm.commissionRate}
+                                onChange={(event) => updateEditForm({ commissionRate: event.target.value })}
+                              />
+                            </div>
+                          </td>
+                          <td>
+                            <select
+                              className="inline-select"
+                              value={editForm.status}
+                              onChange={(event) => updateEditForm({ status: event.target.value })}
+                            >
+                              {statusOptions.map((status) => (
+                                <option key={status} value={status}>
+                                  {status}
+                                </option>
+                              ))}
+                            </select>
+                          </td>
+                          <td>{money.format((Number(editForm.total) || 0) * ((Number(editForm.commissionRate) || 0) / 100))}</td>
+                          <td>
+                            <div className="table-actions">
+                              <button type="button" disabled={updating} onClick={() => saveEdit(invoice.id)}>
+                                {updating ? "บันทึก..." : "บันทึก"}
+                              </button>
+                              <button type="button" className="btn-ghost" onClick={cancelEdit}>
+                                ยกเลิก
+                              </button>
+                            </div>
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td>
+                            <strong>{invoice.invoiceNumber}</strong>
+                            <span>{invoice.dueDate ? `ครบกำหนด ${new Date(invoice.dueDate).toLocaleDateString("th-TH")}` : "ไม่ระบุวันครบกำหนด"}</span>
+                          </td>
+                          <td>
+                            {invoice.customer.name}
+                            <span>{invoice.salesperson.name}</span>
+                          </td>
+                          <td>{money.format(invoice.total)}</td>
+                          <td>
+                            <select
+                              className="inline-select"
+                              value={invoice.status}
+                              onChange={(event) => updateStatus(invoice.id, event.target.value)}
+                            >
+                              {statusOptions.map((status) => (
+                                <option key={status} value={status}>
+                                  {status}
+                                </option>
+                              ))}
+                            </select>
+                          </td>
+                          <td>
+                            {invoice.commission ? (
+                              <label className="check-row">
+                                <input
+                                  type="checkbox"
+                                  checked={invoice.commission.paid}
+                                  onChange={(event) => updateCommissionPaid(invoice.commission!.id, event.target.checked)}
+                                />
+                                {money.format(invoice.commission.amount)}
+                              </label>
+                            ) : (
+                              "-"
+                            )}
+                          </td>
+                          <td>
+                            <div className="table-actions">
+                              <button type="button" className="btn-ghost" onClick={() => startEdit(invoice)}>
+                                แก้ไข
+                              </button>
+                              <button type="button" className="btn-danger" onClick={() => deleteInvoice(invoice.id)}>
+                                ลบ
+                              </button>
+                            </div>
+                          </td>
+                        </>
+                      )}
                     </tr>
                   ))}
                 </tbody>
