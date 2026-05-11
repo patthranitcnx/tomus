@@ -11,6 +11,13 @@ type Customer = {
   invoices: Array<{ total: number }>;
 };
 
+type CustomerEditForm = {
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+};
+
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
@@ -23,6 +30,9 @@ export default function CustomersPage() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [updating, setUpdating] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<CustomerEditForm | null>(null);
   const [importing, setImporting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -74,6 +84,46 @@ export default function CustomersPage() {
     }
 
     setSaving(false);
+  };
+
+  const startEdit = (customer: Customer) => {
+    setEditingId(customer.id);
+    setEditForm({
+      name: customer.name,
+      phone: customer.phone || "",
+      email: customer.email || "",
+      address: customer.address || "",
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditForm(null);
+  };
+
+  const updateEditForm = (values: Partial<CustomerEditForm>) => {
+    setEditForm((currentForm) => (currentForm ? { ...currentForm, ...values } : currentForm));
+  };
+
+  const saveEdit = async (id: number) => {
+    if (!editForm) {
+      return;
+    }
+
+    setUpdating(true);
+
+    const response = await fetch(`/api/customers/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editForm),
+    });
+
+    if (response.ok) {
+      cancelEdit();
+      await fetchCustomers();
+    }
+
+    setUpdating(false);
   };
 
   const importSaleRecordCustomers = async () => {
@@ -182,21 +232,79 @@ export default function CustomersPage() {
 
                     return (
                       <tr key={customer.id}>
-                        <td>
-                          <strong>{customer.name}</strong>
-                          <span>{customer.address || "-"}</span>
-                        </td>
-                        <td>
-                          {customer.phone || "-"}
-                          <span>{customer.email || "-"}</span>
-                        </td>
-                        <td>{customer.invoices.length}</td>
-                        <td>{money.format(total)}</td>
-                        <td>
-                          <button className="btn-danger" onClick={() => deleteCustomer(customer.id)}>
-                            ลบ
-                          </button>
-                        </td>
+                        {editingId === customer.id && editForm ? (
+                          <>
+                            <td>
+                              <div className="table-field-stack">
+                                <input
+                                  className="table-input"
+                                  required
+                                  placeholder="ชื่อลูกค้า"
+                                  value={editForm.name}
+                                  onChange={(event) => updateEditForm({ name: event.target.value })}
+                                />
+                                <input
+                                  className="table-input"
+                                  placeholder="ที่อยู่"
+                                  value={editForm.address}
+                                  onChange={(event) => updateEditForm({ address: event.target.value })}
+                                />
+                              </div>
+                            </td>
+                            <td>
+                              <div className="table-field-stack">
+                                <input
+                                  className="table-input"
+                                  placeholder="เบอร์โทร"
+                                  value={editForm.phone}
+                                  onChange={(event) => updateEditForm({ phone: event.target.value })}
+                                />
+                                <input
+                                  className="table-input"
+                                  type="email"
+                                  placeholder="อีเมล"
+                                  value={editForm.email}
+                                  onChange={(event) => updateEditForm({ email: event.target.value })}
+                                />
+                              </div>
+                            </td>
+                            <td>{customer.invoices.length}</td>
+                            <td>{money.format(total)}</td>
+                            <td>
+                              <div className="table-actions">
+                                <button type="button" disabled={updating} onClick={() => saveEdit(customer.id)}>
+                                  {updating ? "บันทึก..." : "บันทึก"}
+                                </button>
+                                <button type="button" className="btn-ghost" onClick={cancelEdit}>
+                                  ยกเลิก
+                                </button>
+                              </div>
+                            </td>
+                          </>
+                        ) : (
+                          <>
+                            <td>
+                              <strong>{customer.name}</strong>
+                              <span>{customer.address || "-"}</span>
+                            </td>
+                            <td>
+                              {customer.phone || "-"}
+                              <span>{customer.email || "-"}</span>
+                            </td>
+                            <td>{customer.invoices.length}</td>
+                            <td>{money.format(total)}</td>
+                            <td>
+                              <div className="table-actions">
+                                <button type="button" className="btn-ghost" onClick={() => startEdit(customer)}>
+                                  แก้ไข
+                                </button>
+                                <button type="button" className="btn-danger" onClick={() => deleteCustomer(customer.id)}>
+                                  ลบ
+                                </button>
+                              </div>
+                            </td>
+                          </>
+                        )}
                       </tr>
                     );
                   })}

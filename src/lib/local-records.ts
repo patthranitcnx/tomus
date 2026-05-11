@@ -12,6 +12,7 @@ export type LocalSaleRecord = {
   unitPrice: number;
   total: number;
   saleDate: string;
+  paymentDates: string[];
   note: string | null;
   createdAt: string;
 };
@@ -54,7 +55,21 @@ function nextId<T extends { id: number }>(records: T[]) {
 }
 
 export async function readLocalSaleRecords() {
-  return readRecords<LocalSaleRecord>("sale-records.json");
+  const records = await readRecords<LocalSaleRecord & { paymentDate?: string | null }>("sale-records.json");
+
+  return records.map((record) => {
+    const legacyPaymentDate = typeof record.paymentDate === "string" ? record.paymentDate : null;
+    const { paymentDate, ...nextRecord } = record;
+
+    return {
+      ...nextRecord,
+      paymentDates: Array.isArray(record.paymentDates)
+        ? record.paymentDates
+        : legacyPaymentDate
+          ? [legacyPaymentDate]
+          : [],
+    };
+  });
 }
 
 export async function createLocalSaleRecord(record: Omit<LocalSaleRecord, "id" | "createdAt">) {

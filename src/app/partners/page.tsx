@@ -10,6 +10,13 @@ type Customer = {
   address: string | null;
 };
 
+type PartnerEditForm = {
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+};
+
 type Purchase = {
   id: number;
   supplier: string | null;
@@ -24,6 +31,9 @@ export default function PartnersPage() {
   const [purchases, setPurchases] = useState<Purchase[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
+  const [updating, setUpdating] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<PartnerEditForm | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [lastSync, setLastSync] = useState<Date | null>(null);
@@ -114,6 +124,55 @@ export default function PartnersPage() {
       setError("ไม่สามารถสร้างคู่ค้าได้");
     } finally {
       setCreating(false);
+    }
+  };
+
+  const startEdit = (customer: Customer) => {
+    setEditingId(customer.id);
+    setEditForm({
+      name: customer.name,
+      phone: customer.phone || "",
+      email: customer.email || "",
+      address: customer.address || "",
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditForm(null);
+  };
+
+  const updateEditForm = (values: Partial<PartnerEditForm>) => {
+    setEditForm((currentForm) => (currentForm ? { ...currentForm, ...values } : currentForm));
+  };
+
+  const saveEdit = async (id: number) => {
+    if (!editForm) {
+      return;
+    }
+
+    setUpdating(true);
+    setMessage(null);
+    setError(null);
+
+    try {
+      const res = await fetch(`/api/customers/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editForm),
+      });
+
+      if (res.ok) {
+        cancelEdit();
+        await fetchAll();
+      } else {
+        const data = await res.json();
+        setError(data.error || "ไม่สามารถแก้ไขคู่ค้าได้");
+      }
+    } catch {
+      setError("ไม่สามารถแก้ไขคู่ค้าได้");
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -209,19 +268,79 @@ export default function PartnersPage() {
                       <th>ชื่อ</th>
                       <th>โทรศัพท์</th>
                       <th>ที่อยู่</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredPartners.length === 0 ? (
                       <tr>
-                        <td colSpan={3}>ยังไม่มีคู่ค้า</td>
+                        <td colSpan={4}>ยังไม่มีคู่ค้า</td>
                       </tr>
                     ) : (
                       filteredPartners.map((c) => (
                         <tr key={c.id}>
-                          <td>{c.name}</td>
-                          <td>{c.phone || "-"}</td>
-                          <td>{c.address || "-"}</td>
+                          {editingId === c.id && editForm ? (
+                            <>
+                              <td>
+                                <div className="table-field-stack">
+                                  <input
+                                    className="table-input"
+                                    required
+                                    placeholder="ชื่อคู่ค้า"
+                                    value={editForm.name}
+                                    onChange={(e) => updateEditForm({ name: e.target.value })}
+                                  />
+                                  <input
+                                    className="table-input"
+                                    type="email"
+                                    placeholder="อีเมล"
+                                    value={editForm.email}
+                                    onChange={(e) => updateEditForm({ email: e.target.value })}
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                <input
+                                  className="table-input"
+                                  placeholder="โทรศัพท์"
+                                  value={editForm.phone}
+                                  onChange={(e) => updateEditForm({ phone: e.target.value })}
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  className="table-input"
+                                  placeholder="ที่อยู่"
+                                  value={editForm.address}
+                                  onChange={(e) => updateEditForm({ address: e.target.value })}
+                                />
+                              </td>
+                              <td>
+                                <div className="table-actions">
+                                  <button type="button" disabled={updating} onClick={() => saveEdit(c.id)}>
+                                    {updating ? "บันทึก..." : "บันทึก"}
+                                  </button>
+                                  <button type="button" className="btn-ghost" onClick={cancelEdit}>
+                                    ยกเลิก
+                                  </button>
+                                </div>
+                              </td>
+                            </>
+                          ) : (
+                            <>
+                              <td>
+                                {c.name}
+                                <span>{c.email || "-"}</span>
+                              </td>
+                              <td>{c.phone || "-"}</td>
+                              <td>{c.address || "-"}</td>
+                              <td>
+                                <button type="button" className="btn-ghost" onClick={() => startEdit(c)}>
+                                  แก้ไข
+                                </button>
+                              </td>
+                            </>
+                          )}
                         </tr>
                       ))
                     )}

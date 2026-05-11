@@ -2,6 +2,19 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 const hasOwn = (body: Record<string, unknown>, key: string) => Object.prototype.hasOwnProperty.call(body, key);
+const normalizeInvoiceStatus = (status: unknown) => {
+  const value = String(status ?? "รอชำระ").trim();
+  const statusMap: Record<string, string> = {
+    PENDING: "รอชำระ",
+    PAID: "ชำระแล้ว",
+    CANCELLED: "ยกเลิก",
+    "รอชำระ": "รอชำระ",
+    "ชำระแล้ว": "ชำระแล้ว",
+    "ยกเลิก": "ยกเลิก",
+  };
+
+  return statusMap[value] ?? "รอชำระ";
+};
 
 export async function PATCH(
   request: Request,
@@ -21,6 +34,7 @@ export async function PATCH(
       salespersonId?: number;
       total?: number;
       commissionRate?: number;
+      commissionTons?: number;
       status?: string;
       dueDate?: Date | null;
     } = {};
@@ -75,8 +89,18 @@ export async function PATCH(
       updateData.commissionRate = commissionRate;
     }
 
+    if (hasOwn(body, "commissionTons")) {
+      const commissionTons = Number(body.commissionTons);
+
+      if (!Number.isFinite(commissionTons) || commissionTons <= 0) {
+        return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
+      }
+
+      updateData.commissionTons = commissionTons;
+    }
+
     if (hasOwn(body, "status")) {
-      updateData.status = String(body.status ?? "PENDING");
+      updateData.status = normalizeInvoiceStatus(body.status);
     }
 
     if (hasOwn(body, "dueDate")) {
@@ -101,18 +125,19 @@ export async function PATCH(
     if (
       hasOwn(body, "total") ||
       hasOwn(body, "commissionRate") ||
+      hasOwn(body, "commissionTons") ||
       hasOwn(body, "salespersonId")
     ) {
       await prisma.commission.upsert({
         where: { invoiceId: id },
         update: {
           salespersonId: invoice.salespersonId,
-          amount: invoice.total * (invoice.commissionRate / 100),
+          amount: invoice.commissionTons * invoice.commissionRate,
         },
         create: {
           invoiceId: id,
           salespersonId: invoice.salespersonId,
-          amount: invoice.total * (invoice.commissionRate / 100),
+          amount: invoice.commissionTons * invoice.commissionRate,
         },
       });
     }

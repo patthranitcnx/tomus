@@ -1,6 +1,20 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+const normalizeInvoiceStatus = (status: unknown) => {
+  const value = String(status ?? "รอชำระ").trim();
+  const statusMap: Record<string, string> = {
+    PENDING: "รอชำระ",
+    PAID: "ชำระแล้ว",
+    CANCELLED: "ยกเลิก",
+    "รอชำระ": "รอชำระ",
+    "ชำระแล้ว": "ชำระแล้ว",
+    "ยกเลิก": "ยกเลิก",
+  };
+
+  return statusMap[value] ?? "รอชำระ";
+};
+
 export async function GET() {
   try {
     const invoices = await prisma.invoice.findMany({
@@ -28,7 +42,8 @@ export async function POST(request: Request) {
     const salespersonId = Number(body.salespersonId);
     const total = Number(body.total);
     const commissionRate = Number(body.commissionRate);
-    const status = String(body.status ?? "PENDING");
+    const commissionTons = Number(body.commissionTons);
+    const status = normalizeInvoiceStatus(body.status);
     const dueDate = String(body.dueDate ?? "").trim();
 
     if (
@@ -37,7 +52,9 @@ export async function POST(request: Request) {
       !Number.isInteger(salespersonId) ||
       !Number.isFinite(total) ||
       !Number.isFinite(commissionRate) ||
+      !Number.isFinite(commissionTons) ||
       total <= 0 ||
+      commissionTons <= 0 ||
       commissionRate < 0
     ) {
       return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
@@ -54,6 +71,7 @@ export async function POST(request: Request) {
         },
         total,
         commissionRate,
+        commissionTons,
         status,
         dueDate: dueDate ? new Date(dueDate) : null,
         commission: {
@@ -61,7 +79,7 @@ export async function POST(request: Request) {
             salesperson: {
               connect: { id: salespersonId },
             },
-            amount: total * (commissionRate / 100),
+            amount: commissionTons * commissionRate,
           },
         },
       },

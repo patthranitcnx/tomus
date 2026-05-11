@@ -11,6 +11,12 @@ type Salesperson = {
   commissions: Array<{ amount: number; paid: boolean }>;
 };
 
+type SalespersonEditForm = {
+  name: string;
+  email: string;
+  phone: string;
+};
+
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
   currency: "THB",
@@ -22,6 +28,9 @@ export default function SalesPage() {
   const [salespeople, setSalespeople] = useState<Salesperson[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [updating, setUpdating] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<SalespersonEditForm | null>(null);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -55,6 +64,45 @@ export default function SalesPage() {
     }
 
     setSaving(false);
+  };
+
+  const startEdit = (person: Salesperson) => {
+    setEditingId(person.id);
+    setEditForm({
+      name: person.name,
+      email: person.email || "",
+      phone: person.phone || "",
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditForm(null);
+  };
+
+  const updateEditForm = (values: Partial<SalespersonEditForm>) => {
+    setEditForm((currentForm) => (currentForm ? { ...currentForm, ...values } : currentForm));
+  };
+
+  const saveEdit = async (id: number) => {
+    if (!editForm) {
+      return;
+    }
+
+    setUpdating(true);
+
+    const response = await fetch(`/api/salespeople/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editForm),
+    });
+
+    if (response.ok) {
+      cancelEdit();
+      await fetchSalespeople();
+    }
+
+    setUpdating(false);
   };
 
   const deleteSalesperson = async (id: number) => {
@@ -126,18 +174,67 @@ export default function SalesPage() {
 
                     return (
                       <tr key={person.id}>
-                        <td>
-                          <strong>{person.name}</strong>
-                          <span>{person.email || person.phone || "-"}</span>
-                        </td>
-                        <td>{money.format(totalSales)}</td>
-                        <td>{money.format(totalCommissions)}</td>
-                        <td>{money.format(unpaidCommissions)}</td>
-                        <td>
-                          <button className="btn-danger" onClick={() => deleteSalesperson(person.id)}>
-                            ลบ
-                          </button>
-                        </td>
+                        {editingId === person.id && editForm ? (
+                          <>
+                            <td>
+                              <div className="table-field-stack">
+                                <input
+                                  className="table-input"
+                                  required
+                                  placeholder="ชื่อเซลส์"
+                                  value={editForm.name}
+                                  onChange={(event) => updateEditForm({ name: event.target.value })}
+                                />
+                                <input
+                                  className="table-input"
+                                  type="email"
+                                  placeholder="อีเมล"
+                                  value={editForm.email}
+                                  onChange={(event) => updateEditForm({ email: event.target.value })}
+                                />
+                                <input
+                                  className="table-input"
+                                  placeholder="เบอร์โทร"
+                                  value={editForm.phone}
+                                  onChange={(event) => updateEditForm({ phone: event.target.value })}
+                                />
+                              </div>
+                            </td>
+                            <td>{money.format(totalSales)}</td>
+                            <td>{money.format(totalCommissions)}</td>
+                            <td>{money.format(unpaidCommissions)}</td>
+                            <td>
+                              <div className="table-actions">
+                                <button type="button" disabled={updating} onClick={() => saveEdit(person.id)}>
+                                  {updating ? "บันทึก..." : "บันทึก"}
+                                </button>
+                                <button type="button" className="btn-ghost" onClick={cancelEdit}>
+                                  ยกเลิก
+                                </button>
+                              </div>
+                            </td>
+                          </>
+                        ) : (
+                          <>
+                            <td>
+                              <strong>{person.name}</strong>
+                              <span>{person.email || person.phone || "-"}</span>
+                            </td>
+                            <td>{money.format(totalSales)}</td>
+                            <td>{money.format(totalCommissions)}</td>
+                            <td>{money.format(unpaidCommissions)}</td>
+                            <td>
+                              <div className="table-actions">
+                                <button type="button" className="btn-ghost" onClick={() => startEdit(person)}>
+                                  แก้ไข
+                                </button>
+                                <button type="button" className="btn-danger" onClick={() => deleteSalesperson(person.id)}>
+                                  ลบ
+                                </button>
+                              </div>
+                            </td>
+                          </>
+                        )}
                       </tr>
                     );
                   })}

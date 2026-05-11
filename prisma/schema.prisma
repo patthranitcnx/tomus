@@ -36,8 +36,9 @@ model Invoice {
   salespersonId  Int
   total          Float
   commissionRate Float
+  commissionTons Float          @default(0)
   commission     Commission?
-  status         String         @default("PENDING")
+  status         String         @default("รอชำระ")
   dueDate        DateTime?
   createdAt      DateTime       @default(now())
 }
@@ -63,6 +64,7 @@ model Purchase {
   unitPrice    Float
   total        Float
   purchaseDate DateTime @default(now())
+  paymentDates DateTime[] @default([])
   note         String?
   createdAt    DateTime @default(now())
 }
@@ -78,6 +80,7 @@ model SaleRecord {
   unitPrice       Float
   total           Float
   saleDate        DateTime @default(now())
+  paymentDates    DateTime[] @default([])
   note            String?
   createdAt       DateTime @default(now())
 }

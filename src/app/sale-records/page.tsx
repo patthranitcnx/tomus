@@ -13,6 +13,7 @@ type SaleRecord = {
   unitPrice: number;
   total: number;
   saleDate: string;
+  paymentDates: string[];
   note: string | null;
 };
 
@@ -33,6 +34,7 @@ type SaleEditForm = {
   unit: string;
   unitPrice: string;
   saleDate: string;
+  paymentDates: string[];
   note: string;
 };
 
@@ -51,7 +53,14 @@ const createItem = (): SaleItemForm => ({
   unitPrice: "",
 });
 
-const toDateInputValue = (date: string) => new Date(date).toISOString().slice(0, 10);
+const toDateInputValue = (date: string | null) => (date ? new Date(date).toISOString().slice(0, 10) : "");
+const normalizePaymentDates = (paymentDates?: string[]) =>
+  paymentDates && paymentDates.length > 0 ? paymentDates.map(toDateInputValue) : [""];
+const formatPaymentDates = (paymentDates: string[]) =>
+  paymentDates
+    .filter(Boolean)
+    .map((date) => new Date(date).toLocaleDateString("th-TH"))
+    .join(", ");
 
 export default function SaleRecordsPage() {
   const [saleRecords, setSaleRecords] = useState<SaleRecord[]>([]);
@@ -65,6 +74,7 @@ export default function SaleRecordsPage() {
     customerPhone: "",
     customerAddress: "",
     saleDate: "",
+    paymentDates: [""],
     note: "",
   });
   const [items, setItems] = useState<SaleItemForm[]>([createItem()]);
@@ -154,7 +164,7 @@ export default function SaleRecordsPage() {
     });
 
     if (response.ok) {
-      setForm({ customer: "", customerPhone: "", customerAddress: "", saleDate: "", note: "" });
+      setForm({ customer: "", customerPhone: "", customerAddress: "", saleDate: "", paymentDates: [""], note: "" });
       setItems([createItem()]);
       await fetchSaleRecords();
     }
@@ -189,6 +199,7 @@ export default function SaleRecordsPage() {
       unit: saleRecord.unit || "",
       unitPrice: String(saleRecord.unitPrice),
       saleDate: toDateInputValue(saleRecord.saleDate),
+      paymentDates: normalizePaymentDates(saleRecord.paymentDates),
       note: saleRecord.note || "",
     });
   };
@@ -200,6 +211,48 @@ export default function SaleRecordsPage() {
 
   const updateEditForm = (values: Partial<SaleEditForm>) => {
     setEditForm((currentForm) => (currentForm ? { ...currentForm, ...values } : currentForm));
+  };
+
+  const updatePaymentDate = (index: number, value: string) => {
+    setForm((currentForm) => ({
+      ...currentForm,
+      paymentDates: currentForm.paymentDates.map((date, dateIndex) => (dateIndex === index ? value : date)),
+    }));
+  };
+
+  const addPaymentDate = () => {
+    setForm((currentForm) => ({ ...currentForm, paymentDates: [...currentForm.paymentDates, ""] }));
+  };
+
+  const removePaymentDate = (index: number) => {
+    setForm((currentForm) => ({
+      ...currentForm,
+      paymentDates:
+        currentForm.paymentDates.length === 1
+          ? [""]
+          : currentForm.paymentDates.filter((_, dateIndex) => dateIndex !== index),
+    }));
+  };
+
+  const updateEditPaymentDate = (index: number, value: string) => {
+    updateEditForm({
+      paymentDates: editForm?.paymentDates.map((date, dateIndex) => (dateIndex === index ? value : date)) ?? [""],
+    });
+  };
+
+  const addEditPaymentDate = () => {
+    updateEditForm({ paymentDates: [...(editForm?.paymentDates ?? [""]), ""] });
+  };
+
+  const removeEditPaymentDate = (index: number) => {
+    const currentPaymentDates = editForm?.paymentDates ?? [""];
+
+    updateEditForm({
+      paymentDates:
+        currentPaymentDates.length === 1
+          ? [""]
+          : currentPaymentDates.filter((_, dateIndex) => dateIndex !== index),
+    });
   };
 
   const saveEdit = async (id: number) => {
@@ -258,6 +311,19 @@ export default function SaleRecordsPage() {
           <input placeholder="เบอร์โทรลูกค้า" value={form.customerPhone} onChange={(event) => setForm({ ...form, customerPhone: event.target.value })} />
           <input placeholder="ที่อยู่ลูกค้า" value={form.customerAddress} onChange={(event) => setForm({ ...form, customerAddress: event.target.value })} />
           <input type="date" value={form.saleDate} onChange={(event) => setForm({ ...form, saleDate: event.target.value })} />
+          <div className="table-field-stack">
+            {form.paymentDates.map((paymentDate, index) => (
+              <div className="form-row" key={index}>
+                <input type="date" aria-label={`วันชำระเงิน ${index + 1}`} value={paymentDate} onChange={(event) => updatePaymentDate(index, event.target.value)} />
+                <button type="button" className="btn-ghost" onClick={() => removePaymentDate(index)} disabled={form.paymentDates.length === 1}>
+                  ลบ
+                </button>
+              </div>
+            ))}
+            <button type="button" className="secondary" onClick={addPaymentDate}>
+              เพิ่มวันชำระเงิน
+            </button>
+          </div>
           <div className="line-items">
             {items.map((item, index) => (
               <div className="line-item" key={item.id}>
@@ -345,6 +411,7 @@ export default function SaleRecordsPage() {
                   <thead>
                     <tr>
                       <th>วันที่</th>
+                      <th>วันชำระเงิน</th>
                       <th>สินค้า</th>
                       <th>จำนวน</th>
                       <th>ราคาต่อหน่วย</th>
@@ -364,6 +431,27 @@ export default function SaleRecordsPage() {
                                 value={editForm.saleDate}
                                 onChange={(event) => updateEditForm({ saleDate: event.target.value })}
                               />
+                            </td>
+                            <td>
+                              <div className="table-field-stack">
+                                {editForm.paymentDates.map((paymentDate, index) => (
+                                  <div className="form-row" key={index}>
+                                    <input
+                                      className="table-input"
+                                      type="date"
+                                      aria-label={`วันชำระเงิน ${index + 1}`}
+                                      value={paymentDate}
+                                      onChange={(event) => updateEditPaymentDate(index, event.target.value)}
+                                    />
+                                    <button type="button" className="btn-ghost" onClick={() => removeEditPaymentDate(index)} disabled={editForm.paymentDates.length === 1}>
+                                      ลบ
+                                    </button>
+                                  </div>
+                                ))}
+                                <button type="button" className="secondary" onClick={addEditPaymentDate}>
+                                  เพิ่มวัน
+                                </button>
+                              </div>
                             </td>
                             <td>
                               <div className="table-field-stack">
@@ -446,6 +534,16 @@ export default function SaleRecordsPage() {
                         ) : (
                           <>
                             <td>{new Date(saleRecord.saleDate).toLocaleDateString("th-TH")}</td>
+                            <td>
+                              {saleRecord.paymentDates.length > 0 ? (
+                                <>
+                                  {formatPaymentDates(saleRecord.paymentDates)}
+                                  <span>ชำระแล้ว</span>
+                                </>
+                              ) : (
+                                <span>ยังไม่ชำระ</span>
+                              )}
+                            </td>
                             <td>
                               <strong>{saleRecord.itemName}</strong>
                               <span>{saleRecord.customer || saleRecord.note || "-"}</span>

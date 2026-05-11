@@ -23,6 +23,16 @@ export async function GET() {
   }
 }
 
+function parsePaymentDates(body: Record<string, unknown>) {
+  const rawDates = Array.isArray(body.paymentDates) ? body.paymentDates : [body.paymentDate];
+
+  return rawDates
+    .map((date) => String(date ?? "").trim())
+    .filter(Boolean)
+    .map((date) => new Date(date))
+    .filter((date) => !Number.isNaN(date.getTime()));
+}
+
 function parseSaleRecordBody(body: Record<string, unknown>) {
   const itemName = String(body.itemName ?? "").trim();
   const quantity = Number(body.quantity);
@@ -43,6 +53,7 @@ function parseSaleRecordBody(body: Record<string, unknown>) {
     unitPrice,
     total: quantity * unitPrice,
     saleDate: saleDate ? new Date(saleDate) : new Date(),
+    paymentDates: parsePaymentDates(body),
     note: String(body.note ?? "").trim() || null,
   };
 }
@@ -57,6 +68,8 @@ export async function POST(request: Request) {
       customerPhone: body.customerPhone,
       customerAddress: body.customerAddress,
       saleDate: body.saleDate,
+      paymentDate: body.paymentDate,
+      paymentDates: body.paymentDates,
       note: body.note,
     }),
   );
@@ -81,6 +94,7 @@ export async function POST(request: Request) {
         const saleRecord = await createLocalSaleRecord({
           ...saleRecordData,
           saleDate: saleRecordData.saleDate.toISOString(),
+          paymentDates: saleRecordData.paymentDates.map((date) => date.toISOString()),
         });
 
         saleRecords.push(saleRecord);

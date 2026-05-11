@@ -12,6 +12,7 @@ type Purchase = {
   unitPrice: number;
   total: number;
   purchaseDate: string;
+  paymentDates: string[];
   note: string | null;
 };
 
@@ -31,6 +32,7 @@ type PurchaseEditForm = {
   unit: string;
   unitPrice: string;
   purchaseDate: string;
+  paymentDates: string[];
   note: string;
 };
 
@@ -49,7 +51,14 @@ const createItem = (): PurchaseItemForm => ({
   unitPrice: "",
 });
 
-const toDateInputValue = (date: string) => new Date(date).toISOString().slice(0, 10);
+const toDateInputValue = (date: string | null) => (date ? new Date(date).toISOString().slice(0, 10) : "");
+const normalizePaymentDates = (paymentDates?: string[]) =>
+  paymentDates && paymentDates.length > 0 ? paymentDates.map(toDateInputValue) : [""];
+const formatPaymentDates = (paymentDates: string[]) =>
+  paymentDates
+    .filter(Boolean)
+    .map((date) => new Date(date).toLocaleDateString("th-TH"))
+    .join(", ");
 
 export default function PurchasesPage() {
   const [purchases, setPurchases] = useState<Purchase[]>([]);
@@ -62,6 +71,7 @@ export default function PurchasesPage() {
     supplier: "",
     address: "",
     purchaseDate: "",
+    paymentDates: [""],
     note: "",
   });
   const [items, setItems] = useState<PurchaseItemForm[]>([createItem()]);
@@ -140,7 +150,7 @@ export default function PurchasesPage() {
     });
 
     if (response.ok) {
-      setForm({ supplier: "", address: "", purchaseDate: "", note: "" });
+      setForm({ supplier: "", address: "", purchaseDate: "", paymentDates: [""], note: "" });
       setItems([createItem()]);
       await fetchPurchases();
     }
@@ -174,6 +184,7 @@ export default function PurchasesPage() {
       unit: purchase.unit || "",
       unitPrice: String(purchase.unitPrice),
       purchaseDate: toDateInputValue(purchase.purchaseDate),
+      paymentDates: normalizePaymentDates(purchase.paymentDates),
       note: purchase.note || "",
     });
   };
@@ -185,6 +196,48 @@ export default function PurchasesPage() {
 
   const updateEditForm = (values: Partial<PurchaseEditForm>) => {
     setEditForm((currentForm) => (currentForm ? { ...currentForm, ...values } : currentForm));
+  };
+
+  const updatePaymentDate = (index: number, value: string) => {
+    setForm((currentForm) => ({
+      ...currentForm,
+      paymentDates: currentForm.paymentDates.map((date, dateIndex) => (dateIndex === index ? value : date)),
+    }));
+  };
+
+  const addPaymentDate = () => {
+    setForm((currentForm) => ({ ...currentForm, paymentDates: [...currentForm.paymentDates, ""] }));
+  };
+
+  const removePaymentDate = (index: number) => {
+    setForm((currentForm) => ({
+      ...currentForm,
+      paymentDates:
+        currentForm.paymentDates.length === 1
+          ? [""]
+          : currentForm.paymentDates.filter((_, dateIndex) => dateIndex !== index),
+    }));
+  };
+
+  const updateEditPaymentDate = (index: number, value: string) => {
+    updateEditForm({
+      paymentDates: editForm?.paymentDates.map((date, dateIndex) => (dateIndex === index ? value : date)) ?? [""],
+    });
+  };
+
+  const addEditPaymentDate = () => {
+    updateEditForm({ paymentDates: [...(editForm?.paymentDates ?? [""]), ""] });
+  };
+
+  const removeEditPaymentDate = (index: number) => {
+    const currentPaymentDates = editForm?.paymentDates ?? [""];
+
+    updateEditForm({
+      paymentDates:
+        currentPaymentDates.length === 1
+          ? [""]
+          : currentPaymentDates.filter((_, dateIndex) => dateIndex !== index),
+    });
   };
 
   const saveEdit = async (id: number) => {
@@ -242,6 +295,19 @@ export default function PurchasesPage() {
           <input placeholder="ผู้ขาย / ซัพพลายเออร์" value={form.supplier} onChange={(event) => setForm({ ...form, supplier: event.target.value })} />
           <input placeholder="ที่อยู่ซัพพลายเออร์" value={form.address} onChange={(event) => setForm({ ...form, address: event.target.value })} />
           <input type="date" value={form.purchaseDate} onChange={(event) => setForm({ ...form, purchaseDate: event.target.value })} />
+          <div className="table-field-stack">
+            {form.paymentDates.map((paymentDate, index) => (
+              <div className="form-row" key={index}>
+                <input type="date" aria-label={`วันชำระเงิน ${index + 1}`} value={paymentDate} onChange={(event) => updatePaymentDate(index, event.target.value)} />
+                <button type="button" className="btn-ghost" onClick={() => removePaymentDate(index)} disabled={form.paymentDates.length === 1}>
+                  ลบ
+                </button>
+              </div>
+            ))}
+            <button type="button" className="secondary" onClick={addPaymentDate}>
+              เพิ่มวันชำระเงิน
+            </button>
+          </div>
           <div className="line-items">
             {items.map((item, index) => (
               <div className="line-item" key={item.id}>
@@ -327,6 +393,7 @@ export default function PurchasesPage() {
                   <thead>
                     <tr>
                       <th>วันที่</th>
+                      <th>วันชำระเงิน</th>
                       <th>สินค้า</th>
                       <th>จำนวน</th>
                       <th>ราคาต่อหน่วย</th>
@@ -346,6 +413,27 @@ export default function PurchasesPage() {
                                 value={editForm.purchaseDate}
                                 onChange={(event) => updateEditForm({ purchaseDate: event.target.value })}
                               />
+                            </td>
+                            <td>
+                              <div className="table-field-stack">
+                                {editForm.paymentDates.map((paymentDate, index) => (
+                                  <div className="form-row" key={index}>
+                                    <input
+                                      className="table-input"
+                                      type="date"
+                                      aria-label={`วันชำระเงิน ${index + 1}`}
+                                      value={paymentDate}
+                                      onChange={(event) => updateEditPaymentDate(index, event.target.value)}
+                                    />
+                                    <button type="button" className="btn-ghost" onClick={() => removeEditPaymentDate(index)} disabled={editForm.paymentDates.length === 1}>
+                                      ลบ
+                                    </button>
+                                  </div>
+                                ))}
+                                <button type="button" className="secondary" onClick={addEditPaymentDate}>
+                                  เพิ่มวัน
+                                </button>
+                              </div>
                             </td>
                             <td>
                               <div className="table-field-stack">
@@ -422,6 +510,16 @@ export default function PurchasesPage() {
                         ) : (
                           <>
                             <td>{new Date(purchase.purchaseDate).toLocaleDateString("th-TH")}</td>
+                            <td>
+                              {purchase.paymentDates.length > 0 ? (
+                                <>
+                                  {formatPaymentDates(purchase.paymentDates)}
+                                  <span>ชำระแล้ว</span>
+                                </>
+                              ) : (
+                                <span>ยังไม่ชำระ</span>
+                              )}
+                            </td>
                             <td>
                               <strong>{purchase.itemName}</strong>
                               <span>{purchase.supplier || purchase.note || "-"}</span>

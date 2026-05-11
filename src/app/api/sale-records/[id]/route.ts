@@ -2,6 +2,16 @@ import { prisma } from "@/lib/prisma";
 import { canUseLocalRecords, deleteLocalSaleRecord, updateLocalSaleRecord } from "@/lib/local-records";
 import { NextResponse } from "next/server";
 
+function parsePaymentDates(body: Record<string, unknown>) {
+  const rawDates = Array.isArray(body.paymentDates) ? body.paymentDates : [body.paymentDate];
+
+  return rawDates
+    .map((date) => String(date ?? "").trim())
+    .filter(Boolean)
+    .map((date) => new Date(date))
+    .filter((date) => !Number.isNaN(date.getTime()));
+}
+
 function parseSaleRecordBody(body: Record<string, unknown>) {
   const itemName = String(body.itemName ?? "").trim();
   const quantity = Number(body.quantity);
@@ -22,6 +32,7 @@ function parseSaleRecordBody(body: Record<string, unknown>) {
     unitPrice,
     total: quantity * unitPrice,
     saleDate: saleDate ? new Date(saleDate) : new Date(),
+    paymentDates: parsePaymentDates(body),
     note: String(body.note ?? "").trim() || null,
   };
 }
@@ -55,6 +66,7 @@ export async function PATCH(
       const saleRecord = await updateLocalSaleRecord(id, {
         ...saleRecordData,
         saleDate: saleRecordData.saleDate.toISOString(),
+        paymentDates: saleRecordData.paymentDates.map((date) => date.toISOString()),
       });
 
       if (saleRecord) {

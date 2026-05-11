@@ -10,6 +10,7 @@ export type LocalPurchase = {
   unitPrice: number;
   total: number;
   purchaseDate: string;
+  paymentDates: string[];
   note: string | null;
   createdAt: string;
 };
@@ -27,7 +28,21 @@ export async function readLocalPurchases() {
     const file = await readFile(dataFile, "utf8");
     const purchases = JSON.parse(file);
 
-    return Array.isArray(purchases) ? (purchases as LocalPurchase[]) : [];
+    return Array.isArray(purchases)
+      ? purchases.map((purchase) => {
+          const legacyPaymentDate =
+            typeof purchase.paymentDate === "string" ? purchase.paymentDate : null;
+
+          return {
+            ...purchase,
+            paymentDates: Array.isArray(purchase.paymentDates)
+              ? purchase.paymentDates
+              : legacyPaymentDate
+                ? [legacyPaymentDate]
+                : [],
+          };
+        }) as LocalPurchase[]
+      : [];
   } catch {
     return [];
   }

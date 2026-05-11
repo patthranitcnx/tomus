@@ -13,6 +13,32 @@ const money = new Intl.NumberFormat("th-TH", {
   maximumFractionDigits: 2,
 });
 
+const invoiceStatusLabel = (status: string) => {
+  const labels: Record<string, string> = {
+    PENDING: "รอชำระ",
+    PAID: "ชำระแล้ว",
+    CANCELLED: "ยกเลิก",
+    "รอชำระ": "รอชำระ",
+    "ชำระแล้ว": "ชำระแล้ว",
+    "ยกเลิก": "ยกเลิก",
+  };
+
+  return labels[status] ?? status;
+};
+
+const invoiceStatusClass = (status: string) => {
+  const classes: Record<string, string> = {
+    PENDING: "pending",
+    PAID: "paid",
+    CANCELLED: "cancelled",
+    "รอชำระ": "pending",
+    "ชำระแล้ว": "paid",
+    "ยกเลิก": "cancelled",
+  };
+
+  return classes[status] ?? "pending";
+};
+
 export default async function HomePage() {
   let customers = 0;
   let salespeople = 0;
@@ -185,7 +211,9 @@ export default async function HomePage() {
                   </div>
                   <div className="row-end">
                     <strong>{money.format(invoice.total)}</strong>
-                    <span className={`status-pill ${invoice.status.toLowerCase()}`}>{invoice.status}</span>
+                    <span className={`status-pill ${invoiceStatusClass(invoice.status)}`}>
+                      {invoiceStatusLabel(invoice.status)}
+                    </span>
                   </div>
                 </article>
               ))

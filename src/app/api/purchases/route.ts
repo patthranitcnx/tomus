@@ -13,6 +13,16 @@ type PurchaseItemPayload = {
   unitPrice?: unknown;
 };
 
+function parsePaymentDates(body: Record<string, unknown>) {
+  const rawDates = Array.isArray(body.paymentDates) ? body.paymentDates : [body.paymentDate];
+
+  return rawDates
+    .map((date) => String(date ?? "").trim())
+    .filter(Boolean)
+    .map((date) => new Date(date))
+    .filter((date) => !Number.isNaN(date.getTime()));
+}
+
 function getItemsFromBody(body: Record<string, unknown>) {
   const items: PurchaseItemPayload[] = Array.isArray(body.items)
     ? body.items
@@ -54,6 +64,7 @@ export async function POST(request: Request) {
   const items = getItemsFromBody(body);
 
   const purchaseDateValue = purchaseDate ? new Date(purchaseDate) : new Date();
+  const paymentDates = parsePaymentDates(body);
   const purchaseItems = items
     .map((item) => {
       const itemName = String(item.itemName ?? "").trim();
@@ -69,6 +80,7 @@ export async function POST(request: Request) {
         unitPrice,
         total: quantity * unitPrice,
         purchaseDate: purchaseDateValue,
+        paymentDates,
         note,
       };
     })
@@ -97,6 +109,7 @@ export async function POST(request: Request) {
         purchaseItems.map((item) => ({
           ...item,
           purchaseDate: item.purchaseDate.toISOString(),
+          paymentDates: item.paymentDates.map((date) => date.toISOString()),
         })),
       );
 
