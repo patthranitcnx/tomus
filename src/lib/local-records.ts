@@ -13,6 +13,7 @@ export type LocalSaleRecord = {
   total: number;
   saleDate: string;
   paymentDates: string[];
+  paymentAmounts: number[];
   note: string | null;
   createdAt: string;
 };
@@ -68,6 +69,7 @@ export async function readLocalSaleRecords() {
         : legacyPaymentDate
           ? [legacyPaymentDate]
           : [],
+      paymentAmounts: Array.isArray(record.paymentAmounts) ? record.paymentAmounts : [],
     };
   });
 }

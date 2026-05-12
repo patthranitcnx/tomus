@@ -470,6 +470,13 @@ button:disabled {
   gap: 0.65rem;
 }
 
+.payment-row {
+  display: grid;
+  grid-template-columns: minmax(128px, 1fr) minmax(118px, 0.85fr) auto;
+  gap: 0.65rem;
+  align-items: center;
+}
+
 .line-items {
   display: grid;
   gap: 0.75rem;
@@ -768,5 +775,11 @@ button:disabled {
 
   .search-input {
     max-width: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .payment-row {
+    grid-template-columns: 1fr;
   }
 }

@@ -11,6 +11,7 @@ export type LocalPurchase = {
   total: number;
   purchaseDate: string;
   paymentDates: string[];
+  paymentAmounts: number[];
   note: string | null;
   createdAt: string;
 };
@@ -40,6 +41,9 @@ export async function readLocalPurchases() {
               : legacyPaymentDate
                 ? [legacyPaymentDate]
                 : [],
+            paymentAmounts: Array.isArray(purchase.paymentAmounts)
+              ? purchase.paymentAmounts
+              : [],
           };
         }) as LocalPurchase[]
       : [];

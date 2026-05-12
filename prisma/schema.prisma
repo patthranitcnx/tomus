@@ -65,6 +65,7 @@ model Purchase {
   total        Float
   purchaseDate DateTime @default(now())
   paymentDates DateTime[] @default([])
+  paymentAmounts Float[] @default([])
   note         String?
   createdAt    DateTime @default(now())
 }
@@ -81,6 +82,7 @@ model SaleRecord {
   total           Float
   saleDate        DateTime @default(now())
   paymentDates    DateTime[] @default([])
+  paymentAmounts  Float[] @default([])
   note            String?
   createdAt       DateTime @default(now())
 }

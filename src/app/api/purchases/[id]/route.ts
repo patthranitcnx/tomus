@@ -12,6 +12,20 @@ function parsePaymentDates(body: Record<string, unknown>) {
     .filter((date) => !Number.isNaN(date.getTime()));
 }
 
+function parsePaymentAmounts(body: Record<string, unknown>) {
+  const rawDates = Array.isArray(body.paymentDates) ? body.paymentDates : [body.paymentDate];
+  const rawAmounts = Array.isArray(body.paymentAmounts) ? body.paymentAmounts : [body.paymentAmount];
+
+  return rawDates
+    .map((date, index) => {
+      const hasValidDate = !Number.isNaN(new Date(String(date ?? "").trim()).getTime());
+      const amount = Number(rawAmounts[index]);
+
+      return hasValidDate && Number.isFinite(amount) && amount > 0 ? amount : 0;
+    })
+    .filter((_, index) => !Number.isNaN(new Date(String(rawDates[index] ?? "").trim()).getTime()));
+}
+
 function parsePurchaseBody(body: Record<string, unknown>) {
   const itemName = String(body.itemName ?? "").trim();
   const quantity = Number(body.quantity);
@@ -32,6 +46,7 @@ function parsePurchaseBody(body: Record<string, unknown>) {
     total: quantity * unitPrice,
     purchaseDate: purchaseDate ? new Date(purchaseDate) : new Date(),
     paymentDates: parsePaymentDates(body),
+    paymentAmounts: parsePaymentAmounts(body),
     note: String(body.note ?? "").trim() || null,
   };
 }
@@ -66,6 +81,7 @@ export async function PATCH(
         ...purchaseData,
         purchaseDate: purchaseData.purchaseDate.toISOString(),
         paymentDates: purchaseData.paymentDates.map((date) => date.toISOString()),
+        paymentAmounts: purchaseData.paymentAmounts,
       });
 
       if (purchase) {

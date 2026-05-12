@@ -14,6 +14,7 @@ type SaleRecord = {
   total: number;
   saleDate: string;
   paymentDates: string[];
+  paymentAmounts: number[];
   note: string | null;
 };
 
@@ -25,6 +26,11 @@ type SaleItemForm = {
   unitPrice: string;
 };
 
+type PaymentEntryForm = {
+  date: string;
+  amount: string;
+};
+
 type SaleEditForm = {
   itemName: string;
   customer: string;
@@ -34,7 +40,7 @@ type SaleEditForm = {
   unit: string;
   unitPrice: string;
   saleDate: string;
-  paymentDates: string[];
+  paymentEntries: PaymentEntryForm[];
   note: string;
 };
 
@@ -54,12 +60,27 @@ const createItem = (): SaleItemForm => ({
 });
 
 const toDateInputValue = (date: string | null) => (date ? new Date(date).toISOString().slice(0, 10) : "");
-const normalizePaymentDates = (paymentDates?: string[]) =>
-  paymentDates && paymentDates.length > 0 ? paymentDates.map(toDateInputValue) : [""];
-const formatPaymentDates = (paymentDates: string[]) =>
+const createPaymentEntry = (): PaymentEntryForm => ({ date: "", amount: "" });
+const normalizePaymentEntries = (paymentDates?: string[], paymentAmounts?: number[]) =>
+  paymentDates && paymentDates.length > 0
+    ? paymentDates.map((date, index) => ({
+        date: toDateInputValue(date),
+        amount: paymentAmounts?.[index] ? String(paymentAmounts[index]) : "",
+      }))
+    : [createPaymentEntry()];
+const paymentEntryPayload = (paymentEntries: PaymentEntryForm[]) => ({
+  paymentDates: paymentEntries.map((entry) => entry.date),
+  paymentAmounts: paymentEntries.map((entry) => Number(entry.amount) || 0),
+});
+const formatPaymentEntries = (paymentDates: string[], paymentAmounts: number[]) =>
   paymentDates
     .filter(Boolean)
-    .map((date) => new Date(date).toLocaleDateString("th-TH"))
+    .map((date, index) => {
+      const label = new Date(date).toLocaleDateString("th-TH");
+      const amount = paymentAmounts[index];
+
+      return Number.isFinite(amount) && amount > 0 ? `${label} (${money.format(amount)})` : label;
+    })
     .join(", ");
 
 export default function SaleRecordsPage() {
@@ -74,7 +95,7 @@ export default function SaleRecordsPage() {
     customerPhone: "",
     customerAddress: "",
     saleDate: "",
-    paymentDates: [""],
+    paymentEntries: [createPaymentEntry()],
     note: "",
   });
   const [items, setItems] = useState<SaleItemForm[]>([createItem()]);
@@ -155,6 +176,7 @@ export default function SaleRecordsPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...form,
+        ...paymentEntryPayload(form.paymentEntries),
         items: items.map(({ id, ...item }) => ({
           ...item,
           quantity: Number(item.quantity),
@@ -164,7 +186,7 @@ export default function SaleRecordsPage() {
     });
 
     if (response.ok) {
-      setForm({ customer: "", customerPhone: "", customerAddress: "", saleDate: "", paymentDates: [""], note: "" });
+      setForm({ customer: "", customerPhone: "", customerAddress: "", saleDate: "", paymentEntries: [createPaymentEntry()], note: "" });
       setItems([createItem()]);
       await fetchSaleRecords();
     }
@@ -199,7 +221,7 @@ export default function SaleRecordsPage() {
       unit: saleRecord.unit || "",
       unitPrice: String(saleRecord.unitPrice),
       saleDate: toDateInputValue(saleRecord.saleDate),
-      paymentDates: normalizePaymentDates(saleRecord.paymentDates),
+      paymentEntries: normalizePaymentEntries(saleRecord.paymentDates, saleRecord.paymentAmounts),
       note: saleRecord.note || "",
     });
   };
@@ -213,45 +235,50 @@ export default function SaleRecordsPage() {
     setEditForm((currentForm) => (currentForm ? { ...currentForm, ...values } : currentForm));
   };
 
-  const updatePaymentDate = (index: number, value: string) => {
+  const updatePaymentEntry = (index: number, values: Partial<PaymentEntryForm>) => {
     setForm((currentForm) => ({
       ...currentForm,
-      paymentDates: currentForm.paymentDates.map((date, dateIndex) => (dateIndex === index ? value : date)),
+      paymentEntries: currentForm.paymentEntries.map((entry, entryIndex) =>
+        entryIndex === index ? { ...entry, ...values } : entry,
+      ),
     }));
   };
 
   const addPaymentDate = () => {
-    setForm((currentForm) => ({ ...currentForm, paymentDates: [...currentForm.paymentDates, ""] }));
+    setForm((currentForm) => ({ ...currentForm, paymentEntries: [...currentForm.paymentEntries, createPaymentEntry()] }));
   };
 
   const removePaymentDate = (index: number) => {
     setForm((currentForm) => ({
       ...currentForm,
-      paymentDates:
-        currentForm.paymentDates.length === 1
-          ? [""]
-          : currentForm.paymentDates.filter((_, dateIndex) => dateIndex !== index),
+      paymentEntries:
+        currentForm.paymentEntries.length === 1
+          ? [createPaymentEntry()]
+          : currentForm.paymentEntries.filter((_, entryIndex) => entryIndex !== index),
     }));
   };
 
-  const updateEditPaymentDate = (index: number, value: string) => {
+  const updateEditPaymentEntry = (index: number, values: Partial<PaymentEntryForm>) => {
     updateEditForm({
-      paymentDates: editForm?.paymentDates.map((date, dateIndex) => (dateIndex === index ? value : date)) ?? [""],
+      paymentEntries:
+        editForm?.paymentEntries.map((entry, entryIndex) =>
+          entryIndex === index ? { ...entry, ...values } : entry,
+        ) ?? [createPaymentEntry()],
     });
   };
 
   const addEditPaymentDate = () => {
-    updateEditForm({ paymentDates: [...(editForm?.paymentDates ?? [""]), ""] });
+    updateEditForm({ paymentEntries: [...(editForm?.paymentEntries ?? [createPaymentEntry()]), createPaymentEntry()] });
   };
 
   const removeEditPaymentDate = (index: number) => {
-    const currentPaymentDates = editForm?.paymentDates ?? [""];
+    const currentPaymentEntries = editForm?.paymentEntries ?? [createPaymentEntry()];
 
     updateEditForm({
-      paymentDates:
-        currentPaymentDates.length === 1
-          ? [""]
-          : currentPaymentDates.filter((_, dateIndex) => dateIndex !== index),
+      paymentEntries:
+        currentPaymentEntries.length === 1
+          ? [createPaymentEntry()]
+          : currentPaymentEntries.filter((_, entryIndex) => entryIndex !== index),
     });
   };
 
@@ -267,6 +294,7 @@ export default function SaleRecordsPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...editForm,
+        ...paymentEntryPayload(editForm.paymentEntries),
         quantity: Number(editForm.quantity),
         unitPrice: Number(editForm.unitPrice),
       }),
@@ -312,10 +340,11 @@ export default function SaleRecordsPage() {
           <input placeholder="ที่อยู่ลูกค้า" value={form.customerAddress} onChange={(event) => setForm({ ...form, customerAddress: event.target.value })} />
           <input type="date" value={form.saleDate} onChange={(event) => setForm({ ...form, saleDate: event.target.value })} />
           <div className="table-field-stack">
-            {form.paymentDates.map((paymentDate, index) => (
-              <div className="form-row" key={index}>
-                <input type="date" aria-label={`วันชำระเงิน ${index + 1}`} value={paymentDate} onChange={(event) => updatePaymentDate(index, event.target.value)} />
-                <button type="button" className="btn-ghost" onClick={() => removePaymentDate(index)} disabled={form.paymentDates.length === 1}>
+            {form.paymentEntries.map((paymentEntry, index) => (
+              <div className="payment-row" key={index}>
+                <input type="date" aria-label={`วันชำระเงิน ${index + 1}`} value={paymentEntry.date} onChange={(event) => updatePaymentEntry(index, { date: event.target.value })} />
+                <input min="0" step="0.01" type="number" placeholder="จำนวนเงิน" aria-label={`จำนวนเงินที่ชำระ ${index + 1}`} value={paymentEntry.amount} onChange={(event) => updatePaymentEntry(index, { amount: event.target.value })} />
+                <button type="button" className="btn-ghost" onClick={() => removePaymentDate(index)} disabled={form.paymentEntries.length === 1}>
                   ลบ
                 </button>
               </div>
@@ -434,16 +463,26 @@ export default function SaleRecordsPage() {
                             </td>
                             <td>
                               <div className="table-field-stack">
-                                {editForm.paymentDates.map((paymentDate, index) => (
-                                  <div className="form-row" key={index}>
+                                {editForm.paymentEntries.map((paymentEntry, index) => (
+                                  <div className="payment-row" key={index}>
                                     <input
                                       className="table-input"
                                       type="date"
                                       aria-label={`วันชำระเงิน ${index + 1}`}
-                                      value={paymentDate}
-                                      onChange={(event) => updateEditPaymentDate(index, event.target.value)}
+                                      value={paymentEntry.date}
+                                      onChange={(event) => updateEditPaymentEntry(index, { date: event.target.value })}
                                     />
-                                    <button type="button" className="btn-ghost" onClick={() => removeEditPaymentDate(index)} disabled={editForm.paymentDates.length === 1}>
+                                    <input
+                                      className="table-input"
+                                      min="0"
+                                      step="0.01"
+                                      type="number"
+                                      placeholder="จำนวนเงิน"
+                                      aria-label={`จำนวนเงินที่ชำระ ${index + 1}`}
+                                      value={paymentEntry.amount}
+                                      onChange={(event) => updateEditPaymentEntry(index, { amount: event.target.value })}
+                                    />
+                                    <button type="button" className="btn-ghost" onClick={() => removeEditPaymentDate(index)} disabled={editForm.paymentEntries.length === 1}>
                                       ลบ
                                     </button>
                                   </div>
@@ -537,7 +576,7 @@ export default function SaleRecordsPage() {
                             <td>
                               {saleRecord.paymentDates.length > 0 ? (
                                 <>
-                                  {formatPaymentDates(saleRecord.paymentDates)}
+                                  {formatPaymentEntries(saleRecord.paymentDates, saleRecord.paymentAmounts ?? [])}
                                   <span>ชำระแล้ว</span>
                                 </>
                               ) : (
