@@ -41,7 +41,7 @@ function getItemsFromBody(body: Record<string, unknown>) {
 export async function GET() {
   try {
     const purchases = await prisma.purchase.findMany({
-      orderBy: [{ purchaseDate: "asc" }, { id: "asc" }],
+      orderBy: [{ purchaseDate: "desc" }, { id: "desc" }],
     });
 
     return NextResponse.json(purchases);

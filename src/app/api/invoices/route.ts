@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { compareInvoiceNumbers } from "@/lib/invoice-sorting";
 import { NextResponse } from "next/server";
 
 const normalizeInvoiceStatus = (status: unknown) => {
@@ -23,10 +24,8 @@ export async function GET() {
         salesperson: true,
         commission: true,
       },
-      orderBy: {
-        createdAt: "desc",
-      },
     });
+    invoices.sort((a, b) => compareInvoiceNumbers(a.invoiceNumber, b.invoiceNumber) || a.id - b.id);
 
     return NextResponse.json(invoices);
   } catch (error) {

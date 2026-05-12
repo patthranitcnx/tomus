@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { compareInvoiceNumbers } from "@/lib/invoice-sorting";
 
 type Customer = {
   id: number;
@@ -85,6 +86,13 @@ export default function InvoicesPage() {
   });
   const invoiceTotal = useMemo(
     () => invoices.reduce((sum, invoice) => sum + invoice.total, 0),
+    [invoices],
+  );
+  const sortedInvoices = useMemo(
+    () =>
+      [...invoices].sort(
+        (a, b) => compareInvoiceNumbers(a.invoiceNumber, b.invoiceNumber) || a.id - b.id,
+      ),
     [invoices],
   );
 
@@ -341,7 +349,7 @@ export default function InvoicesPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {invoices.map((invoice) => (
+                  {sortedInvoices.map((invoice) => (
                     <tr key={invoice.id}>
                       {editingId === invoice.id && editForm ? (
                         <>

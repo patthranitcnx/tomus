@@ -80,9 +80,9 @@ export default function PurchasesPage() {
   const sortedPurchases = useMemo(
     () =>
       [...purchases].sort((a, b) => {
-        const dateDiff = new Date(a.purchaseDate).getTime() - new Date(b.purchaseDate).getTime();
+        const dateDiff = new Date(b.purchaseDate).getTime() - new Date(a.purchaseDate).getTime();
 
-        return dateDiff || a.id - b.id;
+        return dateDiff || b.id - a.id;
       }),
     [purchases],
   );
@@ -104,7 +104,7 @@ export default function PurchasesPage() {
       {},
     );
 
-    return Object.values(summary).sort((a, b) => a.date.getTime() - b.date.getTime());
+    return Object.values(summary).sort((a, b) => b.date.getTime() - a.date.getTime());
   }, [sortedPurchases]);
   const formTotal = useMemo(
     () =>
