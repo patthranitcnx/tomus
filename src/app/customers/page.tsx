@@ -402,12 +402,11 @@ export default function CustomersPage() {
         </div>
       </header>
 
-      <section className="workspace-grid">
-        <section className="panel">
-          <div className="section-header">
-            <div>
-              <p className="eyebrow">ทั้งหมด {customers.length} ราย</p>
-              <h2>รายชื่อลูกค้า</h2>
+      <section className="panel">
+        <div className="section-header">
+          <div>
+            <p className="eyebrow">ทั้งหมด {customers.length} ราย</p>
+            <h2>รายชื่อลูกค้า</h2>
             </div>
             <button
               type="button"
@@ -532,7 +531,6 @@ export default function CustomersPage() {
             </>
           )}
         </section>
-      </section>
     </div>
     {mounted && purchasesModal ? createPortal(purchasesModal, document.body) : null}
     {mounted && addCustomerModal ? createPortal(addCustomerModal, document.body) : null}
