@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { compareInvoiceNumbers } from "@/lib/invoice-sorting";
+import { sanitizeItems, computeItemsTotal } from "@/lib/invoice-items";
 import { NextResponse } from "next/server";
 
 const normalizeInvoiceStatus = (status: unknown) => {
@@ -23,6 +24,7 @@ export async function GET() {
         customer: true,
         salesperson: true,
         commission: true,
+        items: { orderBy: [{ position: "asc" }, { id: "asc" }] },
       },
     });
     invoices.sort((a, b) => compareInvoiceNumbers(a.invoiceNumber, b.invoiceNumber) || a.id - b.id);
@@ -58,19 +60,17 @@ export async function POST(request: Request) {
     const invoiceNumber = String(body.invoiceNumber ?? "").trim();
     const customerId = Number(body.customerId);
     const salespersonId = Number(body.salespersonId);
-    const total = Number(body.total);
     const commissionRate = Number(body.commissionRate);
     const commissionTons = Number(body.commissionTons);
     const status = normalizeInvoiceStatus(body.status);
     const dueDate = String(body.dueDate ?? "").trim();
 
-    const itemName = body.itemName != null ? String(body.itemName).trim() || null : null;
-    const unit = body.unit != null ? String(body.unit).trim() || null : null;
+    const items = sanitizeItems(body.items);
+    const computedTotal = computeItemsTotal(items);
+    const bodyTotal = Number(body.total);
+    const total = items.length > 0 ? computedTotal : (Number.isFinite(bodyTotal) ? bodyTotal : 0);
+
     const note = body.note != null ? String(body.note).trim() || null : null;
-    const quantityRaw = body.quantity != null && body.quantity !== "" ? Number(body.quantity) : null;
-    const quantity = quantityRaw != null && Number.isFinite(quantityRaw) ? quantityRaw : null;
-    const unitPriceRaw = body.unitPrice != null && body.unitPrice !== "" ? Number(body.unitPrice) : null;
-    const unitPrice = unitPriceRaw != null && Number.isFinite(unitPriceRaw) ? unitPriceRaw : null;
     const saleDateRaw = body.saleDate != null ? String(body.saleDate).trim() : "";
     const saleDate = saleDateRaw ? new Date(saleDateRaw) : null;
     const paymentDates = parseDateList(body.paymentDates);
@@ -82,7 +82,6 @@ export async function POST(request: Request) {
       !invoiceNumber ||
       !Number.isInteger(customerId) ||
       !Number.isInteger(salespersonId) ||
-      !Number.isFinite(total) ||
       !Number.isFinite(commissionRate) ||
       !Number.isFinite(commissionTons) ||
       total <= 0 ||
@@ -95,32 +94,23 @@ export async function POST(request: Request) {
     const invoice = await prisma.invoice.create({
       data: {
         invoiceNumber,
-        customer: {
-          connect: { id: customerId },
-        },
-        salesperson: {
-          connect: { id: salespersonId },
-        },
+        customer: { connect: { id: customerId } },
+        salesperson: { connect: { id: salespersonId } },
         total,
         commissionRate,
         commissionTons,
         status,
         dueDate: dueDate ? new Date(dueDate) : null,
-        itemName,
-        quantity,
-        unit,
-        unitPrice,
         note,
         saleDate,
         paymentDates,
         paymentAmounts,
         needsReview,
         reviewNotes,
+        items: items.length > 0 ? { create: items } : undefined,
         commission: {
           create: {
-            salesperson: {
-              connect: { id: salespersonId },
-            },
+            salesperson: { connect: { id: salespersonId } },
             amount: commissionTons * commissionRate,
           },
         },
@@ -129,6 +119,7 @@ export async function POST(request: Request) {
         customer: true,
         salesperson: true,
         commission: true,
+        items: { orderBy: [{ position: "asc" }, { id: "asc" }] },
       },
     });
 

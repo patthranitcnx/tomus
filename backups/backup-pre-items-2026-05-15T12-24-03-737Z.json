@@ -1,0 +1,3241 @@
+{
+  "invoices": [
+    {
+      "id": 27,
+      "invoiceNumber": "SR-6",
+      "customerId": 39,
+      "salespersonId": 10,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 26000,
+      "note": null,
+      "saleDate": "2026-01-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-27T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        858000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-6), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 858000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:11.828Z"
+    },
+    {
+      "id": 28,
+      "invoiceNumber": "SR-8",
+      "customerId": 38,
+      "salespersonId": 10,
+      "itemName": "15-5-35 แสงตะวัน",
+      "quantity": 0.5,
+      "unit": "ตัน",
+      "unitPrice": 18700,
+      "note": null,
+      "saleDate": "2026-01-12T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-27T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        9350
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-8), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 9350,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:12.126Z"
+    },
+    {
+      "id": 29,
+      "invoiceNumber": "SR-9",
+      "customerId": 38,
+      "salespersonId": 10,
+      "itemName": "12-12-17 (25) ฮอลแลนด์ สามห่วง",
+      "quantity": 0.125,
+      "unit": "ตัน",
+      "unitPrice": 29000,
+      "note": null,
+      "saleDate": "2026-01-12T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-27T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        3625
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-9), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 3625,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:12.442Z"
+    },
+    {
+      "id": 30,
+      "invoiceNumber": "SR-14",
+      "customerId": 37,
+      "salespersonId": 10,
+      "itemName": "46-0-0 สามห่วง",
+      "quantity": 8,
+      "unit": "ตัน",
+      "unitPrice": 15300,
+      "note": null,
+      "saleDate": "2026-01-15T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-19T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        122400
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-14), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 122400,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:12.761Z"
+    },
+    {
+      "id": 22,
+      "invoiceNumber": "SR-4",
+      "customerId": 43,
+      "salespersonId": 10,
+      "itemName": "16-20-0 จีน สามห่วง",
+      "quantity": 27,
+      "unit": "ตัน",
+      "unitPrice": 16000,
+      "note": null,
+      "saleDate": "2026-01-06T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-13T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        432000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-4), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 432000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:10.049Z"
+    },
+    {
+      "id": 23,
+      "invoiceNumber": "SR-3",
+      "customerId": 43,
+      "salespersonId": 10,
+      "itemName": "0-0-38 สามห่วง",
+      "quantity": 3,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "note": null,
+      "saleDate": "2026-01-06T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-13T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        42000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-3), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 42000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:10.610Z"
+    },
+    {
+      "id": 24,
+      "invoiceNumber": "SR-2",
+      "customerId": 43,
+      "salespersonId": 10,
+      "itemName": "46-0-0 สามห่วง",
+      "quantity": 2,
+      "unit": "ตัน",
+      "unitPrice": 15000,
+      "note": null,
+      "saleDate": "2026-01-06T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-13T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        30000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-2), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 30000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:10.919Z"
+    },
+    {
+      "id": 25,
+      "invoiceNumber": "SR-5",
+      "customerId": 26,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 6700,
+      "note": null,
+      "saleDate": "2026-01-08T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-24T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        221100
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-5), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 221100,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:11.220Z"
+    },
+    {
+      "id": 26,
+      "invoiceNumber": "SR-7",
+      "customerId": 15,
+      "salespersonId": 10,
+      "itemName": "0-0-60 ตาชั่ง",
+      "quantity": 3,
+      "unit": "ตัน",
+      "unitPrice": 14200,
+      "note": null,
+      "saleDate": "2026-01-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-13T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        42600
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-7), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 42600,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:11.530Z"
+    },
+    {
+      "id": 31,
+      "invoiceNumber": "SR-11",
+      "customerId": 36,
+      "salespersonId": 10,
+      "itemName": "0-0-38 (25) สามห่วง",
+      "quantity": 2,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "note": null,
+      "saleDate": "2026-01-15T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        28000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-11), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 28000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:13.063Z"
+    },
+    {
+      "id": 32,
+      "invoiceNumber": "SR-10",
+      "customerId": 36,
+      "salespersonId": 10,
+      "itemName": "0-0-38 สามห่วง",
+      "quantity": 4,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "note": null,
+      "saleDate": "2026-01-15T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        56000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-10), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 56000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:13.371Z"
+    },
+    {
+      "id": 33,
+      "invoiceNumber": "SR-12",
+      "customerId": 36,
+      "salespersonId": 10,
+      "itemName": "16-20-0 จีน สามห่วง",
+      "quantity": 1.5,
+      "unit": "ตัน",
+      "unitPrice": 16000,
+      "note": null,
+      "saleDate": "2026-01-15T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        24000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-12), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 24000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:13.676Z"
+    },
+    {
+      "id": 34,
+      "invoiceNumber": "SR-13",
+      "customerId": 36,
+      "salespersonId": 10,
+      "itemName": "16-16-16 จีน ฟ้า สามห่วง",
+      "quantity": 2,
+      "unit": "ตัน",
+      "unitPrice": 18000,
+      "note": null,
+      "saleDate": "2026-01-15T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        36000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-13), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 36000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:13.996Z"
+    },
+    {
+      "id": 35,
+      "invoiceNumber": "SR-15",
+      "customerId": 43,
+      "salespersonId": 10,
+      "itemName": "0-0-38 สามห่วง",
+      "quantity": 12.5,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "note": null,
+      "saleDate": "2026-01-23T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        175000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-15), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 175000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:14.292Z"
+    },
+    {
+      "id": 36,
+      "invoiceNumber": "SR-16",
+      "customerId": 43,
+      "salespersonId": 10,
+      "itemName": "16-16-16 จีน ฟ้า สามห่วง",
+      "quantity": 4,
+      "unit": "ตัน",
+      "unitPrice": 18000,
+      "note": null,
+      "saleDate": "2026-01-23T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-23T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        72000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-16), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 72000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:14.586Z"
+    },
+    {
+      "id": 37,
+      "invoiceNumber": "SR-17",
+      "customerId": 2,
+      "salespersonId": 10,
+      "itemName": "16-20-0 จีน สามห่วง",
+      "quantity": 12,
+      "unit": "ตัน",
+      "unitPrice": 16000,
+      "note": null,
+      "saleDate": "2026-01-26T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        192000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-17), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 192000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:14.891Z"
+    },
+    {
+      "id": 38,
+      "invoiceNumber": "SR-19",
+      "customerId": 26,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง ตาชั่ง",
+      "quantity": 28,
+      "unit": "ตัน",
+      "unitPrice": 6700,
+      "note": null,
+      "saleDate": "2026-01-26T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-12T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        187600
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-19), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 187600,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:15.222Z"
+    },
+    {
+      "id": 39,
+      "invoiceNumber": "SR-18",
+      "customerId": 44,
+      "salespersonId": 10,
+      "itemName": "0-0-60 เม็ด เยอรมัน",
+      "quantity": 1,
+      "unit": "ตัน",
+      "unitPrice": 14200,
+      "note": null,
+      "saleDate": "2026-01-26T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        14200
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-18), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 14200,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:15.529Z"
+    },
+    {
+      "id": 40,
+      "invoiceNumber": "SR-22",
+      "customerId": 42,
+      "salespersonId": 10,
+      "itemName": "คีเชอร์แมก",
+      "quantity": 1,
+      "unit": "ตัน",
+      "unitPrice": 9200,
+      "note": null,
+      "saleDate": "2026-02-03T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-04T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        9200
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-22), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 9200,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:15.956Z"
+    },
+    {
+      "id": 41,
+      "invoiceNumber": "SR-21",
+      "customerId": 43,
+      "salespersonId": 10,
+      "itemName": "0-0-38 สามห่วง",
+      "quantity": 12,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "note": null,
+      "saleDate": "2026-02-03T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        168000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-21), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 168000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:16.350Z"
+    },
+    {
+      "id": 42,
+      "invoiceNumber": "SR-20",
+      "customerId": 43,
+      "salespersonId": 10,
+      "itemName": "16-20-0 จีน สามห่วง",
+      "quantity": 2,
+      "unit": "ตัน",
+      "unitPrice": 16000,
+      "note": null,
+      "saleDate": "2026-02-03T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        32000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-20), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 32000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:16.701Z"
+    },
+    {
+      "id": 43,
+      "invoiceNumber": "SR-23",
+      "customerId": 33,
+      "salespersonId": 10,
+      "itemName": "16-16-16 จีน",
+      "quantity": 10,
+      "unit": "ตัน",
+      "unitPrice": 19000,
+      "note": null,
+      "saleDate": "2026-02-06T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-09T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        190000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-23), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 190000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:16.986Z"
+    },
+    {
+      "id": 44,
+      "invoiceNumber": "SR-24",
+      "customerId": 43,
+      "salespersonId": 10,
+      "itemName": "16-20-0 จีน",
+      "quantity": 200,
+      "unit": "ตัน",
+      "unitPrice": 15900,
+      "note": null,
+      "saleDate": "2026-02-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        3180000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-24), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 3180000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:17.272Z"
+    },
+    {
+      "id": 45,
+      "invoiceNumber": "SR-25",
+      "customerId": 32,
+      "salespersonId": 10,
+      "itemName": "16-20-0 จีน",
+      "quantity": 20,
+      "unit": "ตัน",
+      "unitPrice": 15500,
+      "note": null,
+      "saleDate": "2026-02-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-14T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        310000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-25), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 310000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:17.570Z"
+    },
+    {
+      "id": 46,
+      "invoiceNumber": "SR-26",
+      "customerId": 30,
+      "salespersonId": 10,
+      "itemName": "คีเชอร์แมก",
+      "quantity": 5,
+      "unit": "ตัน",
+      "unitPrice": 9400,
+      "note": null,
+      "saleDate": "2026-02-19T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-24T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        47000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-26), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 47000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:17.867Z"
+    },
+    {
+      "id": 47,
+      "invoiceNumber": "SR-28",
+      "customerId": 29,
+      "salespersonId": 10,
+      "itemName": "16-20-0  สามห่วง",
+      "quantity": 15,
+      "unit": "ตัน",
+      "unitPrice": 15800,
+      "note": null,
+      "saleDate": "2026-03-04T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-04T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        237000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-28), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 237000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:18.168Z"
+    },
+    {
+      "id": 48,
+      "invoiceNumber": "SR-27",
+      "customerId": 2,
+      "salespersonId": 10,
+      "itemName": "46-0-0 สามห่วง",
+      "quantity": 20,
+      "unit": "ตัน",
+      "unitPrice": 17800,
+      "note": null,
+      "saleDate": "2026-03-04T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-04T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        356000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-27), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 356000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:18.489Z"
+    },
+    {
+      "id": 49,
+      "invoiceNumber": "SR-30",
+      "customerId": 28,
+      "salespersonId": 10,
+      "itemName": "0-0-60 เม็ด เยอรมัน",
+      "quantity": 64,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "note": null,
+      "saleDate": "2026-03-05T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-10T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        896000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-30), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 896000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:18.787Z"
+    },
+    {
+      "id": 50,
+      "invoiceNumber": "SR-29",
+      "customerId": 26,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 6700,
+      "note": null,
+      "saleDate": "2026-03-05T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-31T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        221100
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-29), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 221100,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:19.079Z"
+    },
+    {
+      "id": 51,
+      "invoiceNumber": "SR-31",
+      "customerId": 27,
+      "salespersonId": 10,
+      "itemName": "21-10-10 ฮอลแลนด์ สามห่วง",
+      "quantity": 3.5,
+      "unit": "ตัน",
+      "unitPrice": 29500,
+      "note": null,
+      "saleDate": "2026-03-05T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        103250
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-31), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 103250,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:19.366Z"
+    },
+    {
+      "id": 52,
+      "invoiceNumber": "SR-32",
+      "customerId": 9,
+      "salespersonId": 10,
+      "itemName": "0-0-60 สามห่วง",
+      "quantity": 20,
+      "unit": "ตัน",
+      "unitPrice": 14100,
+      "note": null,
+      "saleDate": "2026-03-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-10T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        282000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-32), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 282000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:19.656Z"
+    },
+    {
+      "id": 53,
+      "invoiceNumber": "SR-33",
+      "customerId": 25,
+      "salespersonId": 10,
+      "itemName": "15-5-20 ฮอลแลนด์",
+      "quantity": 1,
+      "unit": "ตัน",
+      "unitPrice": 29500,
+      "note": null,
+      "saleDate": "2026-03-10T00:00:00.000Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-33), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 29500,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "รอชำระ",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:19.936Z"
+    },
+    {
+      "id": 54,
+      "invoiceNumber": "SR-34",
+      "customerId": 24,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 62.5,
+      "unit": "ตัน",
+      "unitPrice": 9600,
+      "note": null,
+      "saleDate": "2026-03-12T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-19T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        600000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-34), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 600000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:20.239Z"
+    },
+    {
+      "id": 55,
+      "invoiceNumber": "SR-35",
+      "customerId": 19,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 30,
+      "unit": "ตัน",
+      "unitPrice": 6900,
+      "note": null,
+      "saleDate": "2026-03-13T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-13T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        207000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-35), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 207000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:20.541Z"
+    },
+    {
+      "id": 56,
+      "invoiceNumber": "SR-37",
+      "customerId": 23,
+      "salespersonId": 10,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "quantity": 2,
+      "unit": "ตัน",
+      "unitPrice": 27000,
+      "note": null,
+      "saleDate": "2026-03-14T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        54000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-37), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 54000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:20.848Z"
+    },
+    {
+      "id": 57,
+      "invoiceNumber": "SR-36",
+      "customerId": 2,
+      "salespersonId": 10,
+      "itemName": "0-0-38 สามห่วง",
+      "quantity": 4,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "note": null,
+      "saleDate": "2026-03-14T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        56000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-36), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 56000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:21.143Z"
+    },
+    {
+      "id": 58,
+      "invoiceNumber": "SR-38",
+      "customerId": 22,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 9.5,
+      "unit": "ตัน",
+      "unitPrice": 9600,
+      "note": null,
+      "saleDate": "2026-03-16T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-27T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        91200
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-38), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 91200,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:21.451Z"
+    },
+    {
+      "id": 59,
+      "invoiceNumber": "SR-39",
+      "customerId": 19,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 35,
+      "unit": "ตัน",
+      "unitPrice": 7200,
+      "note": null,
+      "saleDate": "2026-03-16T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-18T00:00:00.000Z",
+        "2026-03-19T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        126000,
+        126000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-39), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 252000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:21.751Z"
+    },
+    {
+      "id": 7,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0364",
+      "customerId": 26,
+      "salespersonId": 1,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 221100,
+      "note": null,
+      "saleDate": "2026-05-11T06:43:59.890Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 221100,
+      "commissionRate": 0,
+      "commissionTons": 33,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-08T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-11T06:43:59.890Z"
+    },
+    {
+      "id": 60,
+      "invoiceNumber": "SR-41",
+      "customerId": 11,
+      "salespersonId": 10,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "quantity": 13,
+      "unit": "ตัน",
+      "unitPrice": 27000,
+      "note": null,
+      "saleDate": "2026-03-17T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        351000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-41), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 351000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:22.049Z"
+    },
+    {
+      "id": 61,
+      "invoiceNumber": "SR-42",
+      "customerId": 11,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 4,
+      "unit": "ตัน",
+      "unitPrice": 7100.001,
+      "note": null,
+      "saleDate": "2026-03-17T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        28400.004
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-42), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 28400.004,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:22.338Z"
+    },
+    {
+      "id": 62,
+      "invoiceNumber": "SR-40",
+      "customerId": 14,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 9,
+      "unit": "ตัน",
+      "unitPrice": 6900,
+      "note": null,
+      "saleDate": "2026-03-17T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-18T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        62100
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-40), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 62100,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:22.641Z"
+    },
+    {
+      "id": 63,
+      "invoiceNumber": "SR-43",
+      "customerId": 19,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 34.5,
+      "unit": "ตัน",
+      "unitPrice": 7200,
+      "note": null,
+      "saleDate": "2026-03-18T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-18T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        248400
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-43), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 248400,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:22.948Z"
+    },
+    {
+      "id": 64,
+      "invoiceNumber": "SR-44",
+      "customerId": 21,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 34.5,
+      "unit": "ตัน",
+      "unitPrice": 6700,
+      "note": null,
+      "saleDate": "2026-03-18T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-12T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        231150
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-44), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 231150,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:23.248Z"
+    },
+    {
+      "id": 65,
+      "invoiceNumber": "SR-46",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "0-0-60 ตาชั่ง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 14300,
+      "note": null,
+      "saleDate": "2026-03-19T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        471900
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-46), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 471900,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:23.542Z"
+    },
+    {
+      "id": 66,
+      "invoiceNumber": "SR-47",
+      "customerId": 20,
+      "salespersonId": 10,
+      "itemName": "คีเชอร์แมก",
+      "quantity": 5,
+      "unit": "ตัน",
+      "unitPrice": 10000,
+      "note": null,
+      "saleDate": "2026-03-19T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-21T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        50000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-47), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 50000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:23.828Z"
+    },
+    {
+      "id": 67,
+      "invoiceNumber": "SR-45",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง ตาชั่ง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 6700,
+      "note": null,
+      "saleDate": "2026-03-19T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        221100
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-45), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 221100,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:24.122Z"
+    },
+    {
+      "id": 68,
+      "invoiceNumber": "SR-48",
+      "customerId": 4,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 21.5,
+      "unit": "ตัน",
+      "unitPrice": 7100,
+      "note": null,
+      "saleDate": "2026-03-19T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        152650
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-48), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 152650,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:24.419Z"
+    },
+    {
+      "id": 69,
+      "invoiceNumber": "SR-52",
+      "customerId": 9,
+      "salespersonId": 10,
+      "itemName": "0-0-60 เม็ด สามห่วง",
+      "quantity": 34,
+      "unit": "ตัน",
+      "unitPrice": 14100,
+      "note": null,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        479400
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-52), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 479400,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:24.721Z"
+    },
+    {
+      "id": 70,
+      "invoiceNumber": "SR-51",
+      "customerId": 9,
+      "salespersonId": 10,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "quantity": 5,
+      "unit": "ตัน",
+      "unitPrice": 27000,
+      "note": null,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        135000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-51), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 135000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:25.013Z"
+    },
+    {
+      "id": 71,
+      "invoiceNumber": "SR-54",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง ตาชั่ง",
+      "quantity": 14,
+      "unit": "ตัน",
+      "unitPrice": 6700,
+      "note": null,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        93800
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-54), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 93800,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:25.304Z"
+    },
+    {
+      "id": 72,
+      "invoiceNumber": "SR-55",
+      "customerId": 18,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 6900,
+      "note": null,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        227700
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-55), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 227700,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:25.606Z"
+    },
+    {
+      "id": 73,
+      "invoiceNumber": "SR-49",
+      "customerId": 19,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 7200,
+      "note": null,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        237600
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-49), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 237600,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:25.897Z"
+    },
+    {
+      "id": 74,
+      "invoiceNumber": "SR-50",
+      "customerId": 9,
+      "salespersonId": 10,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 27000,
+      "note": null,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        891000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-50), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 891000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:26.260Z"
+    },
+    {
+      "id": 75,
+      "invoiceNumber": "SR-53",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "quantity": 20,
+      "unit": "ตัน",
+      "unitPrice": 26500,
+      "note": null,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        530000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-53), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 530000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:26.587Z"
+    },
+    {
+      "id": 76,
+      "invoiceNumber": "SR-56",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "0-0-60 เม็ด ตาชั่ง",
+      "quantity": 31,
+      "unit": "ตัน",
+      "unitPrice": 14300,
+      "note": null,
+      "saleDate": "2026-03-21T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        443300
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-56), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 443300,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:26.995Z"
+    },
+    {
+      "id": 77,
+      "invoiceNumber": "SR-58",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "quantity": 3,
+      "unit": "ตัน",
+      "unitPrice": 26500,
+      "note": null,
+      "saleDate": "2026-03-21T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        79500
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-58), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 79500,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:27.336Z"
+    },
+    {
+      "id": 78,
+      "invoiceNumber": "SR-57",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "0-0-60 เม็ด ตาชั่ง",
+      "quantity": 28,
+      "unit": "ตัน",
+      "unitPrice": 14300,
+      "note": null,
+      "saleDate": "2026-03-21T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        400400
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-57), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 400400,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:27.636Z"
+    },
+    {
+      "id": 79,
+      "invoiceNumber": "SR-59",
+      "customerId": 11,
+      "salespersonId": 10,
+      "itemName": "0-0-60 เม็ด สามห่วง",
+      "quantity": 20,
+      "unit": "ตัน",
+      "unitPrice": 14400,
+      "note": null,
+      "saleDate": "2026-03-23T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        288000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-59), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 288000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:27.934Z"
+    },
+    {
+      "id": 80,
+      "invoiceNumber": "SR-60",
+      "customerId": 11,
+      "salespersonId": 10,
+      "itemName": "0-0-60 เม็ด สามห่วง",
+      "quantity": 13,
+      "unit": "ตัน",
+      "unitPrice": 15000,
+      "note": null,
+      "saleDate": "2026-03-23T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        195000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-60), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 195000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:28.220Z"
+    },
+    {
+      "id": 81,
+      "invoiceNumber": "SR-61",
+      "customerId": 17,
+      "salespersonId": 10,
+      "itemName": "0-0-60 สามห่วง",
+      "quantity": 32,
+      "unit": "ตัน",
+      "unitPrice": 15300,
+      "note": null,
+      "saleDate": "2026-03-25T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        489600
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-61), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 489600,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:28.539Z"
+    },
+    {
+      "id": 82,
+      "invoiceNumber": "SR-62",
+      "customerId": 16,
+      "salespersonId": 10,
+      "itemName": "0-0-60 สามห่วง",
+      "quantity": 16,
+      "unit": "ตัน",
+      "unitPrice": 15500,
+      "note": null,
+      "saleDate": "2026-03-25T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        248000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-62), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 248000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:28.860Z"
+    },
+    {
+      "id": 83,
+      "invoiceNumber": "SR-64",
+      "customerId": 9,
+      "salespersonId": 10,
+      "itemName": "0-0-60 สามห่วง",
+      "quantity": 13.5,
+      "unit": "ตัน",
+      "unitPrice": 15500,
+      "note": null,
+      "saleDate": "2026-03-26T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        209250
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-64), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 209250,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:29.259Z"
+    },
+    {
+      "id": 84,
+      "invoiceNumber": "SR-63",
+      "customerId": 15,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 8400,
+      "note": null,
+      "saleDate": "2026-03-26T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        277200
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-63), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 277200,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:29.589Z"
+    },
+    {
+      "id": 85,
+      "invoiceNumber": "SR-65",
+      "customerId": 14,
+      "salespersonId": 10,
+      "itemName": "0-0-60 สามห่วง",
+      "quantity": 10,
+      "unit": "ตัน",
+      "unitPrice": 14500,
+      "note": null,
+      "saleDate": "2026-03-28T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-30T00:00:00.000Z",
+        "2026-04-04T00:00:00.000Z",
+        "2026-04-18T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        45000,
+        50000,
+        50000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-65), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 145000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:29.896Z"
+    },
+    {
+      "id": 86,
+      "invoiceNumber": "SR-66",
+      "customerId": 12,
+      "salespersonId": 10,
+      "itemName": "0-0-60 สามห่วง",
+      "quantity": 6,
+      "unit": "ตัน",
+      "unitPrice": 14500,
+      "note": null,
+      "saleDate": "2026-03-30T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        87000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-66), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 87000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:30.200Z"
+    },
+    {
+      "id": 87,
+      "invoiceNumber": "SR-67",
+      "customerId": 40,
+      "salespersonId": 10,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "quantity": 28,
+      "unit": "ตัน",
+      "unitPrice": 8400,
+      "note": null,
+      "saleDate": "2026-03-30T00:00:00.000Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-67), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 235200,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "รอชำระ",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:30.510Z"
+    },
+    {
+      "id": 88,
+      "invoiceNumber": "SR-68",
+      "customerId": 9,
+      "salespersonId": 10,
+      "itemName": "0-0-60 สามห่วง",
+      "quantity": 27,
+      "unit": "ตัน",
+      "unitPrice": 15500,
+      "note": null,
+      "saleDate": "2026-03-31T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-31T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        418500
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-68), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 418500,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:30.810Z"
+    },
+    {
+      "id": 89,
+      "invoiceNumber": "SR-69",
+      "customerId": 9,
+      "salespersonId": 10,
+      "itemName": "18-46-0 สามห่วง",
+      "quantity": 4,
+      "unit": "ตัน",
+      "unitPrice": 28800,
+      "note": null,
+      "saleDate": "2026-03-31T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-31T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        115200
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-69), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 115200,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:31.115Z"
+    },
+    {
+      "id": 90,
+      "invoiceNumber": "SR-72",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "18-46-0 สามห่วง",
+      "quantity": 24,
+      "unit": "ตัน",
+      "unitPrice": 26500,
+      "note": null,
+      "saleDate": "2026-04-02T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-03T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        636000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-72), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 636000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:31.425Z"
+    },
+    {
+      "id": 91,
+      "invoiceNumber": "SR-71",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "0-0-60 สามห่วง",
+      "quantity": 7,
+      "unit": "ตัน",
+      "unitPrice": 15500,
+      "note": null,
+      "saleDate": "2026-04-02T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-03T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        108500
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-71), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 108500,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:31.723Z"
+    },
+    {
+      "id": 92,
+      "invoiceNumber": "SR-73",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "21-0-0 โฟม สามห่วง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 11000,
+      "note": null,
+      "saleDate": "2026-04-02T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-04T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        363000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-73), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 363000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:32.013Z"
+    },
+    {
+      "id": 93,
+      "invoiceNumber": "SR-70",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "18-46-0 สามห่วง",
+      "quantity": 18,
+      "unit": "ตัน",
+      "unitPrice": 28700,
+      "note": null,
+      "saleDate": "2026-04-02T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-03T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        516600
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-70), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 516600,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:32.305Z"
+    },
+    {
+      "id": 94,
+      "invoiceNumber": "SR-74",
+      "customerId": 9,
+      "salespersonId": 10,
+      "itemName": "18-46-0 สามห่วง",
+      "quantity": 15,
+      "unit": "ตัน",
+      "unitPrice": 28800,
+      "note": null,
+      "saleDate": "2026-04-03T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-03T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        432000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-74), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 432000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:32.607Z"
+    },
+    {
+      "id": 95,
+      "invoiceNumber": "SR-75",
+      "customerId": 11,
+      "salespersonId": 10,
+      "itemName": "0-0-60 เม็ด สามห่วง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 15000,
+      "note": null,
+      "saleDate": "2026-04-04T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-07T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        495000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-75), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 495000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:32.902Z"
+    },
+    {
+      "id": 96,
+      "invoiceNumber": "SR-76",
+      "customerId": 11,
+      "salespersonId": 10,
+      "itemName": "21-0-0 โฟม สามห่วง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 11000,
+      "note": null,
+      "saleDate": "2026-04-04T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        363000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-76), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 363000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:33.197Z"
+    },
+    {
+      "id": 97,
+      "invoiceNumber": "SR-78",
+      "customerId": 10,
+      "salespersonId": 10,
+      "itemName": "คีเชอร์แมก",
+      "quantity": 1,
+      "unit": "ตัน",
+      "unitPrice": 9700,
+      "note": null,
+      "saleDate": "2026-04-07T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        9700
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-78), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 9700,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:33.501Z"
+    },
+    {
+      "id": 98,
+      "invoiceNumber": "SR-77",
+      "customerId": 10,
+      "salespersonId": 10,
+      "itemName": "18-46-0 สามห่วง",
+      "quantity": 1,
+      "unit": "ตัน",
+      "unitPrice": 26000,
+      "note": null,
+      "saleDate": "2026-04-07T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        26000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-77), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 26000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:33.799Z"
+    },
+    {
+      "id": 99,
+      "invoiceNumber": "SR-79",
+      "customerId": 9,
+      "salespersonId": 10,
+      "itemName": "21-0-0 โฟม สามห่วง",
+      "quantity": 17,
+      "unit": "ตัน",
+      "unitPrice": 11000,
+      "note": null,
+      "saleDate": "2026-04-08T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-08T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        187000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-79), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 187000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:34.098Z"
+    },
+    {
+      "id": 100,
+      "invoiceNumber": "SR-80",
+      "customerId": 7,
+      "salespersonId": 10,
+      "itemName": "18-46-0 สามห่วง",
+      "quantity": 30,
+      "unit": "ตัน",
+      "unitPrice": 29000,
+      "note": null,
+      "saleDate": "2026-04-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        870000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-80), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 870000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:34.777Z"
+    },
+    {
+      "id": 101,
+      "invoiceNumber": "SR-81",
+      "customerId": 8,
+      "salespersonId": 10,
+      "itemName": "18-46-0 สามห่วง",
+      "quantity": 20,
+      "unit": "ตัน",
+      "unitPrice": 29000,
+      "note": null,
+      "saleDate": "2026-04-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-12T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        580000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-81), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 580000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:35.086Z"
+    },
+    {
+      "id": 102,
+      "invoiceNumber": "SR-82",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "18-46-0 สามห่วง",
+      "quantity": 13.6,
+      "unit": "ตัน",
+      "unitPrice": 28700,
+      "note": null,
+      "saleDate": "2026-04-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-16T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        390320
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-82), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 390320,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:35.403Z"
+    },
+    {
+      "id": 103,
+      "invoiceNumber": "SR-83",
+      "customerId": 6,
+      "salespersonId": 10,
+      "itemName": "18-46-0 สามห่วง",
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 28700,
+      "note": null,
+      "saleDate": "2026-04-16T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        947100
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-83), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 947100,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:35.686Z"
+    },
+    {
+      "id": 104,
+      "invoiceNumber": "SR-84",
+      "customerId": 5,
+      "salespersonId": 10,
+      "itemName": "18-46-0 สามห่วง",
+      "quantity": 15.4,
+      "unit": "ตัน",
+      "unitPrice": 28800,
+      "note": null,
+      "saleDate": "2026-04-19T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-19T00:00:00.000Z",
+        "2026-04-20T00:00:00.000Z",
+        "2026-04-22T00:00:00.000Z",
+        "2026-04-23T00:00:00.000Z",
+        "2026-04-24T00:00:00.000Z",
+        "2026-04-25T00:00:00.000Z",
+        "2026-04-26T00:00:00.000Z",
+        "2026-04-27T00:00:00.000Z",
+        "2026-04-28T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        50000,
+        43520,
+        50000,
+        50000,
+        50000,
+        50000,
+        50000,
+        50000,
+        50000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-84), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 443520,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:35.985Z"
+    },
+    {
+      "id": 105,
+      "invoiceNumber": "SR-86",
+      "customerId": 4,
+      "salespersonId": 10,
+      "itemName": "8-20-30 รัสเซีย",
+      "quantity": 5,
+      "unit": "ตัน",
+      "unitPrice": 25000,
+      "note": null,
+      "saleDate": "2026-04-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-25T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        125000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-86), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 125000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:36.287Z"
+    },
+    {
+      "id": 106,
+      "invoiceNumber": "SR-85",
+      "customerId": 4,
+      "salespersonId": 10,
+      "itemName": "18-3-3 แสงตะวัน",
+      "quantity": 29,
+      "unit": "ตัน",
+      "unitPrice": 17300,
+      "note": null,
+      "saleDate": "2026-04-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-25T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        501700
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-85), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 501700,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:36.568Z"
+    },
+    {
+      "id": 107,
+      "invoiceNumber": "SR-87",
+      "customerId": 3,
+      "salespersonId": 10,
+      "itemName": "0-0-60 เม็ด สามห่วง",
+      "quantity": 10,
+      "unit": "ตัน",
+      "unitPrice": 15000,
+      "note": null,
+      "saleDate": "2026-04-21T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-06T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        150000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-87), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 150000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:36.876Z"
+    },
+    {
+      "id": 108,
+      "invoiceNumber": "SR-88",
+      "customerId": 2,
+      "salespersonId": 10,
+      "itemName": "0-0-60 เม็ด สามห่วง",
+      "quantity": 1,
+      "unit": "ตัน",
+      "unitPrice": 17000,
+      "note": null,
+      "saleDate": "2026-05-06T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-07T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        17000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-88), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 17000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:37.169Z"
+    },
+    {
+      "id": 109,
+      "invoiceNumber": "SR-89",
+      "customerId": 2,
+      "salespersonId": 10,
+      "itemName": "21-0-0 จีน อุเบ สามห่วง",
+      "quantity": 30,
+      "unit": "ตัน",
+      "unitPrice": 12500,
+      "note": null,
+      "saleDate": "2026-05-07T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-07T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        375000
+      ],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-89), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 375000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "ชำระแล้ว",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:37.474Z"
+    },
+    {
+      "id": 110,
+      "invoiceNumber": "SR-90",
+      "customerId": 7,
+      "salespersonId": 10,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "quantity": 19,
+      "unit": "ตัน",
+      "unitPrice": 29100,
+      "note": null,
+      "saleDate": "2026-05-11T00:00:00.000Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ย้ายมาจากรายการขาย — กรุณาระบุ: เลขที่ใบแจ้งหนี้จริง (ปัจจุบัน SR-90), พนักงานขาย (\"ไม่ระบุ\"), commissionRate, commissionTons",
+      "total": 552900,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "รอชำระ",
+      "dueDate": null,
+      "paidAt": null,
+      "createdAt": "2026-05-15T12:06:37.780Z"
+    },
+    {
+      "id": 12,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0371",
+      "customerId": 2,
+      "salespersonId": 6,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 247000,
+      "note": null,
+      "saleDate": "2026-05-15T05:28:13.083Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 247000,
+      "commissionRate": 0,
+      "commissionTons": 16.5,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-23T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T05:28:13.083Z"
+    },
+    {
+      "id": 13,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0372",
+      "customerId": 2,
+      "salespersonId": 6,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 206200,
+      "note": null,
+      "saleDate": "2026-05-15T05:39:39.134Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 206200,
+      "commissionRate": 0,
+      "commissionTons": 13,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-26T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T05:39:39.134Z"
+    },
+    {
+      "id": 15,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0376",
+      "customerId": 34,
+      "salespersonId": 1,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 9200,
+      "note": null,
+      "saleDate": "2026-05-15T06:26:56.499Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 9200,
+      "commissionRate": 0,
+      "commissionTons": 1,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-02-03T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T06:26:56.499Z"
+    },
+    {
+      "id": 18,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0378",
+      "customerId": 33,
+      "salespersonId": 7,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 190000,
+      "note": null,
+      "saleDate": "2026-05-15T06:29:43.911Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 190000,
+      "commissionRate": 300,
+      "commissionTons": 10,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-02-09T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T06:29:43.911Z"
+    },
+    {
+      "id": 19,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0379",
+      "customerId": 2,
+      "salespersonId": 6,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 3180000,
+      "note": null,
+      "saleDate": "2026-05-15T06:32:52.709Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 3180000,
+      "commissionRate": 50,
+      "commissionTons": 200,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-02-10T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T06:32:52.709Z"
+    },
+    {
+      "id": 1,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0362",
+      "customerId": 1,
+      "salespersonId": 1,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 7200,
+      "note": null,
+      "saleDate": "2026-05-10T08:46:20.747Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 7200,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "รอชำระ",
+      "dueDate": "2026-01-01T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-10T08:46:20.747Z"
+    },
+    {
+      "id": 4,
+      "invoiceNumber": "เล่มที่ 010 เลขที่ 0454",
+      "customerId": 40,
+      "salespersonId": 7,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 235200,
+      "note": null,
+      "saleDate": "2026-05-10T09:10:11.749Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 235200,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "รอชำระ",
+      "dueDate": "2026-03-30T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-10T09:10:11.749Z"
+    },
+    {
+      "id": 5,
+      "invoiceNumber": "เล่มที่ 010 เลขที่ 0457",
+      "customerId": 41,
+      "salespersonId": 1,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 150000,
+      "note": null,
+      "saleDate": "2026-05-10T09:18:02.725Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 150000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "รอชำระ",
+      "dueDate": "2026-04-21T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-10T09:18:02.725Z"
+    },
+    {
+      "id": 11,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0370",
+      "customerId": 37,
+      "salespersonId": 4,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 122400.002,
+      "note": null,
+      "saleDate": "2026-05-15T05:07:16.969Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 122400.002,
+      "commissionRate": 50,
+      "commissionTons": 8,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-15T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T05:07:16.969Z"
+    },
+    {
+      "id": 3,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0394",
+      "customerId": 25,
+      "salespersonId": 1,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 29500,
+      "note": null,
+      "saleDate": "2026-05-10T09:01:15.760Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 29500,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "รอชำระ",
+      "dueDate": "2026-03-10T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-10T09:01:15.760Z"
+    },
+    {
+      "id": 14,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0373",
+      "customerId": 13,
+      "salespersonId": 3,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 187600,
+      "note": null,
+      "saleDate": "2026-05-15T05:40:50.033Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 187600,
+      "commissionRate": 100,
+      "commissionTons": 28,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-26T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T05:40:50.033Z"
+    },
+    {
+      "id": 2,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0365",
+      "customerId": 39,
+      "salespersonId": 1,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 358000,
+      "note": null,
+      "saleDate": "2026-05-10T08:58:24.130Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 358000,
+      "commissionRate": 0,
+      "commissionTons": 33,
+      "status": "รอชำระ",
+      "dueDate": "2026-01-10T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-10T08:58:24.130Z"
+    },
+    {
+      "id": 6,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0363",
+      "customerId": 36,
+      "salespersonId": 6,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 504000,
+      "note": null,
+      "saleDate": "2026-05-11T05:01:01.818Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 504000,
+      "commissionRate": 50,
+      "commissionTons": 27,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-06T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-11T05:01:01.818Z"
+    },
+    {
+      "id": 8,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0366",
+      "customerId": 15,
+      "salespersonId": 1,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 42600,
+      "note": null,
+      "saleDate": "2026-05-12T14:47:23.598Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 42600,
+      "commissionRate": 0,
+      "commissionTons": 3,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-10T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-12T14:47:23.598Z"
+    },
+    {
+      "id": 9,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0368",
+      "customerId": 25,
+      "salespersonId": 1,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 12975,
+      "note": null,
+      "saleDate": "2026-05-15T04:21:56.949Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 12975,
+      "commissionRate": 0,
+      "commissionTons": 0.628,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-12T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T04:21:56.949Z"
+    },
+    {
+      "id": 10,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0369",
+      "customerId": 2,
+      "salespersonId": 6,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 144000,
+      "note": null,
+      "saleDate": "2026-05-15T05:04:45.787Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 144000,
+      "commissionRate": 50,
+      "commissionTons": 2,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-15T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T05:04:45.787Z"
+    },
+    {
+      "id": 20,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0375",
+      "customerId": 2,
+      "salespersonId": 6,
+      "itemName": "ไม่ระบุสินค้า",
+      "quantity": 1,
+      "unit": null,
+      "unitPrice": 200000,
+      "note": null,
+      "saleDate": "2026-05-15T08:09:34.531Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "needsReview": true,
+      "reviewNotes": "ใบแจ้งหนี้เดิมยังไม่มีข้อมูลสินค้า — กรุณาเติม: ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย",
+      "total": 200000,
+      "commissionRate": 0,
+      "commissionTons": 14,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-02-03T00:00:00.000Z",
+      "paidAt": "2026-02-05T00:00:00.000Z",
+      "createdAt": "2026-05-15T08:09:34.531Z"
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "name": "เอกพงษ์  ศรีณาเคนทร์",
+      "phone": null,
+      "email": null,
+      "address": "8/2 หมู่ 10 ต.คลองกระบือ อ.ปากพนัง จ.นครศรีธรรมราช 80330",
+      "createdAt": "2026-05-10T08:43:25.230Z"
+    },
+    {
+      "id": 3,
+      "name": "หจก.ส.เพชรเคมีเกษตรภัณฑ์",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.114Z"
+    },
+    {
+      "id": 4,
+      "name": "ร้านเขาฝ้ายการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.164Z"
+    },
+    {
+      "id": 5,
+      "name": "ณัฐพงษ์  นุรินรัมย์",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.209Z"
+    },
+    {
+      "id": 6,
+      "name": "ร้านบางผึ้งการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.257Z"
+    },
+    {
+      "id": 7,
+      "name": "ร้านสมบูรณ์การเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.301Z"
+    },
+    {
+      "id": 8,
+      "name": "สมโชค  โสมรักษ์",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.345Z"
+    },
+    {
+      "id": 9,
+      "name": "ร้านบ้านลูกรัก",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.388Z"
+    },
+    {
+      "id": 10,
+      "name": "บริษัท พีอาร์เอ็ม รีเจเนอร์เรทิฟ อะกรีคัลเจอร์ จำกัด",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.433Z"
+    },
+    {
+      "id": 11,
+      "name": "ร้านน้องน้ำฝนการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.477Z"
+    },
+    {
+      "id": 12,
+      "name": "ร้านมนูการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.520Z"
+    },
+    {
+      "id": 13,
+      "name": "ส.พนาการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.565Z"
+    },
+    {
+      "id": 14,
+      "name": "ร้านเชนการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.611Z"
+    },
+    {
+      "id": 15,
+      "name": "ร้านหนุมานการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.655Z"
+    },
+    {
+      "id": 16,
+      "name": "ร้านเวลาเกษตรและไฟฟ้า",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.702Z"
+    },
+    {
+      "id": 17,
+      "name": "ร้านอุทัยเจริญกิจ",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.746Z"
+    },
+    {
+      "id": 18,
+      "name": "ร้านไพศาล บ้านเขาไม้แก้ว",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.795Z"
+    },
+    {
+      "id": 19,
+      "name": "ร้านยิ่งเจริญคลังเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.839Z"
+    },
+    {
+      "id": 20,
+      "name": "หจก.โชคชัยพานิชย์ บางสะพาน",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.885Z"
+    },
+    {
+      "id": 21,
+      "name": "ร้านเกษตรไพศาล บ้านเขาไม้แก้ว",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.928Z"
+    },
+    {
+      "id": 22,
+      "name": "บริษัท กลุ่มปาล์มธรรมชาติ จำกัด (สำนักงานใหญ่)",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.974Z"
+    },
+    {
+      "id": 23,
+      "name": "ร้านน้องน้ำฝน",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.018Z"
+    },
+    {
+      "id": 24,
+      "name": "บริษัท สวนปาล์มธรรมชาติ จำกัด (สำนักงานใหญ่)",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.062Z"
+    },
+    {
+      "id": 25,
+      "name": "สมชัย สุขจิตร์",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.112Z"
+    },
+    {
+      "id": 26,
+      "name": "ร้าน ส.พนาการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.156Z"
+    },
+    {
+      "id": 27,
+      "name": "วีรวิทย์    ฤกษ์เรืองฤทธิ์",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.203Z"
+    },
+    {
+      "id": 28,
+      "name": "สหกรณ์ชาวไร่สับปะรดสามร้อยยอด จำกัด",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.248Z"
+    },
+    {
+      "id": 29,
+      "name": "ร้านเสาวนีย์เจริญ",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.292Z"
+    },
+    {
+      "id": 30,
+      "name": "ร้านน้องหมวดเคมีภัณฑ์ นบพิตำ",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.336Z"
+    },
+    {
+      "id": 32,
+      "name": "ร้านเกษตรวิทยา",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.429Z"
+    },
+    {
+      "id": 33,
+      "name": "หจก.อมตการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.474Z"
+    },
+    {
+      "id": 36,
+      "name": "ร้านเพชรการเกษตร (พงศกรณ์ เคนเต้า)",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.612Z"
+    },
+    {
+      "id": 38,
+      "name": "นายสมชัย  สุขจิตต์",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.700Z"
+    },
+    {
+      "id": 2,
+      "name": "ร้านเพชรเมืองแจ่ม (พงศกรณ์ เคนเต้า)",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:52.875Z"
+    },
+    {
+      "id": 41,
+      "name": "หจก.ส.เพชรเคมีเกษตรภัณฑ์",
+      "phone": null,
+      "email": null,
+      "address": "423 หมู่ 6 ต.หนองบัวระเหว อ.หนองบัวระเหว จ.ชัยภูมิ 36250",
+      "createdAt": "2026-05-10T09:16:41.182Z"
+    },
+    {
+      "id": 34,
+      "name": "สวนส้มโอภูสังข์ฉาย",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.521Z"
+    },
+    {
+      "id": 39,
+      "name": "บริษัท ฟาร์มปุ๋ย จำกัด",
+      "phone": null,
+      "email": null,
+      "address": "289/23 หมู่ 4 ถ.โฉลกรัฐ ต.มะขามเตีั้ย อ.เมืองสุราษฎร์ธานี จ.สุราษฏร์ธานี 84000",
+      "createdAt": "2026-05-10T08:53:54.744Z"
+    },
+    {
+      "id": 37,
+      "name": "ร้านโพธิ์งามการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": "234 หมู่ 13 ต.หัวช้าง อ.จตุรพักตร จ.ร้อยเอ็ด 45180",
+      "createdAt": "2026-05-10T08:53:54.656Z"
+    },
+    {
+      "id": 42,
+      "name": "สวนส้มโดภูสังข์ฉาย",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-15T10:54:50.222Z"
+    },
+    {
+      "id": 43,
+      "name": "ร้านเพชรเมืองแจ่ม (พงศกรณ์  เคนเต้า)",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-15T10:54:50.335Z"
+    },
+    {
+      "id": 44,
+      "name": "ร้านเพชรเมืองแจ่ม (พงศ์กรณ์ เคนเต้า)",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-15T10:54:50.382Z"
+    },
+    {
+      "id": 40,
+      "name": "บริษัท สมบูรณ์พืชไทย จำกัด",
+      "phone": "086-4892059 , 093-5846325",
+      "email": null,
+      "address": "60/6 หมู่ 2 ต.ป่าชิง อ.จะนะ จ.สงขลา 90130",
+      "createdAt": "2026-05-10T09:08:47.308Z"
+    }
+  ],
+  "salespeople": [
+    {
+      "id": 2,
+      "name": "นายจรัญ    ปานประทีป",
+      "email": null,
+      "phone": null,
+      "createdAt": "2026-05-10T08:53:35.691Z"
+    },
+    {
+      "id": 3,
+      "name": "นายณัฐพงศ์  บุญธรรม",
+      "email": null,
+      "phone": null,
+      "createdAt": "2026-05-10T08:53:55.976Z"
+    },
+    {
+      "id": 4,
+      "name": "นายณัฐพงษ์  นุรินรัมย์",
+      "email": null,
+      "phone": null,
+      "createdAt": "2026-05-10T08:54:13.744Z"
+    },
+    {
+      "id": 5,
+      "name": "นายสมชัย   สุขจิตร์",
+      "email": null,
+      "phone": null,
+      "createdAt": "2026-05-10T08:54:22.605Z"
+    },
+    {
+      "id": 6,
+      "name": "นายพงศกรณ์    เคนเต้า",
+      "email": null,
+      "phone": null,
+      "createdAt": "2026-05-10T08:54:32.459Z"
+    },
+    {
+      "id": 7,
+      "name": "นายวรวุฒิ  เสือแก้ว",
+      "email": null,
+      "phone": null,
+      "createdAt": "2026-05-10T08:54:42.550Z"
+    },
+    {
+      "id": 8,
+      "name": "นายจักรพันธ์   คล้ายปิ่น",
+      "email": null,
+      "phone": null,
+      "createdAt": "2026-05-10T08:54:58.028Z"
+    },
+    {
+      "id": 9,
+      "name": "นางสาวน้ำอ้อย  ยืนยาว",
+      "email": null,
+      "phone": null,
+      "createdAt": "2026-05-10T08:55:06.297Z"
+    },
+    {
+      "id": 1,
+      "name": "นายนิธิวัชร์  รุจิอริยอธิพร",
+      "email": null,
+      "phone": null,
+      "createdAt": "2026-05-10T08:45:37.810Z"
+    },
+    {
+      "id": 10,
+      "name": "ไม่ระบุ",
+      "email": null,
+      "phone": null,
+      "createdAt": "2026-05-15T12:06:07.674Z"
+    }
+  ]
+}

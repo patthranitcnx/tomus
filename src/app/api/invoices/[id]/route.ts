@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { sanitizeItems, computeItemsTotal } from "@/lib/invoice-items";
 
 const hasOwn = (body: Record<string, unknown>, key: string) => Object.prototype.hasOwnProperty.call(body, key);
 const normalizeInvoiceStatus = (status: unknown) => {
@@ -38,10 +39,6 @@ export async function PATCH(
       status?: string;
       dueDate?: Date | null;
       paidAt?: Date | null;
-      itemName?: string | null;
-      quantity?: number | null;
-      unit?: string | null;
-      unitPrice?: number | null;
       note?: string | null;
       saleDate?: Date | null;
       paymentDates?: Date[];
@@ -52,61 +49,49 @@ export async function PATCH(
 
     if (hasOwn(body, "invoiceNumber")) {
       const invoiceNumber = String(body.invoiceNumber ?? "").trim();
-
-      if (!invoiceNumber) {
-        return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
-      }
-
+      if (!invoiceNumber) return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
       updateData.invoiceNumber = invoiceNumber;
     }
 
     if (hasOwn(body, "customerId")) {
       const customerId = Number(body.customerId);
-
-      if (!Number.isInteger(customerId)) {
-        return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
-      }
-
+      if (!Number.isInteger(customerId)) return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
       updateData.customerId = customerId;
     }
 
     if (hasOwn(body, "salespersonId")) {
       const salespersonId = Number(body.salespersonId);
-
-      if (!Number.isInteger(salespersonId)) {
-        return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
-      }
-
+      if (!Number.isInteger(salespersonId)) return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
       updateData.salespersonId = salespersonId;
     }
 
-    if (hasOwn(body, "total")) {
-      const total = Number(body.total);
+    // If items provided, compute total from items (overrides body.total)
+    const itemsProvided = hasOwn(body, "items");
+    const sanitizedItems = itemsProvided ? sanitizeItems(body.items) : [];
 
+    if (itemsProvided) {
+      updateData.total = computeItemsTotal(sanitizedItems);
+    } else if (hasOwn(body, "total")) {
+      const total = Number(body.total);
       if (!Number.isFinite(total) || total <= 0) {
         return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
       }
-
       updateData.total = total;
     }
 
     if (hasOwn(body, "commissionRate")) {
       const commissionRate = Number(body.commissionRate);
-
       if (!Number.isFinite(commissionRate) || commissionRate < 0) {
         return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
       }
-
       updateData.commissionRate = commissionRate;
     }
 
     if (hasOwn(body, "commissionTons")) {
       const commissionTons = Number(body.commissionTons);
-
       if (!Number.isFinite(commissionTons) || commissionTons < 0) {
         return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
       }
-
       updateData.commissionTons = commissionTons;
     }
 
@@ -124,41 +109,9 @@ export async function PATCH(
       updateData.paidAt = paidAt ? new Date(paidAt) : null;
     }
 
-    if (hasOwn(body, "itemName")) {
-      const v = String(body.itemName ?? "").trim();
-      updateData.itemName = v || null;
-    }
-    if (hasOwn(body, "unit")) {
-      const v = String(body.unit ?? "").trim();
-      updateData.unit = v || null;
-    }
     if (hasOwn(body, "note")) {
       const v = String(body.note ?? "").trim();
       updateData.note = v || null;
-    }
-    if (hasOwn(body, "quantity")) {
-      const raw = body.quantity;
-      if (raw === null || raw === "" || raw === undefined) {
-        updateData.quantity = null;
-      } else {
-        const n = Number(raw);
-        if (!Number.isFinite(n) || n < 0) {
-          return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
-        }
-        updateData.quantity = n;
-      }
-    }
-    if (hasOwn(body, "unitPrice")) {
-      const raw = body.unitPrice;
-      if (raw === null || raw === "" || raw === undefined) {
-        updateData.unitPrice = null;
-      } else {
-        const n = Number(raw);
-        if (!Number.isFinite(n) || n < 0) {
-          return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
-        }
-        updateData.unitPrice = n;
-      }
     }
     if (hasOwn(body, "saleDate")) {
       const v = String(body.saleDate ?? "").trim();
@@ -190,22 +143,42 @@ export async function PATCH(
       updateData.reviewNotes = v || null;
     }
 
-    if (Object.keys(updateData).length === 0) {
+    if (Object.keys(updateData).length === 0 && !itemsProvided) {
       return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
     }
 
-    const invoice = await prisma.invoice.update({
+    // Update invoice + replace items in a transaction
+    await prisma.$transaction(async (tx) => {
+      if (Object.keys(updateData).length > 0) {
+        await tx.invoice.update({ where: { id }, data: updateData });
+      }
+      if (itemsProvided) {
+        await tx.invoiceItem.deleteMany({ where: { invoiceId: id } });
+        if (sanitizedItems.length > 0) {
+          await tx.invoiceItem.createMany({
+            data: sanitizedItems.map((item) => ({ ...item, invoiceId: id })),
+          });
+        }
+      }
+    });
+
+    const invoice = await prisma.invoice.findUnique({
       where: { id },
-      data: updateData,
       include: {
         customer: true,
         salesperson: true,
         commission: true,
+        items: { orderBy: [{ position: "asc" }, { id: "asc" }] },
       },
     });
 
+    if (!invoice) {
+      return NextResponse.json({ error: "Invoice not found" }, { status: 404 });
+    }
+
     if (
       hasOwn(body, "total") ||
+      itemsProvided ||
       hasOwn(body, "commissionRate") ||
       hasOwn(body, "commissionTons") ||
       hasOwn(body, "salespersonId")
@@ -230,6 +203,7 @@ export async function PATCH(
         customer: true,
         salesperson: true,
         commission: true,
+        items: { orderBy: [{ position: "asc" }, { id: "asc" }] },
       },
     });
 

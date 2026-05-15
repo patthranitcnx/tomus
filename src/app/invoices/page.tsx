@@ -14,6 +14,15 @@ type Salesperson = {
   name: string;
 };
 
+type InvoiceItem = {
+  id: number;
+  itemName: string;
+  quantity: number;
+  unit: string | null;
+  unitPrice: number;
+  position: number;
+};
+
 type Invoice = {
   id: number;
   invoiceNumber: string;
@@ -23,10 +32,7 @@ type Invoice = {
   status: string;
   dueDate: string | null;
   paidAt: string | null;
-  itemName: string | null;
-  quantity: number | null;
-  unit: string | null;
-  unitPrice: number | null;
+  items: InvoiceItem[];
   note: string | null;
   saleDate: string | null;
   paymentDates: string[];
@@ -43,21 +49,49 @@ type Invoice = {
   } | null;
 };
 
+type ItemFormRow = {
+  itemName: string;
+  quantity: string;
+  unit: string;
+  unitPrice: string;
+};
+
 type InvoiceEditForm = {
   bookNumber: string;
   documentNumber: string;
   customerId: string;
   salespersonId: string;
-  total: string;
   status: string;
   dueDate: string;
-  itemName: string;
-  quantity: string;
-  unit: string;
-  unitPrice: string;
+  items: ItemFormRow[];
   note: string;
   saleDate: string;
 };
+
+const emptyItemRow = (): ItemFormRow => ({ itemName: "", quantity: "", unit: "", unitPrice: "" });
+const computeRowsTotal = (rows: ItemFormRow[]) =>
+  rows.reduce((sum, row) => {
+    const q = Number(row.quantity);
+    const p = Number(row.unitPrice);
+    if (Number.isFinite(q) && Number.isFinite(p)) return sum + q * p;
+    return sum;
+  }, 0);
+const itemRowsToPayload = (rows: ItemFormRow[]) =>
+  rows
+    .map((row) => ({
+      itemName: row.itemName.trim(),
+      quantity: Number(row.quantity),
+      unit: row.unit.trim() || null,
+      unitPrice: Number(row.unitPrice),
+    }))
+    .filter(
+      (row) =>
+        row.itemName.length > 0 &&
+        Number.isFinite(row.quantity) &&
+        row.quantity >= 0 &&
+        Number.isFinite(row.unitPrice) &&
+        row.unitPrice >= 0,
+    );
 
 const money = new Intl.NumberFormat("th-TH", {
   style: "currency",
@@ -119,16 +153,14 @@ export default function InvoicesPage() {
     documentNumber: "",
     customerId: "",
     salespersonId: "",
-    total: "",
     status: "รอชำระ",
     dueDate: "",
-    itemName: "",
-    quantity: "",
-    unit: "",
-    unitPrice: "",
+    items: [emptyItemRow()] as ItemFormRow[],
     note: "",
     saleDate: "",
   });
+  const formTotal = useMemo(() => computeRowsTotal(form.items), [form.items]);
+  const editTotal = useMemo(() => (editForm ? computeRowsTotal(editForm.items) : 0), [editForm]);
   const invoiceTotal = useMemo(
     () => invoices.reduce((sum, invoice) => sum + invoice.total, 0),
     [invoices],
@@ -230,6 +262,7 @@ export default function InvoicesPage() {
     setSaving(true);
 
     const invoiceNumber = buildInvoiceNumber(form.bookNumber, form.documentNumber);
+    const items = itemRowsToPayload(form.items);
     const response = await fetch("/api/invoices", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -237,15 +270,11 @@ export default function InvoicesPage() {
         invoiceNumber,
         customerId: Number(form.customerId),
         salespersonId: Number(form.salespersonId),
-        total: Number(form.total),
+        items,
         commissionTons: 0,
         commissionRate: 0,
         status: form.status,
         dueDate: form.dueDate,
-        itemName: form.itemName.trim() || null,
-        quantity: form.quantity ? Number(form.quantity) : null,
-        unit: form.unit.trim() || null,
-        unitPrice: form.unitPrice ? Number(form.unitPrice) : null,
         note: form.note.trim() || null,
         saleDate: form.saleDate || null,
       }),
@@ -257,13 +286,9 @@ export default function InvoicesPage() {
         documentNumber: "",
         customerId: "",
         salespersonId: "",
-        total: "",
         status: "รอชำระ",
         dueDate: "",
-        itemName: "",
-        quantity: "",
-        unit: "",
-        unitPrice: "",
+        items: [emptyItemRow()],
         note: "",
         saleDate: "",
       });
@@ -276,19 +301,23 @@ export default function InvoicesPage() {
 
   const startEdit = (invoice: Invoice) => {
     const parts = parseInvoiceNumber(invoice.invoiceNumber);
+    const itemRows: ItemFormRow[] = invoice.items && invoice.items.length > 0
+      ? invoice.items.map((item) => ({
+          itemName: item.itemName,
+          quantity: String(item.quantity),
+          unit: item.unit ?? "",
+          unitPrice: String(item.unitPrice),
+        }))
+      : [emptyItemRow()];
     setEditingId(invoice.id);
     setEditForm({
       bookNumber: parts.book,
       documentNumber: parts.doc,
       customerId: String(invoice.customer.id),
       salespersonId: String(invoice.salesperson.id),
-      total: String(invoice.total),
       status: normalizeStatus(invoice.status),
       dueDate: toDateInputValue(invoice.dueDate),
-      itemName: invoice.itemName ?? "",
-      quantity: invoice.quantity != null ? String(invoice.quantity) : "",
-      unit: invoice.unit ?? "",
-      unitPrice: invoice.unitPrice != null ? String(invoice.unitPrice) : "",
+      items: itemRows,
       note: invoice.note ?? "",
       saleDate: toDateInputValue(invoice.saleDate),
     });
@@ -303,6 +332,38 @@ export default function InvoicesPage() {
     setEditForm((currentForm) => (currentForm ? { ...currentForm, ...values } : currentForm));
   };
 
+  const updateFormItem = (index: number, patch: Partial<ItemFormRow>) => {
+    setForm((current) => ({
+      ...current,
+      items: current.items.map((row, i) => (i === index ? { ...row, ...patch } : row)),
+    }));
+  };
+  const addFormItem = () => setForm((current) => ({ ...current, items: [...current.items, emptyItemRow()] }));
+  const removeFormItem = (index: number) =>
+    setForm((current) => ({
+      ...current,
+      items: current.items.length <= 1 ? current.items : current.items.filter((_, i) => i !== index),
+    }));
+
+  const updateEditItem = (index: number, patch: Partial<ItemFormRow>) => {
+    setEditForm((current) =>
+      current
+        ? { ...current, items: current.items.map((row, i) => (i === index ? { ...row, ...patch } : row)) }
+        : current,
+    );
+  };
+  const addEditItem = () =>
+    setEditForm((current) => (current ? { ...current, items: [...current.items, emptyItemRow()] } : current));
+  const removeEditItem = (index: number) =>
+    setEditForm((current) =>
+      current
+        ? {
+            ...current,
+            items: current.items.length <= 1 ? current.items : current.items.filter((_, i) => i !== index),
+          }
+        : current,
+    );
+
   const saveEdit = async (id: number) => {
     if (!editForm) {
       return;
@@ -311,6 +372,7 @@ export default function InvoicesPage() {
     setUpdating(true);
 
     const invoiceNumber = buildInvoiceNumber(editForm.bookNumber, editForm.documentNumber);
+    const items = itemRowsToPayload(editForm.items);
     const response = await fetch(`/api/invoices/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -318,13 +380,9 @@ export default function InvoicesPage() {
         invoiceNumber,
         customerId: Number(editForm.customerId),
         salespersonId: Number(editForm.salespersonId),
-        total: Number(editForm.total),
+        items,
         status: editForm.status,
         dueDate: editForm.dueDate,
-        itemName: editForm.itemName.trim() || null,
-        quantity: editForm.quantity ? Number(editForm.quantity) : null,
-        unit: editForm.unit.trim() || null,
-        unitPrice: editForm.unitPrice ? Number(editForm.unitPrice) : null,
         note: editForm.note.trim() || null,
         saleDate: editForm.saleDate || null,
       }),
@@ -478,43 +536,69 @@ export default function InvoicesPage() {
                 ))}
               </select>
             </label>
-            <label className="field">
-              <span className="field-label">ชื่อสินค้า</span>
-              <input
-                placeholder="เช่น ปุ๋ยสูตร 16-16-16"
-                value={form.itemName}
-                onChange={(event) => setForm({ ...form, itemName: event.target.value })}
-              />
-            </label>
-            <div className="field-grid-3">
-              <label className="field">
-                <span className="field-label">จำนวน</span>
-                <input
-                  type="number"
-                  step="0.001"
-                  min="0"
-                  value={form.quantity}
-                  onChange={(event) => setForm({ ...form, quantity: event.target.value })}
-                />
-              </label>
-              <label className="field">
-                <span className="field-label">หน่วย</span>
-                <input
-                  placeholder="เช่น ตัน, กระสอบ"
-                  value={form.unit}
-                  onChange={(event) => setForm({ ...form, unit: event.target.value })}
-                />
-              </label>
-              <label className="field">
-                <span className="field-label">ราคา/หน่วย</span>
-                <input
-                  type="number"
-                  step="0.001"
-                  min="0"
-                  value={form.unitPrice}
-                  onChange={(event) => setForm({ ...form, unitPrice: event.target.value })}
-                />
-              </label>
+            <div className="items-editor">
+              <div className="items-editor__head">
+                <span className="field-label">รายการสินค้า</span>
+                <button type="button" className="btn-ghost btn-ghost--sm" onClick={addFormItem}>
+                  + เพิ่มรายการ
+                </button>
+              </div>
+              {form.items.map((row, index) => (
+                <div key={index} className="item-row">
+                  <label className="field item-row__name">
+                    <span className="field-label">ชื่อสินค้า</span>
+                    <input
+                      placeholder="เช่น ปุ๋ยสูตร 16-16-16"
+                      value={row.itemName}
+                      onChange={(event) => updateFormItem(index, { itemName: event.target.value })}
+                    />
+                  </label>
+                  <label className="field item-row__qty">
+                    <span className="field-label">จำนวน</span>
+                    <input
+                      type="number"
+                      step="0.001"
+                      min="0"
+                      value={row.quantity}
+                      onChange={(event) => updateFormItem(index, { quantity: event.target.value })}
+                    />
+                  </label>
+                  <label className="field item-row__unit">
+                    <span className="field-label">หน่วย</span>
+                    <input
+                      placeholder="ตัน"
+                      value={row.unit}
+                      onChange={(event) => updateFormItem(index, { unit: event.target.value })}
+                    />
+                  </label>
+                  <label className="field item-row__price">
+                    <span className="field-label">ราคา/หน่วย</span>
+                    <input
+                      type="number"
+                      step="0.001"
+                      min="0"
+                      value={row.unitPrice}
+                      onChange={(event) => updateFormItem(index, { unitPrice: event.target.value })}
+                    />
+                  </label>
+                  <div className="field item-row__sub">
+                    <span className="field-label">รวม</span>
+                    <div className="item-row__sub-value">
+                      {money.format((Number(row.quantity) || 0) * (Number(row.unitPrice) || 0))}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className="icon-btn icon-btn--danger item-row__remove"
+                    title="ลบรายการ"
+                    aria-label="ลบรายการ"
+                    onClick={() => removeFormItem(index)}
+                    disabled={form.items.length <= 1}
+                  >
+                    🗑
+                  </button>
+                </div>
+              ))}
             </div>
             <label className="field">
               <span className="field-label">วันที่ขาย</span>
@@ -533,18 +617,10 @@ export default function InvoicesPage() {
               />
             </label>
             <div className="field-grid-2">
-              <label className="field">
+              <div className="field">
                 <span className="field-label">ยอดรวม (บาท)</span>
-                <input
-                  required
-                  min="0"
-                  step="0.001"
-                  type="number"
-                  placeholder="0.00"
-                  value={form.total}
-                  onChange={(event) => setForm({ ...form, total: event.target.value })}
-                />
-              </label>
+                <div className="form-total-display">{money.format(formTotal)}</div>
+              </div>
               <label className="field">
                 <span className="field-label">วันครบกำหนด</span>
                 <input
@@ -559,7 +635,15 @@ export default function InvoicesPage() {
               <button type="button" className="btn-ghost" onClick={() => setFormOpen(false)}>
                 ยกเลิก
               </button>
-              <button type="submit" disabled={saving || customers.length === 0 || salespeople.length === 0}>
+              <button
+                type="submit"
+                disabled={
+                  saving ||
+                  customers.length === 0 ||
+                  salespeople.length === 0 ||
+                  itemRowsToPayload(form.items).length === 0
+                }
+              >
                 {saving ? "กำลังบันทึก..." : "บันทึกใบแจ้งหนี้"}
               </button>
             </div>
@@ -659,41 +743,67 @@ export default function InvoicesPage() {
                 ))}
               </select>
             </label>
-            <label className="field">
-              <span className="field-label">ชื่อสินค้า</span>
-              <input
-                value={editForm.itemName}
-                onChange={(event) => updateEditForm({ itemName: event.target.value })}
-              />
-            </label>
-            <div className="field-grid-3">
-              <label className="field">
-                <span className="field-label">จำนวน</span>
-                <input
-                  type="number"
-                  step="0.001"
-                  min="0"
-                  value={editForm.quantity}
-                  onChange={(event) => updateEditForm({ quantity: event.target.value })}
-                />
-              </label>
-              <label className="field">
-                <span className="field-label">หน่วย</span>
-                <input
-                  value={editForm.unit}
-                  onChange={(event) => updateEditForm({ unit: event.target.value })}
-                />
-              </label>
-              <label className="field">
-                <span className="field-label">ราคา/หน่วย</span>
-                <input
-                  type="number"
-                  step="0.001"
-                  min="0"
-                  value={editForm.unitPrice}
-                  onChange={(event) => updateEditForm({ unitPrice: event.target.value })}
-                />
-              </label>
+            <div className="items-editor">
+              <div className="items-editor__head">
+                <span className="field-label">รายการสินค้า</span>
+                <button type="button" className="btn-ghost btn-ghost--sm" onClick={addEditItem}>
+                  + เพิ่มรายการ
+                </button>
+              </div>
+              {editForm.items.map((row, index) => (
+                <div key={index} className="item-row">
+                  <label className="field item-row__name">
+                    <span className="field-label">ชื่อสินค้า</span>
+                    <input
+                      value={row.itemName}
+                      onChange={(event) => updateEditItem(index, { itemName: event.target.value })}
+                    />
+                  </label>
+                  <label className="field item-row__qty">
+                    <span className="field-label">จำนวน</span>
+                    <input
+                      type="number"
+                      step="0.001"
+                      min="0"
+                      value={row.quantity}
+                      onChange={(event) => updateEditItem(index, { quantity: event.target.value })}
+                    />
+                  </label>
+                  <label className="field item-row__unit">
+                    <span className="field-label">หน่วย</span>
+                    <input
+                      value={row.unit}
+                      onChange={(event) => updateEditItem(index, { unit: event.target.value })}
+                    />
+                  </label>
+                  <label className="field item-row__price">
+                    <span className="field-label">ราคา/หน่วย</span>
+                    <input
+                      type="number"
+                      step="0.001"
+                      min="0"
+                      value={row.unitPrice}
+                      onChange={(event) => updateEditItem(index, { unitPrice: event.target.value })}
+                    />
+                  </label>
+                  <div className="field item-row__sub">
+                    <span className="field-label">รวม</span>
+                    <div className="item-row__sub-value">
+                      {money.format((Number(row.quantity) || 0) * (Number(row.unitPrice) || 0))}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className="icon-btn icon-btn--danger item-row__remove"
+                    title="ลบรายการ"
+                    aria-label="ลบรายการ"
+                    onClick={() => removeEditItem(index)}
+                    disabled={editForm.items.length <= 1}
+                  >
+                    🗑
+                  </button>
+                </div>
+              ))}
             </div>
             <label className="field">
               <span className="field-label">วันที่ขาย</span>
@@ -712,17 +822,10 @@ export default function InvoicesPage() {
               />
             </label>
             <div className="field-grid-2">
-              <label className="field">
+              <div className="field">
                 <span className="field-label">ยอดรวม (บาท)</span>
-                <input
-                  required
-                  min="0"
-                  step="0.001"
-                  type="number"
-                  value={editForm.total}
-                  onChange={(event) => updateEditForm({ total: event.target.value })}
-                />
-              </label>
+                <div className="form-total-display">{money.format(editTotal)}</div>
+              </div>
               <label className="field">
                 <span className="field-label">วันครบกำหนด</span>
                 <input
@@ -901,15 +1004,17 @@ export default function InvoicesPage() {
                         <strong className="cell-strong">{invoice.customer.name}</strong>
                       </td>
                       <td>
-                        {invoice.itemName ? (
-                          <>
-                            <span className="cell-strong">{invoice.itemName}</span>
-                            {invoice.quantity != null ? (
-                              <span className="cell-sub cell-sub--block">
-                                {invoice.quantity}{invoice.unit ? ` ${invoice.unit}` : ""}
-                              </span>
-                            ) : null}
-                          </>
+                        {invoice.items && invoice.items.length > 0 ? (
+                          <ul className="item-cell-list">
+                            {invoice.items.map((item) => (
+                              <li key={item.id}>
+                                <span className="cell-strong">{item.itemName}</span>
+                                <span className="cell-sub">
+                                  {item.quantity}{item.unit ? ` ${item.unit}` : ""}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
                         ) : (
                           <span className="cell-sub">ไม่ระบุ</span>
                         )}

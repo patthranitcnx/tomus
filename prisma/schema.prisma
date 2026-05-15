@@ -34,10 +34,7 @@ model Invoice {
   customerId     Int
   salesperson    Salesperson    @relation(fields: [salespersonId], references: [id], onDelete: Cascade)
   salespersonId  Int
-  itemName       String?
-  quantity       Float?
-  unit           String?
-  unitPrice      Float?
+  items          InvoiceItem[]
   note           String?
   saleDate       DateTime?
   paymentDates   DateTime[]     @default([])
@@ -52,6 +49,19 @@ model Invoice {
   dueDate        DateTime?
   paidAt         DateTime?
   createdAt      DateTime       @default(now())
+}
+
+model InvoiceItem {
+  id        Int      @id @default(autoincrement())
+  invoice   Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId Int
+  itemName  String
+  quantity  Float
+  unit      String?
+  unitPrice Float
+  position  Int      @default(0)
+
+  @@index([invoiceId])
 }
 
 model Commission {
