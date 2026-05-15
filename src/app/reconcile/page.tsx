@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+const MATCH_THRESHOLD = 7;
+
 type InvoiceItem = {
   id: number;
   itemName: string;
@@ -90,7 +92,7 @@ export default function ReconcilePage() {
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<number | null>(null);
   const [overrides, setOverrides] = useState<Record<number, number | "">>({}); // invoiceId -> recordId or "" (skip)
-  const [filter, setFilter] = useState<"manual" | "all" | "matched" | "unmatched">("manual");
+  const [filter, setFilter] = useState<"manual" | "matched" | "unmatched">("matched");
   const [message, setMessage] = useState<string | null>(null);
 
   const refresh = async () => {
@@ -111,13 +113,18 @@ export default function ReconcilePage() {
     refresh();
   }, []);
 
+  const manualPendingInvoices = useMemo(
+    () => invoices.filter((i) => i.needsReview && !i.invoiceNumber.startsWith("SR-")),
+    [invoices],
+  );
+
   const suggestions = useMemo<Map<number, Suggestion>>(() => {
     const result = new Map<number, Suggestion>();
     if (records.length === 0) return result;
 
     type P = { score: number; invId: number; recId: number };
     const pairs: P[] = [];
-    for (const inv of invoices) {
+    for (const inv of manualPendingInvoices) {
       for (const rec of records) {
         const s = scorePair(inv, rec);
         if (s >= 5) pairs.push({ score: s, invId: inv.id, recId: rec.id });
@@ -136,36 +143,30 @@ export default function ReconcilePage() {
       usedRecs.add(p.recId);
     }
 
-    for (const inv of invoices) {
+    for (const inv of manualPendingInvoices) {
       if (!result.has(inv.id)) result.set(inv.id, null);
     }
     return result;
-  }, [invoices, records]);
+  }, [manualPendingInvoices, records]);
 
-  // Auto-suggest for SR-* invoices: pull the original sale-record by SR-{id}
   const srLookup = useMemo(() => new Map(records.map((r) => [r.id, r])), [records]);
 
   const visibleInvoices = useMemo(() => {
-    return invoices.filter((inv) => {
-      const isManual = !inv.invoiceNumber.startsWith("SR-");
-      if (filter === "manual") return isManual && inv.needsReview;
-      if (filter === "matched") return suggestions.get(inv.id) || inv.invoiceNumber.startsWith("SR-");
-      if (filter === "unmatched") return !suggestions.get(inv.id) && !inv.invoiceNumber.startsWith("SR-");
-      return inv.needsReview;
+    return manualPendingInvoices.filter((inv) => {
+      const suggestion = suggestions.get(inv.id);
+      const isHighConfidence = Boolean(suggestion && suggestion.score >= MATCH_THRESHOLD);
+      if (filter === "matched") return isHighConfidence;
+      if (filter === "unmatched") return !isHighConfidence;
+      return true;
     });
-  }, [invoices, suggestions, filter]);
+  }, [manualPendingInvoices, suggestions, filter]);
 
   const getCurrentMatch = (inv: Invoice): SaleRecord | null => {
     const ovr = overrides[inv.id];
     if (ovr === "") return null;
     if (typeof ovr === "number") return srLookup.get(ovr) ?? null;
-    // default: SR-* uses its source record; manual uses suggestion
-    if (inv.invoiceNumber.startsWith("SR-")) {
-      const srId = Number(inv.invoiceNumber.slice(3));
-      return srLookup.get(srId) ?? null;
-    }
     const sug = suggestions.get(inv.id);
-    return sug ? sug.record : null;
+    return sug && sug.score >= MATCH_THRESHOLD ? sug.record : null;
   };
 
   const confirmMatch = async (inv: Invoice) => {
@@ -217,15 +218,20 @@ export default function ReconcilePage() {
     const all = invoices.length;
     const reviewed = invoices.filter((i) => !i.needsReview).length;
     const pending = all - reviewed;
-    const manualPending = invoices.filter((i) => i.needsReview && !i.invoiceNumber.startsWith("SR-")).length;
-    return { all, reviewed, pending, manualPending };
-  }, [invoices]);
+    const manualPending = manualPendingInvoices.length;
+    const matchedHigh = manualPendingInvoices.filter((inv) => {
+      const suggestion = suggestions.get(inv.id);
+      return Boolean(suggestion && suggestion.score >= MATCH_THRESHOLD);
+    }).length;
+    const needsInvoiceFix = manualPending - matchedHigh;
+    return { all, reviewed, pending, manualPending, matchedHigh, needsInvoiceFix };
+  }, [invoices, manualPendingInvoices, suggestions]);
 
   return (
     <main className="page">
       <div className="page-header">
         <h1>กระทบยอดใบแจ้งหนี้</h1>
-        <p>เปรียบเทียบใบแจ้งหนี้กับรายการขาย แล้วยืนยันความถูกต้อง</p>
+        <p>แสดงเฉพาะใบที่กรอกเองและยังรอตรวจสอบ: ยืนยันเฉพาะคู่ที่ความมั่นใจสูงก่อน ที่เหลือไปแก้ในหน้าใบแจ้งหนี้</p>
       </div>
 
       <div className="stat-grid">
@@ -245,14 +251,21 @@ export default function ReconcilePage() {
           <div className="stat-label">ใบที่กรอกเอง (รอยืนยัน)</div>
           <div className="stat-value">{stats.manualPending} ใบ</div>
         </div>
+        <div className="stat-card">
+          <div className="stat-label">พบจับคู่ได้ (มั่นใจสูง)</div>
+          <div className="stat-value">{stats.matchedHigh} ใบ</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">ต้องกลับไปแก้ในใบแจ้งหนี้</div>
+          <div className="stat-value">{stats.needsInvoiceFix} ใบ</div>
+        </div>
       </div>
 
       <div className="filter-bar" style={{ display: "flex", gap: "0.5rem", margin: "1rem 0", flexWrap: "wrap" }}>
         {([
-          ["manual", "ใบกรอกเอง รอยืนยัน"],
-          ["all", "รอยืนยันทั้งหมด"],
-          ["matched", "พบที่จับคู่ได้"],
-          ["unmatched", "ไม่พบที่จับคู่"],
+          ["matched", "พบจับคู่ได้ (มั่นใจสูง)"],
+          ["unmatched", "ไม่แน่ใจ/ไม่พบ (ไปแก้ใบแจ้งหนี้)"],
+          ["manual", "ใบกรอกเอง รอยืนยันทั้งหมด"],
         ] as const).map(([k, label]) => (
           <button
             key={k}
@@ -280,14 +293,14 @@ export default function ReconcilePage() {
           {visibleInvoices.map((inv) => {
             const currentMatch = getCurrentMatch(inv);
             const sug = suggestions.get(inv.id);
-            const isManual = !inv.invoiceNumber.startsWith("SR-");
+            const highConfidence = Boolean(sug && sug.score >= MATCH_THRESHOLD);
             return (
               <article key={inv.id} className="reconcile-card">
                 <header className="reconcile-card__head">
                   <div>
                     <strong>{inv.invoiceNumber}</strong>
                     <span className="muted" style={{ marginLeft: "0.5rem" }}>
-                      {isManual ? "(กรอกเอง)" : "(จาก sale-record)"}
+                      (กรอกเอง)
                     </span>
                   </div>
                   <div className="muted">{fmtDate(inv.saleDate)}</div>
@@ -315,9 +328,9 @@ export default function ReconcilePage() {
                   <section className="reconcile-col">
                     <h4>
                       รายการขายที่จับคู่
-                      {sug && isManual && (
+                      {sug && (
                         <span className="muted" style={{ fontSize: "0.85em", marginLeft: "0.5rem" }}>
-                          ความเชื่อมั่น {sug.score.toFixed(1)}/9
+                          ความเชื่อมั่น {sug.score.toFixed(1)}/9 {highConfidence ? "(สูง)" : "(ต่ำ)"}
                         </span>
                       )}
                     </h4>
@@ -365,12 +378,17 @@ export default function ReconcilePage() {
                     disabled={busyId === inv.id}
                     onClick={() => confirmMatch(inv)}
                   >
-                    {busyId === inv.id ? "กำลังบันทึก..." : currentMatch ? "✓ ยืนยันการจับคู่ + อัปเดตสินค้า" : "✓ ยืนยัน (ไม่จับคู่)"}
+                    {busyId === inv.id ? "กำลังบันทึก..." : currentMatch ? "✓ ยืนยันการจับคู่ + อัปเดตสินค้า" : "✓ ยืนยัน (ไปแก้รายละเอียดในใบแจ้งหนี้ภายหลัง)"}
                   </button>
                   {currentMatch && (
                     <button type="button" className="btn btn-ghost" onClick={() => skip(inv.id)} disabled={busyId === inv.id}>
                       ล้างการจับคู่
                     </button>
+                  )}
+                  {!currentMatch && (
+                    <a className="btn btn-ghost" href="/invoices">
+                      ไปหน้าใบแจ้งหนี้
+                    </a>
                   )}
                 </footer>
               </article>
