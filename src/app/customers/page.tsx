@@ -408,20 +408,22 @@ export default function CustomersPage() {
             <p className="eyebrow">ทั้งหมด {customers.length} ราย</p>
             <h2>รายชื่อลูกค้า</h2>
             </div>
-            <button
-              type="button"
-              className="btn-ghost btn-sm"
-              onClick={() => setAddOpen(true)}
-            >
-              + เพิ่มลูกค้า
-            </button>
+          <div style={{ display: "flex", gap: "0.6rem", alignItems: "center" }}>
             <input
               className="search-input"
               placeholder="ค้นหาลูกค้า"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
             />
+            <button
+              type="button"
+              className="primary create-toggle"
+              onClick={() => setAddOpen(true)}
+            >
+              + เพิ่มลูกค้า
+            </button>
           </div>
+        </div>
 
           {loading ? (
             <p className="muted">กำลังโหลดข้อมูล...</p>
