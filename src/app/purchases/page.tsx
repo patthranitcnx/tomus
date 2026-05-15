@@ -85,6 +85,8 @@ export default function PurchasesPage() {
   const [purchases, setPurchases] = useState<Purchase[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
+  const [dailySummaryOpen, setDailySummaryOpen] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<PurchaseEditForm | null>(null);
@@ -153,6 +155,18 @@ export default function PurchasesPage() {
     fetchPurchases();
   }, []);
 
+  useEffect(() => {
+    if (!formOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeForm(); };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [formOpen]);
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSaving(true);
@@ -172,8 +186,7 @@ export default function PurchasesPage() {
     });
 
     if (response.ok) {
-      setForm({ supplier: "", address: "", purchaseDate: "", paymentEntries: [createPaymentEntry()], note: "" });
-      setItems([createItem()]);
+      closeForm();
       await fetchPurchases();
     }
 
@@ -293,6 +306,12 @@ export default function PurchasesPage() {
     setUpdating(false);
   };
 
+  const closeForm = () => {
+    setFormOpen(false);
+    setForm({ supplier: "", address: "", purchaseDate: "", paymentEntries: [createPaymentEntry()], note: "" });
+    setItems([createItem()]);
+  };
+
   const deletePurchase = async (id: number) => {
     await fetch(`/api/purchases/${id}`, { method: "DELETE" });
     await fetchPurchases();
@@ -311,107 +330,133 @@ export default function PurchasesPage() {
         </article>
       </header>
 
-      <section className="workspace-grid">
-        <form className="panel form" onSubmit={handleSubmit}>
-          <div className="section-header">
-            <div>
-              <p className="eyebrow">บิลเดียวหลายรายการ</p>
-              <h2>เพิ่มรายการซื้อ</h2>
-            </div>
-            <strong>{money.format(formTotal)}</strong>
-          </div>
-          <input placeholder="ผู้ขาย / ซัพพลายเออร์" value={form.supplier} onChange={(event) => setForm({ ...form, supplier: event.target.value })} />
-          <input placeholder="ที่อยู่ซัพพลายเออร์" value={form.address} onChange={(event) => setForm({ ...form, address: event.target.value })} />
-          <input type="date" value={form.purchaseDate} onChange={(event) => setForm({ ...form, purchaseDate: event.target.value })} />
-          <div className="table-field-stack">
-            {form.paymentEntries.map((paymentEntry, index) => (
-              <div className="payment-row" key={index}>
-                <input type="date" aria-label={`วันชำระเงิน ${index + 1}`} value={paymentEntry.date} onChange={(event) => updatePaymentEntry(index, { date: event.target.value })} />
-                <input min="0" step="0.01" type="number" placeholder="จำนวนเงิน" aria-label={`จำนวนเงินที่ชำระ ${index + 1}`} value={paymentEntry.amount} onChange={(event) => updatePaymentEntry(index, { amount: event.target.value })} />
-                <button type="button" className="btn-ghost" onClick={() => removePaymentDate(index)} disabled={form.paymentEntries.length === 1}>
-                  ลบ
-                </button>
-              </div>
-            ))}
-            <button type="button" className="secondary" onClick={addPaymentDate}>
-              เพิ่มวันชำระเงิน
-            </button>
-          </div>
-          <div className="line-items">
-            {items.map((item, index) => (
-              <div className="line-item" key={item.id}>
-                <div className="line-item-head">
-                  <strong>รายการที่ {index + 1}</strong>
-                  <button type="button" className="btn-ghost" onClick={() => removeItem(item.id)} disabled={items.length === 1}>
-                    ลบแถว
-                  </button>
-                </div>
-                <input required placeholder="ชื่อสินค้า เช่น ปุ๋ยสูตร 15-15-15" value={item.itemName} onChange={(event) => updateItem(item.id, { itemName: event.target.value })} />
-                <div className="form-row">
-                  <input required min="0" step="0.001" type="number" placeholder="จำนวน" value={item.quantity} onChange={(event) => updateItem(item.id, { quantity: event.target.value })} />
-                  <input placeholder="หน่วย" value={item.unit} onChange={(event) => updateItem(item.id, { unit: event.target.value })} />
-                </div>
-                <input required min="0" step="0.001" type="number" placeholder="ราคาต่อหน่วย" value={item.unitPrice} onChange={(event) => updateItem(item.id, { unitPrice: event.target.value })} />
-                <p className="line-total">
-                  รวม {money.format((Number(item.quantity) || 0) * (Number(item.unitPrice) || 0))}
-                </p>
-              </div>
-            ))}
-          </div>
-          <button type="button" className="secondary" onClick={addItem}>
-            เพิ่มแถวสินค้า
-          </button>
-          <textarea placeholder="หมายเหตุ" value={form.note} onChange={(event) => setForm({ ...form, note: event.target.value })} />
-          <button disabled={saving}>{saving ? "กำลังบันทึก..." : `บันทึก ${items.length} รายการ`}</button>
-        </form>
-
-        <div className="content-stack">
-          <section className="panel">
+      {/* ── Create purchase modal ── */}
+      {formOpen && (
+        <div
+          className="modal-backdrop"
+          onClick={(e) => { if (e.target === e.currentTarget) closeForm(); }}
+        >
+          <div className="modal-card modal-card--wide">
             <div className="section-header">
               <div>
-                <p className="eyebrow">สรุปรายวัน</p>
-                <h2>ยอดซื้อในแต่ละวัน</h2>
+                <p className="eyebrow">บิลเดียวหลายรายการ</p>
+                <h2>เพิ่มรายการซื้อ</h2>
               </div>
+              <strong className="form-sticky-total">{money.format(formTotal)}</strong>
             </div>
+            <form className="form" onSubmit={handleSubmit}>
+          {/* ── Section 1: ข้อมูลใบสั่งซื้อ ── */}
+          <div className="form-section">
+            <p className="form-section-title">ข้อมูลใบสั่งซื้อ</p>
+            <div className="form-field">
+              <label htmlFor="p-supplier">ผู้ขาย / ซัพพลายเออร์</label>
+              <input id="p-supplier" placeholder="ชื่อบริษัท หรือชื่อร้านค้า" value={form.supplier} onChange={(event) => setForm({ ...form, supplier: event.target.value })} />
+            </div>
+            <div className="form-field">
+              <label htmlFor="p-address">ที่อยู่</label>
+              <input id="p-address" placeholder="ที่อยู่ (ไม่บังคับ)" value={form.address} onChange={(event) => setForm({ ...form, address: event.target.value })} />
+            </div>
+            <div className="form-field">
+              <label htmlFor="p-date">วันที่ซื้อ <span className="field-req">*</span></label>
+              <input id="p-date" type="date" required value={form.purchaseDate} onChange={(event) => setForm({ ...form, purchaseDate: event.target.value })} />
+            </div>
+          </div>
 
-            {loading ? (
-              <p className="muted">กำลังโหลดข้อมูล...</p>
-            ) : (
-              <div className="table-wrap">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>วันที่</th>
-                      <th>จำนวนรายการ</th>
-                      <th>ยอดซื้อรวม</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dailySummary.length === 0 ? (
-                      <tr>
-                        <td colSpan={3}>ยังไม่มีรายการซื้อ</td>
-                      </tr>
-                    ) : (
-                      dailySummary.map((day) => (
-                        <tr key={day.date.toISOString()}>
-                          <td>{day.date.toLocaleDateString("th-TH")}</td>
-                          <td>{day.count}</td>
-                          <td>{money.format(day.total)}</td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+          {/* ── Section 2: การชำระเงิน ── */}
+          <div className="form-section">
+            <p className="form-section-title">การชำระเงิน</p>
+            <div className="payment-entry-labels">
+              <span>วันที่ชำระ</span>
+              <span>จำนวนเงิน (บาท)</span>
+            </div>
+            <div className="table-field-stack">
+              {form.paymentEntries.map((paymentEntry, index) => (
+                <div className="payment-row" key={index}>
+                  <input type="date" aria-label={`วันชำระเงิน ${index + 1}`} value={paymentEntry.date} onChange={(event) => updatePaymentEntry(index, { date: event.target.value })} />
+                  <input min="0" step="0.01" type="number" placeholder="0.00" aria-label={`จำนวนเงินที่ชำระ ${index + 1}`} value={paymentEntry.amount} onChange={(event) => updatePaymentEntry(index, { amount: event.target.value })} />
+                  <button type="button" className="btn-ghost" onClick={() => removePaymentDate(index)} disabled={form.paymentEntries.length === 1}>
+                    ลบ
+                  </button>
+                </div>
+              ))}
+              <button type="button" className="secondary" onClick={addPaymentDate}>
+                + เพิ่มวันชำระเงิน
+              </button>
+            </div>
+          </div>
+
+          {/* ── Section 3: รายการสินค้า ── */}
+          <div className="form-section">
+            <p className="form-section-title">รายการสินค้า</p>
+            <div className="line-items">
+              {items.map((item, index) => (
+                <div className="line-item" key={item.id}>
+                  <div className="line-item-head">
+                    <strong>รายการที่ {index + 1}</strong>
+                    <button type="button" className="btn-ghost" onClick={() => removeItem(item.id)} disabled={items.length === 1}>
+                      ลบแถว
+                    </button>
+                  </div>
+                  <div className="form-field">
+                    <label>ชื่อสินค้า <span className="field-req">*</span></label>
+                    <input required placeholder="เช่น ปุ๋ยสูตร 15-15-15" value={item.itemName} onChange={(event) => updateItem(item.id, { itemName: event.target.value })} />
+                  </div>
+                  <div className="form-row">
+                    <div className="form-field">
+                      <label>จำนวน <span className="field-req">*</span></label>
+                      <input required min="0" step="0.001" type="number" placeholder="0" value={item.quantity} onChange={(event) => updateItem(item.id, { quantity: event.target.value })} />
+                    </div>
+                    <div className="form-field">
+                      <label>หน่วย</label>
+                      <input placeholder="กระสอบ" value={item.unit} onChange={(event) => updateItem(item.id, { unit: event.target.value })} />
+                    </div>
+                  </div>
+                  <div className="form-field">
+                    <label>ราคาต่อหน่วย (บาท) <span className="field-req">*</span></label>
+                    <input required min="0" step="0.001" type="number" placeholder="0.00" value={item.unitPrice} onChange={(event) => updateItem(item.id, { unitPrice: event.target.value })} />
+                  </div>
+                  <p className="line-total">
+                    รวม {money.format((Number(item.quantity) || 0) * (Number(item.unitPrice) || 0))}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <button type="button" className="secondary" onClick={addItem}>
+              + เพิ่มแถวสินค้า
+            </button>
+            <div className="form-field">
+              <label htmlFor="p-note">หมายเหตุ</label>
+              <textarea id="p-note" placeholder="บันทึกเพิ่มเติม (ไม่บังคับ)" value={form.note} onChange={(event) => setForm({ ...form, note: event.target.value })} />
+            </div>
+          </div>
+
+          {/* ── Sticky action bar ── */}
+              <div className="modal-actions">
+                <span className="form-sticky-label">{items.length} รายการ • {money.format(formTotal)}</span>
+                <button type="button" className="btn-ghost" onClick={closeForm}>ยกเลิก</button>
+                <button type="submit" disabled={saving}>
+                  {saving ? "กำลังบันทึก..." : "บันทึกรายการซื้อ"}
+                </button>
               </div>
-            )}
-          </section>
+            </form>
+          </div>
+        </div>
+      )}
 
-          <section className="panel">
+      <div className="content-stack">
+        <section className="panel">
             <div className="section-header">
               <div>
                 <p className="eyebrow">ทั้งหมด {purchases.length} รายการ</p>
                 <h2>ประวัติการซื้อ</h2>
               </div>
+              <button
+                type="button"
+                className="primary create-toggle"
+                onClick={() => setFormOpen(true)}
+              >
+                + เพิ่มรายการซื้อ
+              </button>
             </div>
 
             {loading ? (
@@ -551,12 +596,12 @@ export default function PurchasesPage() {
                             <td>{new Date(purchase.purchaseDate).toLocaleDateString("th-TH")}</td>
                             <td>
                               {purchase.paymentDates.length > 0 ? (
-                                <>
-                                  {formatPaymentEntries(purchase.paymentDates, purchase.paymentAmounts ?? [])}
-                                  <span>ชำระแล้ว</span>
-                                </>
+                                <div className="payment-cell">
+                                  <span className="status-badge status-badge--paid">ชำระแล้ว</span>
+                                  <span className="cell-sub">{formatPaymentEntries(purchase.paymentDates, purchase.paymentAmounts ?? [])}</span>
+                                </div>
                               ) : (
-                                <span>ยังไม่ชำระ</span>
+                                <span className="status-badge status-badge--pending">ยังไม่ชำระ</span>
                               )}
                             </td>
                             <td>
@@ -582,9 +627,61 @@ export default function PurchasesPage() {
                 </table>
               </div>
             )}
-          </section>
+        </section>
+
+        <section className="panel">
+          <div className="section-header">
+            <div>
+              <p className="eyebrow">สรุปรายวัน</p>
+              <h2>ยอดซื้อในแต่ละวัน</h2>
+            </div>
+            <button
+              type="button"
+              className="secondary"
+              onClick={() => setDailySummaryOpen((current) => !current)}
+              aria-expanded={dailySummaryOpen}
+              aria-controls="daily-summary-table"
+            >
+              {dailySummaryOpen ? "ซ่อนสรุป" : "แสดงสรุป"}
+            </button>
+          </div>
+
+          {dailySummaryOpen ? (
+            loading ? (
+              <p className="muted">กำลังโหลดข้อมูล...</p>
+            ) : (
+              <div className="table-wrap" id="daily-summary-table">
+                <table className="table daily-summary-table">
+                  <thead>
+                    <tr>
+                      <th>วันที่</th>
+                      <th>จำนวนรายการ</th>
+                      <th>ยอดซื้อรวม</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dailySummary.length === 0 ? (
+                      <tr>
+                        <td colSpan={3}>ยังไม่มีรายการซื้อ</td>
+                      </tr>
+                    ) : (
+                      dailySummary.map((day) => (
+                        <tr key={day.date.toISOString()}>
+                          <td>{day.date.toLocaleDateString("th-TH")}</td>
+                          <td>{day.count}</td>
+                          <td>{money.format(day.total)}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )
+          ) : (
+            <p className="muted">ซ่อนสรุปรายวันไว้ เพื่อลดความยาวของหน้า</p>
+          )}
+        </section>
         </div>
-      </section>
     </div>
   );
 }

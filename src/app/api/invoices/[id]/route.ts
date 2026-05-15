@@ -93,7 +93,7 @@ export async function PATCH(
     if (hasOwn(body, "commissionTons")) {
       const commissionTons = Number(body.commissionTons);
 
-      if (!Number.isFinite(commissionTons) || commissionTons <= 0) {
+      if (!Number.isFinite(commissionTons) || commissionTons < 0) {
         return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
       }
 

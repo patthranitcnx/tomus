@@ -53,7 +53,7 @@ export async function POST(request: Request) {
       !Number.isFinite(commissionRate) ||
       !Number.isFinite(commissionTons) ||
       total <= 0 ||
-      commissionTons <= 0 ||
+      commissionTons < 0 ||
       commissionRate < 0
     ) {
       return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
