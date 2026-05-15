@@ -218,7 +218,7 @@ export default function InvoicesPage() {
 
   const fetchData = async () => {
     const [customerResponse, salesResponse, invoiceResponse] = await Promise.all([
-      fetch("/api/customers"),
+      fetch("/api/customers?lite=1"),
       fetch("/api/salespeople"),
       fetch("/api/invoices"),
     ]);

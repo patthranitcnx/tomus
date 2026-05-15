@@ -66,8 +66,19 @@ async function syncCustomersFromSaleRecords() {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const url = new URL(request.url);
+    const lite = url.searchParams.get("lite") === "1";
+
+    if (lite) {
+      const customers = await prisma.customer.findMany({
+        select: { id: true, name: true, phone: true, address: true },
+        orderBy: { name: "asc" },
+      });
+      return NextResponse.json(customers);
+    }
+
     await syncCustomersFromSaleRecords();
 
     const customers = await prisma.customer.findMany({
