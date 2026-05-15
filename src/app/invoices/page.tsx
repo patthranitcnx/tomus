@@ -804,6 +804,45 @@ export default function InvoicesPage() {
                   );
                 })}
               </div>
+              {statusTab === "review" && tabStats.stats.review.count > 0 ? (
+                <div className="review-guide">
+                  <div className="review-guide__head">
+                    <strong>📋 คู่มือการตรวจสอบใบแจ้งหนี้ที่ย้ายมาจากรายการขาย</strong>
+                    <span className="cell-sub">เหลือ {tabStats.stats.review.count} ใบที่ต้องตรวจ</span>
+                  </div>
+                  <ol className="review-guide__list">
+                    <li>
+                      <strong>กดปุ่ม ✎ แก้ไข</strong> ที่ใบที่มีไอคอน <span className="review-badge">⚠</span>
+                    </li>
+                    <li>
+                      อ่าน <strong>banner สีส้มด้านบนฟอร์ม</strong> — บอกว่าใบนี้ขาดข้อมูลอะไร เช่น
+                      <ul>
+                        <li><em>เลขที่ใบแจ้งหนี้จริง</em> — ปัจจุบันใช้ placeholder <code>SR-xx</code> ให้ค้นเล่ม/เลขที่จริงจากเอกสารแล้วแก้ในช่อง “เล่มที่” + “เลขที่”</li>
+                        <li><em>พนักงานขาย</em> — ปัจจุบันเป็น <code>ไม่ระบุ</code> ให้เลือกเซลส์ที่ถูกต้อง</li>
+                        <li><em>commissionRate / commissionTons</em> — ดูในหน้า คอมมิชชั่น (จะเพิ่มทีหลัง) หรือกรอก 0 ถ้าไม่จ่ายคอม</li>
+                        <li><em>ข้อมูลสินค้า</em> — ใส่ ชื่อสินค้า, จำนวน, หน่วย, ราคา/หน่วย</li>
+                      </ul>
+                    </li>
+                    <li>
+                      <strong>กรอกข้อมูลให้ครบ</strong> แล้วกด <em>“บันทึกการแก้ไข”</em>
+                    </li>
+                    <li>
+                      ตรวจซ้ำว่าถูกต้อง → กดปุ่ม <strong>“ทำเครื่องหมายตรวจแล้ว”</strong> ใน banner สีส้ม → ไอคอน ⚠ จะหายไป และใบจะออกจากแท็บนี้
+                    </li>
+                    <li>
+                      ถ้าใบไหน <strong>ซ้ำกับใบเดิม</strong> (banner จะระบุเลขใบที่อาจซ้ำ) ให้
+                      <ul>
+                        <li>คัดลอกข้อมูลที่ต้องการเก็บไปไว้ในใบจริง</li>
+                        <li>กดปุ่ม 🗑 ลบใบ <code>SR-xx</code> ที่ซ้ำทิ้ง</li>
+                      </ul>
+                    </li>
+                  </ol>
+                  <p className="review-guide__tip">
+                    💡 <strong>เคล็ดลับ:</strong> เรียงลำดับงานตามวันที่ขาย (เก่าสุด → ใหม่สุด) เพื่อหาเลขเล่มจากแฟ้มเอกสารได้ง่าย —
+                    หรือกรองด้วยชื่อลูกค้า/ยอดเงินเพื่อจับคู่กับใบแจ้งหนี้ตัวจริง
+                  </p>
+                </div>
+              ) : null}
               <div className="table-wrap">
               <table className="table invoices-table">
                 <colgroup>
