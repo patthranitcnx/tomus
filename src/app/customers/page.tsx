@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 
 type Customer = {
   id: number;
@@ -16,6 +17,35 @@ type CustomerEditForm = {
   phone: string;
   email: string;
   address: string;
+};
+
+type PurchaseInvoice = {
+  id: number;
+  invoiceNumber: string;
+  total: number;
+  status: string;
+  dueDate: string | null;
+  paidAt: string | null;
+  createdAt: string;
+  commissionTons: number;
+  salesperson: { id: number; name: string } | null;
+};
+
+type PurchaseSaleRecord = {
+  id: number;
+  itemName: string;
+  quantity: number;
+  unit: string | null;
+  unitPrice: number;
+  total: number;
+  saleDate: string;
+  note: string | null;
+};
+
+type CustomerPurchases = {
+  customer: { id: number; name: string; phone: string | null; email: string | null; address: string | null };
+  invoices: PurchaseInvoice[];
+  saleRecords: PurchaseSaleRecord[];
 };
 
 const money = new Intl.NumberFormat("th-TH", {
@@ -42,6 +72,16 @@ export default function CustomersPage() {
     email: "",
     address: "",
   });
+
+  const [viewingCustomer, setViewingCustomer] = useState<Customer | null>(null);
+  const [purchases, setPurchases] = useState<CustomerPurchases | null>(null);
+  const [loadingPurchases, setLoadingPurchases] = useState(false);
+  const [purchasesError, setPurchasesError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const fetchCustomers = async () => {
     const response = await fetch("/api/customers");
@@ -155,7 +195,161 @@ export default function CustomersPage() {
     await fetchCustomers();
   };
 
+  const openPurchases = async (customer: Customer) => {
+    setViewingCustomer(customer);
+    setPurchases(null);
+    setPurchasesError(null);
+    setLoadingPurchases(true);
+
+    try {
+      const response = await fetch(`/api/customers/${customer.id}/purchases`);
+      const data = await response.json();
+
+      if (response.ok) {
+        setPurchases(data);
+      } else {
+        setPurchasesError(data.error || "ไม่สามารถโหลดรายการซื้อได้");
+      }
+    } catch {
+      setPurchasesError("ไม่สามารถโหลดรายการซื้อได้");
+    }
+
+    setLoadingPurchases(false);
+  };
+
+  const closePurchases = () => {
+    setViewingCustomer(null);
+    setPurchases(null);
+    setPurchasesError(null);
+  };
+
+  useEffect(() => {
+    if (!viewingCustomer) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closePurchases();
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [viewingCustomer]);
+
+  const purchasesModal = viewingCustomer ? (
+    <div
+      className="modal-backdrop"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) {
+          closePurchases();
+        }
+      }}
+    >
+      <div className="modal-card modal-card--wide">
+        <div className="section-header">
+          <div>
+            <p className="eyebrow">รายการซื้อของลูกค้า</p>
+            <h2>{viewingCustomer.name}</h2>
+          </div>
+          <button type="button" className="btn-ghost" onClick={closePurchases}>
+            ปิด
+          </button>
+        </div>
+
+        {loadingPurchases ? (
+          <p className="muted">กำลังโหลดข้อมูล...</p>
+        ) : purchasesError ? (
+          <p className="muted" style={{ color: "#dc2626" }}>{purchasesError}</p>
+        ) : purchases ? (
+          <div className="purchases-modal-body">
+            <section>
+              <h3 style={{ margin: "0 0 0.5rem" }}>
+                ใบแจ้งหนี้ <span className="muted">({purchases.invoices.length})</span>
+              </h3>
+              {purchases.invoices.length === 0 ? (
+                <p className="muted">ยังไม่มีใบแจ้งหนี้</p>
+              ) : (
+                <div className="table-wrap">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>เลขที่</th>
+                        <th>วันที่</th>
+                        <th>ผู้ขาย</th>
+                        <th>สถานะ</th>
+                        <th style={{ textAlign: "right" }}>ยอดรวม</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {purchases.invoices.map((invoice) => (
+                        <tr key={invoice.id}>
+                          <td>{invoice.invoiceNumber}</td>
+                          <td>{new Date(invoice.createdAt).toLocaleDateString("th-TH")}</td>
+                          <td>{invoice.salesperson?.name || "-"}</td>
+                          <td>{invoice.status}</td>
+                          <td style={{ textAlign: "right" }}>{money.format(invoice.total)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </section>
+
+            <section>
+              <h3 style={{ margin: "0.5rem 0" }}>
+                รายการขาย <span className="muted">({purchases.saleRecords.length})</span>
+              </h3>
+              {purchases.saleRecords.length === 0 ? (
+                <p className="muted">ยังไม่มีรายการขาย</p>
+              ) : (
+                <div className="table-wrap">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>วันที่</th>
+                        <th>สินค้า</th>
+                        <th style={{ textAlign: "right" }}>จำนวน</th>
+                        <th style={{ textAlign: "right" }}>ราคา/หน่วย</th>
+                        <th style={{ textAlign: "right" }}>รวม</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {purchases.saleRecords.map((record) => (
+                        <tr key={record.id}>
+                          <td>{new Date(record.saleDate).toLocaleDateString("th-TH")}</td>
+                          <td>{record.itemName}</td>
+                          <td style={{ textAlign: "right" }}>
+                            {record.quantity}
+                            {record.unit ? ` ${record.unit}` : ""}
+                          </td>
+                          <td style={{ textAlign: "right" }}>{money.format(record.unitPrice)}</td>
+                          <td style={{ textAlign: "right" }}>{money.format(record.total)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </section>
+
+            <div className="muted" style={{ textAlign: "right", fontWeight: 600 }}>
+              ยอดรวมทั้งหมด:{" "}
+              {money.format(
+                purchases.invoices.reduce((sum, invoice) => sum + invoice.total, 0) +
+                  purchases.saleRecords.reduce((sum, record) => sum + record.total, 0),
+              )}
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  ) : null;
+
   return (
+    <>
     <div className="page-shell">
       <header className="page-header">
         <div>
@@ -295,6 +489,9 @@ export default function CustomersPage() {
                             <td>{money.format(total)}</td>
                             <td>
                               <div className="table-actions">
+                                <button type="button" className="btn-ghost" onClick={() => openPurchases(customer)}>
+                                  ดูรายการซื้อ
+                                </button>
                                 <button type="button" className="btn-ghost" onClick={() => startEdit(customer)}>
                                   แก้ไข
                                 </button>
@@ -316,5 +513,7 @@ export default function CustomersPage() {
         </section>
       </section>
     </div>
+    {mounted && purchasesModal ? createPortal(purchasesModal, document.body) : null}
+    </>
   );
 }
