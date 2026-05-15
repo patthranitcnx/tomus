@@ -146,14 +146,15 @@ export default function CustomersPage() {
     setEditForm((currentForm) => (currentForm ? { ...currentForm, ...values } : currentForm));
   };
 
-  const saveEdit = async (id: number) => {
-    if (!editForm) {
+  const saveEdit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!editForm || editingId == null) {
       return;
     }
 
     setUpdating(true);
 
-    const response = await fetch(`/api/customers/${id}`, {
+    const response = await fetch(`/api/customers/${editingId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editForm),
@@ -209,12 +210,13 @@ export default function CustomersPage() {
       if (event.key === "Escape") {
         closePurchases();
         setAddOpen(false);
+        cancelEdit();
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [viewingCustomer, addOpen]);
+  }, [viewingCustomer, addOpen, editingId]);
 
   const addCustomerModal = addOpen ? (
     <div
@@ -277,6 +279,72 @@ export default function CustomersPage() {
             ยกเลิก
           </button>
           <button type="submit" disabled={saving}>{saving ? "กำลังบันทึก..." : "บันทึกลูกค้า"}</button>
+        </div>
+      </form>
+    </div>
+  ) : null;
+
+  const editCustomerModal = editingId != null && editForm ? (
+    <div
+      className="modal-backdrop"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) {
+          cancelEdit();
+        }
+      }}
+    >
+      <form className="modal-card" onSubmit={saveEdit}>
+        <div className="section-header">
+          <div>
+            <p className="eyebrow">ลูกค้า</p>
+            <h2>แก้ไขลูกค้า</h2>
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="field-label" htmlFor="edit-customer-name">ชื่อลูกค้า</label>
+          <input
+            id="edit-customer-name"
+            required
+            placeholder="ชื่อลูกค้า"
+            value={editForm.name}
+            onChange={(event) => updateEditForm({ name: event.target.value })}
+          />
+        </div>
+        <div className="field">
+          <label className="field-label" htmlFor="edit-customer-phone">เบอร์โทร</label>
+          <input
+            id="edit-customer-phone"
+            placeholder="เบอร์โทร"
+            value={editForm.phone}
+            onChange={(event) => updateEditForm({ phone: event.target.value })}
+          />
+        </div>
+        <div className="field">
+          <label className="field-label" htmlFor="edit-customer-email">อีเมล</label>
+          <input
+            id="edit-customer-email"
+            type="email"
+            placeholder="อีเมล"
+            value={editForm.email}
+            onChange={(event) => updateEditForm({ email: event.target.value })}
+          />
+        </div>
+        <div className="field">
+          <label className="field-label" htmlFor="edit-customer-address">ที่อยู่</label>
+          <input
+            id="edit-customer-address"
+            placeholder="ที่อยู่"
+            value={editForm.address}
+            onChange={(event) => updateEditForm({ address: event.target.value })}
+          />
+        </div>
+
+        <div className="modal-actions">
+          <button type="button" className="btn-ghost" onClick={cancelEdit}>
+            ยกเลิก
+          </button>
+          <button type="submit" disabled={updating}>{updating ? "กำลังบันทึก..." : "บันทึกการแก้ไข"}</button>
         </div>
       </form>
     </div>
@@ -448,82 +516,29 @@ export default function CustomersPage() {
 
                     return (
                       <tr key={customer.id}>
-                        {editingId === customer.id && editForm ? (
-                          <>
-                            <td>
-                              <div className="table-field-stack">
-                                <input
-                                  className="table-input"
-                                  required
-                                  placeholder="ชื่อลูกค้า"
-                                  value={editForm.name}
-                                  onChange={(event) => updateEditForm({ name: event.target.value })}
-                                />
-                                <input
-                                  className="table-input"
-                                  placeholder="ที่อยู่"
-                                  value={editForm.address}
-                                  onChange={(event) => updateEditForm({ address: event.target.value })}
-                                />
-                              </div>
-                            </td>
-                            <td>
-                              <div className="table-field-stack">
-                                <input
-                                  className="table-input"
-                                  placeholder="เบอร์โทร"
-                                  value={editForm.phone}
-                                  onChange={(event) => updateEditForm({ phone: event.target.value })}
-                                />
-                                <input
-                                  className="table-input"
-                                  type="email"
-                                  placeholder="อีเมล"
-                                  value={editForm.email}
-                                  onChange={(event) => updateEditForm({ email: event.target.value })}
-                                />
-                              </div>
-                            </td>
-                            <td>{customer.invoices.length}</td>
-                            <td>{money.format(total)}</td>
-                            <td>
-                              <div className="table-actions">
-                                <button type="button" disabled={updating} onClick={() => saveEdit(customer.id)}>
-                                  {updating ? "บันทึก..." : "บันทึก"}
-                                </button>
-                                <button type="button" className="btn-ghost" onClick={cancelEdit}>
-                                  ยกเลิก
-                                </button>
-                              </div>
-                            </td>
-                          </>
-                        ) : (
-                          <>
-                            <td>
-                              <strong>{customer.name}</strong>
-                              <span>{customer.address || "-"}</span>
-                            </td>
-                            <td>
-                              {customer.phone || "-"}
-                              <span>{customer.email || "-"}</span>
-                            </td>
-                            <td>{customer.invoices.length}</td>
-                            <td>{money.format(total)}</td>
-                            <td>
-                              <div className="table-actions">
-                                <button type="button" className="btn-ghost" onClick={() => openPurchases(customer)}>
-                                  ดูรายการซื้อ
-                                </button>
-                                <button type="button" className="btn-ghost" onClick={() => startEdit(customer)}>
-                                  แก้ไข
-                                </button>
-                                <button type="button" className="btn-danger" onClick={() => deleteCustomer(customer.id)}>
-                                  ลบ
-                                </button>
-                              </div>
-                            </td>
-                          </>
-                        )}
+                        <td>
+                          <strong>{customer.name}</strong>
+                          {customer.address ? <span>{customer.address}</span> : null}
+                        </td>
+                        <td>
+                          {customer.phone || ""}
+                          {customer.email ? <span>{customer.email}</span> : null}
+                        </td>
+                        <td>{customer.invoices.length}</td>
+                        <td>{money.format(total)}</td>
+                        <td>
+                          <div className="table-actions">
+                            <button type="button" className="btn-ghost" onClick={() => openPurchases(customer)}>
+                              ดูรายการซื้อ
+                            </button>
+                            <button type="button" className="btn-ghost" onClick={() => startEdit(customer)}>
+                              แก้ไข
+                            </button>
+                            <button type="button" className="btn-danger" onClick={() => deleteCustomer(customer.id)}>
+                              ลบ
+                            </button>
+                          </div>
+                        </td>
                       </tr>
                     );
                   })}
@@ -536,6 +551,7 @@ export default function CustomersPage() {
     </div>
     {mounted && purchasesModal ? createPortal(purchasesModal, document.body) : null}
     {mounted && addCustomerModal ? createPortal(addCustomerModal, document.body) : null}
+    {mounted && editCustomerModal ? createPortal(editCustomerModal, document.body) : null}
     </>
   );
 }
