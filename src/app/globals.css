@@ -1668,18 +1668,20 @@ button:disabled {
 .invoices-table th,
 .invoices-table td {
   white-space: normal;
-  word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: normal;
   vertical-align: top;
 }
 
-.invoices-table col.col-book        { width: 7%;  }
+.invoices-table col.col-book        { width: 6%;  }
 .invoices-table col.col-doc         { width: 8%;  }
-.invoices-table col.col-due         { width: 12%; }
-.invoices-table col.col-customer    { width: 22%; }
-.invoices-table col.col-sales       { width: 15%; }
-.invoices-table col.col-total       { width: 12%; }
-.invoices-table col.col-status      { width: 16%; }
-.invoices-table col.col-actions     { width: 8%;  }
+.invoices-table col.col-due         { width: 10%; }
+.invoices-table col.col-customer    { width: 17%; }
+.invoices-table col.col-item        { width: 17%; }
+.invoices-table col.col-sales       { width: 11%; }
+.invoices-table col.col-total       { width: 11%; }
+.invoices-table col.col-status      { width: 14%; }
+.invoices-table col.col-actions     { width: 6%;  }
 
 .invoices-table td.col-due-cell {
   white-space: nowrap;

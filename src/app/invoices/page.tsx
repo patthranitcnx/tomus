@@ -905,8 +905,8 @@ export default function InvoicesPage() {
                           <>
                             <span className="cell-strong">{invoice.itemName}</span>
                             {invoice.quantity != null ? (
-                              <span className="cell-sub">
-                                {" "}{invoice.quantity}{invoice.unit ? ` ${invoice.unit}` : ""}
+                              <span className="cell-sub cell-sub--block">
+                                {invoice.quantity}{invoice.unit ? ` ${invoice.unit}` : ""}
                               </span>
                             ) : null}
                           </>
