@@ -798,6 +798,14 @@ button:disabled {
   color: #176b52;
 }
 
+.btn-sm {
+  min-height: 1.75rem;
+  padding: 0 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .mini-total {
   min-width: 220px;
   padding: 0.75rem 0.9rem;

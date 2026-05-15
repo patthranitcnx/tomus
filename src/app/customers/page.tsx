@@ -76,6 +76,7 @@ export default function CustomersPage() {
   const [purchases, setPurchases] = useState<CustomerPurchases | null>(null);
   const [loadingPurchases, setLoadingPurchases] = useState(false);
   const [purchasesError, setPurchasesError] = useState<string | null>(null);
+  const [addOpen, setAddOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -119,6 +120,7 @@ export default function CustomersPage() {
 
     if (response.ok) {
       setForm({ name: "", phone: "", email: "", address: "" });
+      setAddOpen(false);
       await fetchCustomers();
     }
 
@@ -199,19 +201,86 @@ export default function CustomersPage() {
   };
 
   useEffect(() => {
-    if (!viewingCustomer) {
+    if (!viewingCustomer && !addOpen) {
       return;
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         closePurchases();
+        setAddOpen(false);
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [viewingCustomer]);
+  }, [viewingCustomer, addOpen]);
+
+  const addCustomerModal = addOpen ? (
+    <div
+      className="modal-backdrop"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) {
+          setAddOpen(false);
+        }
+      }}
+    >
+      <form className="modal-card" onSubmit={handleSubmit}>
+        <div className="section-header">
+          <div>
+            <p className="eyebrow">ลูกค้า</p>
+            <h2>เพิ่มลูกค้าใหม่</h2>
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="field-label" htmlFor="new-customer-name">ชื่อลูกค้า</label>
+          <input
+            id="new-customer-name"
+            required
+            placeholder="ชื่อลูกค้า"
+            value={form.name}
+            onChange={(event) => setForm({ ...form, name: event.target.value })}
+          />
+        </div>
+        <div className="field">
+          <label className="field-label" htmlFor="new-customer-phone">เบอร์โทร</label>
+          <input
+            id="new-customer-phone"
+            placeholder="เบอร์โทร"
+            value={form.phone}
+            onChange={(event) => setForm({ ...form, phone: event.target.value })}
+          />
+        </div>
+        <div className="field">
+          <label className="field-label" htmlFor="new-customer-email">อีเมล</label>
+          <input
+            id="new-customer-email"
+            type="email"
+            placeholder="อีเมล"
+            value={form.email}
+            onChange={(event) => setForm({ ...form, email: event.target.value })}
+          />
+        </div>
+        <div className="field">
+          <label className="field-label" htmlFor="new-customer-address">ที่อยู่</label>
+          <input
+            id="new-customer-address"
+            placeholder="ที่อยู่"
+            value={form.address}
+            onChange={(event) => setForm({ ...form, address: event.target.value })}
+          />
+        </div>
+
+        <div className="modal-actions">
+          <button type="button" className="btn-ghost" onClick={() => setAddOpen(false)}>
+            ยกเลิก
+          </button>
+          <button type="submit" disabled={saving}>{saving ? "กำลังบันทึก..." : "บันทึกลูกค้า"}</button>
+        </div>
+      </form>
+    </div>
+  ) : null;
 
   const purchasesModal = viewingCustomer ? (
     <div
@@ -334,39 +403,19 @@ export default function CustomersPage() {
       </header>
 
       <section className="workspace-grid">
-        <form className="panel form" onSubmit={handleSubmit}>
-          <h2>เพิ่มลูกค้าใหม่</h2>
-          <input
-            required
-            placeholder="ชื่อลูกค้า"
-            value={form.name}
-            onChange={(event) => setForm({ ...form, name: event.target.value })}
-          />
-          <input
-            placeholder="เบอร์โทร"
-            value={form.phone}
-            onChange={(event) => setForm({ ...form, phone: event.target.value })}
-          />
-          <input
-            placeholder="อีเมล"
-            type="email"
-            value={form.email}
-            onChange={(event) => setForm({ ...form, email: event.target.value })}
-          />
-          <input
-            placeholder="ที่อยู่"
-            value={form.address}
-            onChange={(event) => setForm({ ...form, address: event.target.value })}
-          />
-          <button disabled={saving}>{saving ? "กำลังบันทึก..." : "บันทึกลูกค้า"}</button>
-        </form>
-
         <section className="panel">
           <div className="section-header">
             <div>
               <p className="eyebrow">ทั้งหมด {customers.length} ราย</p>
               <h2>รายชื่อลูกค้า</h2>
             </div>
+            <button
+              type="button"
+              className="btn-ghost btn-sm"
+              onClick={() => setAddOpen(true)}
+            >
+              + เพิ่มลูกค้า
+            </button>
             <input
               className="search-input"
               placeholder="ค้นหาลูกค้า"
@@ -486,6 +535,7 @@ export default function CustomersPage() {
       </section>
     </div>
     {mounted && purchasesModal ? createPortal(purchasesModal, document.body) : null}
+    {mounted && addCustomerModal ? createPortal(addCustomerModal, document.body) : null}
     </>
   );
 }
