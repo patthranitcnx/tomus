@@ -33,6 +33,25 @@ export async function GET() {
   }
 }
 
+const parseDateList = (value: unknown): Date[] => {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((entry) => {
+      const trimmed = String(entry ?? "").trim();
+      if (!trimmed) return null;
+      const date = new Date(trimmed);
+      return Number.isNaN(date.getTime()) ? null : date;
+    })
+    .filter((d): d is Date => d !== null);
+};
+
+const parseAmountList = (value: unknown): number[] => {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((entry) => Number(entry))
+    .map((num) => (Number.isFinite(num) && num >= 0 ? num : 0));
+};
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -44,6 +63,20 @@ export async function POST(request: Request) {
     const commissionTons = Number(body.commissionTons);
     const status = normalizeInvoiceStatus(body.status);
     const dueDate = String(body.dueDate ?? "").trim();
+
+    const itemName = body.itemName != null ? String(body.itemName).trim() || null : null;
+    const unit = body.unit != null ? String(body.unit).trim() || null : null;
+    const note = body.note != null ? String(body.note).trim() || null : null;
+    const quantityRaw = body.quantity != null && body.quantity !== "" ? Number(body.quantity) : null;
+    const quantity = quantityRaw != null && Number.isFinite(quantityRaw) ? quantityRaw : null;
+    const unitPriceRaw = body.unitPrice != null && body.unitPrice !== "" ? Number(body.unitPrice) : null;
+    const unitPrice = unitPriceRaw != null && Number.isFinite(unitPriceRaw) ? unitPriceRaw : null;
+    const saleDateRaw = body.saleDate != null ? String(body.saleDate).trim() : "";
+    const saleDate = saleDateRaw ? new Date(saleDateRaw) : null;
+    const paymentDates = parseDateList(body.paymentDates);
+    const paymentAmounts = parseAmountList(body.paymentAmounts);
+    const needsReview = Boolean(body.needsReview);
+    const reviewNotes = body.reviewNotes != null ? String(body.reviewNotes).trim() || null : null;
 
     if (
       !invoiceNumber ||
@@ -73,6 +106,16 @@ export async function POST(request: Request) {
         commissionTons,
         status,
         dueDate: dueDate ? new Date(dueDate) : null,
+        itemName,
+        quantity,
+        unit,
+        unitPrice,
+        note,
+        saleDate,
+        paymentDates,
+        paymentAmounts,
+        needsReview,
+        reviewNotes,
         commission: {
           create: {
             salesperson: {

@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "Invoice" ADD COLUMN     "itemName" TEXT,
+ADD COLUMN     "needsReview" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "note" TEXT,
+ADD COLUMN     "paymentAmounts" DOUBLE PRECISION[] DEFAULT ARRAY[]::DOUBLE PRECISION[],
+ADD COLUMN     "paymentDates" TIMESTAMP(3)[] DEFAULT ARRAY[]::TIMESTAMP(3)[],
+ADD COLUMN     "quantity" DOUBLE PRECISION,
+ADD COLUMN     "reviewNotes" TEXT,
+ADD COLUMN     "saleDate" TIMESTAMP(3),
+ADD COLUMN     "unit" TEXT,
+ADD COLUMN     "unitPrice" DOUBLE PRECISION;

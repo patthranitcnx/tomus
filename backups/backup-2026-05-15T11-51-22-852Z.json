@@ -1,0 +1,2512 @@
+{
+  "invoices": [
+    {
+      "id": 12,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0371",
+      "customerId": 2,
+      "salespersonId": 6,
+      "total": 247000,
+      "commissionRate": 0,
+      "commissionTons": 16.5,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-23T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T05:28:13.083Z",
+      "commission": {
+        "id": 20,
+        "invoiceId": 12,
+        "salespersonId": 6,
+        "amount": 0,
+        "paid": false,
+        "paidAt": null
+      }
+    },
+    {
+      "id": 13,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0372",
+      "customerId": 2,
+      "salespersonId": 6,
+      "total": 206200,
+      "commissionRate": 0,
+      "commissionTons": 13,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-26T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T05:39:39.134Z",
+      "commission": {
+        "id": 21,
+        "invoiceId": 13,
+        "salespersonId": 6,
+        "amount": 0,
+        "paid": false,
+        "paidAt": null
+      }
+    },
+    {
+      "id": 15,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0376",
+      "customerId": 34,
+      "salespersonId": 1,
+      "total": 9200,
+      "commissionRate": 0,
+      "commissionTons": 1,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-02-03T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T06:26:56.499Z",
+      "commission": {
+        "id": 23,
+        "invoiceId": 15,
+        "salespersonId": 1,
+        "amount": 0,
+        "paid": false,
+        "paidAt": null
+      }
+    },
+    {
+      "id": 18,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0378",
+      "customerId": 33,
+      "salespersonId": 7,
+      "total": 190000,
+      "commissionRate": 300,
+      "commissionTons": 10,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-02-09T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T06:29:43.911Z",
+      "commission": {
+        "id": 24,
+        "invoiceId": 18,
+        "salespersonId": 7,
+        "amount": 3000,
+        "paid": false,
+        "paidAt": null
+      }
+    },
+    {
+      "id": 19,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0379",
+      "customerId": 2,
+      "salespersonId": 6,
+      "total": 3180000,
+      "commissionRate": 50,
+      "commissionTons": 200,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-02-10T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T06:32:52.709Z",
+      "commission": {
+        "id": 25,
+        "invoiceId": 19,
+        "salespersonId": 6,
+        "amount": 10000,
+        "paid": false,
+        "paidAt": null
+      }
+    },
+    {
+      "id": 1,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0362",
+      "customerId": 1,
+      "salespersonId": 1,
+      "total": 7200,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "รอชำระ",
+      "dueDate": "2026-01-01T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-10T08:46:20.747Z",
+      "commission": {
+        "id": 1,
+        "invoiceId": 1,
+        "salespersonId": 1,
+        "amount": 0,
+        "paid": true,
+        "paidAt": "2026-05-15T05:08:37.468Z"
+      }
+    },
+    {
+      "id": 4,
+      "invoiceNumber": "เล่มที่ 010 เลขที่ 0454",
+      "customerId": 40,
+      "salespersonId": 7,
+      "total": 235200,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "รอชำระ",
+      "dueDate": "2026-03-30T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-10T09:10:11.749Z",
+      "commission": {
+        "id": 5,
+        "invoiceId": 4,
+        "salespersonId": 7,
+        "amount": 0,
+        "paid": false,
+        "paidAt": null
+      }
+    },
+    {
+      "id": 5,
+      "invoiceNumber": "เล่มที่ 010 เลขที่ 0457",
+      "customerId": 41,
+      "salespersonId": 1,
+      "total": 150000,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "รอชำระ",
+      "dueDate": "2026-04-21T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-10T09:18:02.725Z",
+      "commission": {
+        "id": 8,
+        "invoiceId": 5,
+        "salespersonId": 1,
+        "amount": 0,
+        "paid": false,
+        "paidAt": null
+      }
+    },
+    {
+      "id": 7,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0364",
+      "customerId": 26,
+      "salespersonId": 1,
+      "total": 221100,
+      "commissionRate": 0,
+      "commissionTons": 33,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-08T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-11T06:43:59.890Z",
+      "commission": {
+        "id": 13,
+        "invoiceId": 7,
+        "salespersonId": 1,
+        "amount": 0,
+        "paid": true,
+        "paidAt": "2026-05-15T05:07:47.875Z"
+      }
+    },
+    {
+      "id": 11,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0370",
+      "customerId": 37,
+      "salespersonId": 4,
+      "total": 122400.002,
+      "commissionRate": 50,
+      "commissionTons": 8,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-15T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T05:07:16.969Z",
+      "commission": {
+        "id": 19,
+        "invoiceId": 11,
+        "salespersonId": 4,
+        "amount": 400,
+        "paid": true,
+        "paidAt": "2026-05-15T05:07:54.356Z"
+      }
+    },
+    {
+      "id": 3,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0394",
+      "customerId": 25,
+      "salespersonId": 1,
+      "total": 29500,
+      "commissionRate": 0,
+      "commissionTons": 0,
+      "status": "รอชำระ",
+      "dueDate": "2026-03-10T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-10T09:01:15.760Z",
+      "commission": {
+        "id": 4,
+        "invoiceId": 3,
+        "salespersonId": 1,
+        "amount": 0,
+        "paid": false,
+        "paidAt": null
+      }
+    },
+    {
+      "id": 14,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0373",
+      "customerId": 13,
+      "salespersonId": 3,
+      "total": 187600,
+      "commissionRate": 100,
+      "commissionTons": 28,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-26T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T05:40:50.033Z",
+      "commission": {
+        "id": 22,
+        "invoiceId": 14,
+        "salespersonId": 3,
+        "amount": 2800,
+        "paid": false,
+        "paidAt": null
+      }
+    },
+    {
+      "id": 2,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0365",
+      "customerId": 39,
+      "salespersonId": 1,
+      "total": 358000,
+      "commissionRate": 0,
+      "commissionTons": 33,
+      "status": "รอชำระ",
+      "dueDate": "2026-01-10T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-10T08:58:24.130Z",
+      "commission": {
+        "id": 2,
+        "invoiceId": 2,
+        "salespersonId": 1,
+        "amount": 0,
+        "paid": true,
+        "paidAt": "2026-05-15T05:08:23.597Z"
+      }
+    },
+    {
+      "id": 6,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0363",
+      "customerId": 36,
+      "salespersonId": 6,
+      "total": 504000,
+      "commissionRate": 50,
+      "commissionTons": 27,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-06T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-11T05:01:01.818Z",
+      "commission": {
+        "id": 9,
+        "invoiceId": 6,
+        "salespersonId": 6,
+        "amount": 1350,
+        "paid": true,
+        "paidAt": "2026-05-15T05:08:50.607Z"
+      }
+    },
+    {
+      "id": 8,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0366",
+      "customerId": 15,
+      "salespersonId": 1,
+      "total": 42600,
+      "commissionRate": 0,
+      "commissionTons": 3,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-10T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-12T14:47:23.598Z",
+      "commission": {
+        "id": 15,
+        "invoiceId": 8,
+        "salespersonId": 1,
+        "amount": 0,
+        "paid": true,
+        "paidAt": "2026-05-15T05:08:22.152Z"
+      }
+    },
+    {
+      "id": 9,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0368",
+      "customerId": 25,
+      "salespersonId": 1,
+      "total": 12975,
+      "commissionRate": 0,
+      "commissionTons": 0.628,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-12T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T04:21:56.949Z",
+      "commission": {
+        "id": 16,
+        "invoiceId": 9,
+        "salespersonId": 1,
+        "amount": 0,
+        "paid": true,
+        "paidAt": "2026-05-15T05:08:20.179Z"
+      }
+    },
+    {
+      "id": 10,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0369",
+      "customerId": 2,
+      "salespersonId": 6,
+      "total": 144000,
+      "commissionRate": 50,
+      "commissionTons": 2,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-01-15T00:00:00.000Z",
+      "paidAt": null,
+      "createdAt": "2026-05-15T05:04:45.787Z",
+      "commission": {
+        "id": 18,
+        "invoiceId": 10,
+        "salespersonId": 6,
+        "amount": 100,
+        "paid": true,
+        "paidAt": "2026-05-15T05:08:08.452Z"
+      }
+    },
+    {
+      "id": 20,
+      "invoiceNumber": "เล่มที่ 008 เลขที่ 0375",
+      "customerId": 2,
+      "salespersonId": 6,
+      "total": 200000,
+      "commissionRate": 0,
+      "commissionTons": 14,
+      "status": "ชำระแล้ว",
+      "dueDate": "2026-02-03T00:00:00.000Z",
+      "paidAt": "2026-02-05T00:00:00.000Z",
+      "createdAt": "2026-05-15T08:09:34.531Z",
+      "commission": {
+        "id": 42,
+        "invoiceId": 20,
+        "salespersonId": 6,
+        "amount": 0,
+        "paid": false,
+        "paidAt": null
+      }
+    }
+  ],
+  "saleRecords": [
+    {
+      "id": 6,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "customer": "บริษัท ฟาร์มปุ๋ย จำกัด",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 26000,
+      "total": 858000,
+      "saleDate": "2026-01-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-27T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        858000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:38:35.930Z"
+    },
+    {
+      "id": 17,
+      "itemName": "16-20-0 จีน สามห่วง",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์ เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 12,
+      "unit": "ตัน",
+      "unitPrice": 16000,
+      "total": 192000,
+      "saleDate": "2026-01-26T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        192000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:02:25.871Z"
+    },
+    {
+      "id": 22,
+      "itemName": "คีเชอร์แมก",
+      "customer": "สวนส้มโดภูสังข์ฉาย",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 1,
+      "unit": "ตัน",
+      "unitPrice": 9200,
+      "total": 9200,
+      "saleDate": "2026-02-03T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-04T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        9200
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:12:51.971Z"
+    },
+    {
+      "id": 16,
+      "itemName": "16-16-16 จีน ฟ้า สามห่วง",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์  เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 4,
+      "unit": "ตัน",
+      "unitPrice": 18000,
+      "total": 72000,
+      "saleDate": "2026-01-23T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-23T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        72000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:00:27.857Z"
+    },
+    {
+      "id": 27,
+      "itemName": "46-0-0 สามห่วง",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์ เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 20,
+      "unit": "ตัน",
+      "unitPrice": 17800,
+      "total": 356000,
+      "saleDate": "2026-03-04T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-04T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        356000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:22:28.212Z"
+    },
+    {
+      "id": 4,
+      "itemName": "16-20-0 จีน สามห่วง",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์  เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 27,
+      "unit": "ตัน",
+      "unitPrice": 16000,
+      "total": 432000,
+      "saleDate": "2026-01-06T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-13T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        432000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:33:39.657Z"
+    },
+    {
+      "id": 8,
+      "itemName": "15-5-35 แสงตะวัน",
+      "customer": "นายสมชัย  สุขจิตต์",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 0.5,
+      "unit": "ตัน",
+      "unitPrice": 18700,
+      "total": 9350,
+      "saleDate": "2026-01-12T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-27T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        9350
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:42:35.548Z"
+    },
+    {
+      "id": 19,
+      "itemName": "21-0-0 ทองแดง ตาชั่ง",
+      "customer": "ร้าน ส.พนาการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 28,
+      "unit": "ตัน",
+      "unitPrice": 6700,
+      "total": 187600,
+      "saleDate": "2026-01-26T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-12T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        187600
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:04:55.736Z"
+    },
+    {
+      "id": 11,
+      "itemName": "0-0-38 (25) สามห่วง",
+      "customer": "ร้านเพชรการเกษตร (พงศกรณ์ เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 2,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "total": 28000,
+      "saleDate": "2026-01-15T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        28000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:48:56.838Z"
+    },
+    {
+      "id": 10,
+      "itemName": "0-0-38 สามห่วง",
+      "customer": "ร้านเพชรการเกษตร (พงศกรณ์ เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 4,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "total": 56000,
+      "saleDate": "2026-01-15T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        56000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:48:56.838Z"
+    },
+    {
+      "id": 12,
+      "itemName": "16-20-0 จีน สามห่วง",
+      "customer": "ร้านเพชรการเกษตร (พงศกรณ์ เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 1.5,
+      "unit": "ตัน",
+      "unitPrice": 16000,
+      "total": 24000,
+      "saleDate": "2026-01-15T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        24000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:48:56.838Z"
+    },
+    {
+      "id": 13,
+      "itemName": "16-16-16 จีน ฟ้า สามห่วง",
+      "customer": "ร้านเพชรการเกษตร (พงศกรณ์ เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 2,
+      "unit": "ตัน",
+      "unitPrice": 18000,
+      "total": 36000,
+      "saleDate": "2026-01-15T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        36000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:48:56.838Z"
+    },
+    {
+      "id": 29,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "ร้าน ส.พนาการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 6700,
+      "total": 221100,
+      "saleDate": "2026-03-05T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-31T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        221100
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:25:36.407Z"
+    },
+    {
+      "id": 33,
+      "itemName": "15-5-20 ฮอลแลนด์",
+      "customer": "สมชัย สุขจิตร์",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 1,
+      "unit": "ตัน",
+      "unitPrice": 29500,
+      "total": 29500,
+      "saleDate": "2026-03-10T00:00:00.000Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "note": null,
+      "createdAt": "2026-05-09T15:08:07.007Z"
+    },
+    {
+      "id": 5,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "ร้าน ส.พนาการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 6700,
+      "total": 221100,
+      "saleDate": "2026-01-08T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-24T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        221100
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:35:28.627Z"
+    },
+    {
+      "id": 7,
+      "itemName": "0-0-60 ตาชั่ง",
+      "customer": "ร้านหนุมานการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 3,
+      "unit": "ตัน",
+      "unitPrice": 14200,
+      "total": 42600,
+      "saleDate": "2026-01-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-13T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        42600
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:39:34.784Z"
+    },
+    {
+      "id": 14,
+      "itemName": "46-0-0 สามห่วง",
+      "customer": "ร้านโพธิ์งามการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 8,
+      "unit": "ตัน",
+      "unitPrice": 15300,
+      "total": 122400,
+      "saleDate": "2026-01-15T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-19T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        122400
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:58:36.477Z"
+    },
+    {
+      "id": 18,
+      "itemName": "0-0-60 เม็ด เยอรมัน",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศ์กรณ์ เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 1,
+      "unit": "ตัน",
+      "unitPrice": 14200,
+      "total": 14200,
+      "saleDate": "2026-01-26T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        14200
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:02:25.871Z"
+    },
+    {
+      "id": 21,
+      "itemName": "0-0-38 สามห่วง",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์  เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 12,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "total": 168000,
+      "saleDate": "2026-02-03T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        168000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:11:33.926Z"
+    },
+    {
+      "id": 23,
+      "itemName": "16-16-16 จีน",
+      "customer": "หจก.อมตการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 10,
+      "unit": "ตัน",
+      "unitPrice": 19000,
+      "total": 190000,
+      "saleDate": "2026-02-06T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-09T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        190000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:13:40.334Z"
+    },
+    {
+      "id": 25,
+      "itemName": "16-20-0 จีน",
+      "customer": "ร้านเกษตรวิทยา",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 20,
+      "unit": "ตัน",
+      "unitPrice": 15500,
+      "total": 310000,
+      "saleDate": "2026-02-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-14T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        310000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:16:48.113Z"
+    },
+    {
+      "id": 28,
+      "itemName": "16-20-0  สามห่วง",
+      "customer": "ร้านเสาวนีย์เจริญ",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 15,
+      "unit": "ตัน",
+      "unitPrice": 15800,
+      "total": 237000,
+      "saleDate": "2026-03-04T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-04T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        237000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:24:43.213Z"
+    },
+    {
+      "id": 26,
+      "itemName": "คีเชอร์แมก",
+      "customer": "ร้านน้องหมวดเคมีภัณฑ์ นบพิตำ",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 5,
+      "unit": "ตัน",
+      "unitPrice": 9400,
+      "total": 47000,
+      "saleDate": "2026-02-19T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-24T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        47000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:21:32.819Z"
+    },
+    {
+      "id": 31,
+      "itemName": "21-10-10 ฮอลแลนด์ สามห่วง",
+      "customer": "วีรวิทย์    ฤกษ์เรืองฤทธิ์",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 3.5,
+      "unit": "ตัน",
+      "unitPrice": 29500,
+      "total": 103250,
+      "saleDate": "2026-03-05T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        103250
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:30:15.917Z"
+    },
+    {
+      "id": 32,
+      "itemName": "0-0-60 สามห่วง",
+      "customer": "ร้านบ้านลูกรัก",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 20,
+      "unit": "ตัน",
+      "unitPrice": 14100,
+      "total": 282000,
+      "saleDate": "2026-03-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-10T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        282000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:04:45.730Z"
+    },
+    {
+      "id": 35,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "ร้านยิ่งเจริญคลังเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 30,
+      "unit": "ตัน",
+      "unitPrice": 6900,
+      "total": 207000,
+      "saleDate": "2026-03-13T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-13T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        207000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:11:50.372Z"
+    },
+    {
+      "id": 36,
+      "itemName": "0-0-38 สามห่วง",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์ เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 4,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "total": 56000,
+      "saleDate": "2026-03-14T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        56000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:14:14.412Z"
+    },
+    {
+      "id": 37,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "customer": "ร้านน้องน้ำฝน",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 2,
+      "unit": "ตัน",
+      "unitPrice": 27000,
+      "total": 54000,
+      "saleDate": "2026-03-14T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        54000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:15:22.095Z"
+    },
+    {
+      "id": 68,
+      "itemName": "0-0-60 สามห่วง",
+      "customer": "ร้านบ้านลูกรัก",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 27,
+      "unit": "ตัน",
+      "unitPrice": 15500,
+      "total": 418500,
+      "saleDate": "2026-03-31T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-31T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        418500
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:56:46.556Z"
+    },
+    {
+      "id": 70,
+      "itemName": "18-46-0 สามห่วง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 18,
+      "unit": "ตัน",
+      "unitPrice": 28700,
+      "total": 516600,
+      "saleDate": "2026-04-02T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-03T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        516600
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:58:29.210Z"
+    },
+    {
+      "id": 73,
+      "itemName": "21-0-0 โฟม สามห่วง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 11000,
+      "total": 363000,
+      "saleDate": "2026-04-02T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-04T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        363000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:02:04.018Z"
+    },
+    {
+      "id": 74,
+      "itemName": "18-46-0 สามห่วง",
+      "customer": "ร้านบ้านลูกรัก",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 15,
+      "unit": "ตัน",
+      "unitPrice": 28800,
+      "total": 432000,
+      "saleDate": "2026-04-03T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-03T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        432000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:02:52.733Z"
+    },
+    {
+      "id": 41,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "customer": "ร้านน้องน้ำฝนการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 13,
+      "unit": "ตัน",
+      "unitPrice": 27000,
+      "total": 351000,
+      "saleDate": "2026-03-17T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        351000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:20:09.941Z"
+    },
+    {
+      "id": 39,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "ร้านยิ่งเจริญคลังเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 35,
+      "unit": "ตัน",
+      "unitPrice": 7200,
+      "total": 252000,
+      "saleDate": "2026-03-16T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-18T00:00:00.000Z",
+        "2026-03-19T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        126000,
+        126000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:17:58.239Z"
+    },
+    {
+      "id": 40,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "ร้านเชนการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 9,
+      "unit": "ตัน",
+      "unitPrice": 6900,
+      "total": 62100,
+      "saleDate": "2026-03-17T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-18T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        62100
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:18:50.693Z"
+    },
+    {
+      "id": 43,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "ร้านยิ่งเจริญคลังเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 34.5,
+      "unit": "ตัน",
+      "unitPrice": 7200,
+      "total": 248400,
+      "saleDate": "2026-03-18T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-18T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        248400
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:21:27.564Z"
+    },
+    {
+      "id": 47,
+      "itemName": "คีเชอร์แมก",
+      "customer": "หจก.โชคชัยพานิชย์ บางสะพาน",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 5,
+      "unit": "ตัน",
+      "unitPrice": 10000,
+      "total": 50000,
+      "saleDate": "2026-03-19T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-21T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        50000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:25:39.792Z"
+    },
+    {
+      "id": 48,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "ร้านเขาฝ้ายการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 21.5,
+      "unit": "ตัน",
+      "unitPrice": 7100,
+      "total": 152650,
+      "saleDate": "2026-03-19T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        152650
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:26:44.615Z"
+    },
+    {
+      "id": 44,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "ร้านเกษตรไพศาล บ้านเขาไม้แก้ว",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 34.5,
+      "unit": "ตัน",
+      "unitPrice": 6700,
+      "total": 231150,
+      "saleDate": "2026-03-18T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-12T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        231150
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:23:05.369Z"
+    },
+    {
+      "id": 51,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "customer": "ร้านบ้านลูกรัก",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 5,
+      "unit": "ตัน",
+      "unitPrice": 27000,
+      "total": 135000,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        135000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:40:06.405Z"
+    },
+    {
+      "id": 52,
+      "itemName": "0-0-60 เม็ด สามห่วง",
+      "customer": "ร้านบ้านลูกรัก",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 34,
+      "unit": "ตัน",
+      "unitPrice": 14100,
+      "total": 479400,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        479400
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:41:14.558Z"
+    },
+    {
+      "id": 54,
+      "itemName": "21-0-0 ทองแดง ตาชั่ง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 14,
+      "unit": "ตัน",
+      "unitPrice": 6700,
+      "total": 93800,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        93800
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:43:26.037Z"
+    },
+    {
+      "id": 55,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "ร้านไพศาล บ้านเขาไม้แก้ว",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 6900,
+      "total": 227700,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        227700
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:44:49.131Z"
+    },
+    {
+      "id": 45,
+      "itemName": "21-0-0 ทองแดง ตาชั่ง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 6700,
+      "total": 221100,
+      "saleDate": "2026-03-19T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        221100
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:23:53.926Z"
+    },
+    {
+      "id": 57,
+      "itemName": "0-0-60 เม็ด ตาชั่ง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 28,
+      "unit": "ตัน",
+      "unitPrice": 14300,
+      "total": 400400,
+      "saleDate": "2026-03-21T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        400400
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:47:28.757Z"
+    },
+    {
+      "id": 49,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "ร้านยิ่งเจริญคลังเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 7200,
+      "total": 237600,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        237600
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:27:53.758Z"
+    },
+    {
+      "id": 60,
+      "itemName": "0-0-60 เม็ด สามห่วง",
+      "customer": "ร้านน้องน้ำฝนการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 13,
+      "unit": "ตัน",
+      "unitPrice": 15000,
+      "total": 195000,
+      "saleDate": "2026-03-23T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        195000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:48:50.366Z"
+    },
+    {
+      "id": 56,
+      "itemName": "0-0-60 เม็ด ตาชั่ง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 31,
+      "unit": "ตัน",
+      "unitPrice": 14300,
+      "total": 443300,
+      "saleDate": "2026-03-21T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        443300
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:46:16.397Z"
+    },
+    {
+      "id": 59,
+      "itemName": "0-0-60 เม็ด สามห่วง",
+      "customer": "ร้านน้องน้ำฝนการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 20,
+      "unit": "ตัน",
+      "unitPrice": 14400,
+      "total": 288000,
+      "saleDate": "2026-03-23T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        288000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:48:50.366Z"
+    },
+    {
+      "id": 64,
+      "itemName": "0-0-60 สามห่วง",
+      "customer": "ร้านบ้านลูกรัก",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 13.5,
+      "unit": "ตัน",
+      "unitPrice": 15500,
+      "total": 209250,
+      "saleDate": "2026-03-26T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        209250
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:52:38.913Z"
+    },
+    {
+      "id": 61,
+      "itemName": "0-0-60 สามห่วง",
+      "customer": "ร้านอุทัยเจริญกิจ",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 32,
+      "unit": "ตัน",
+      "unitPrice": 15300,
+      "total": 489600,
+      "saleDate": "2026-03-25T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        489600
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:50:21.488Z"
+    },
+    {
+      "id": 63,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "ร้านหนุมานการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 8400,
+      "total": 277200,
+      "saleDate": "2026-03-26T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        277200
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:52:02.402Z"
+    },
+    {
+      "id": 66,
+      "itemName": "0-0-60 สามห่วง",
+      "customer": "ร้านมนูการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 6,
+      "unit": "ตัน",
+      "unitPrice": 14500,
+      "total": 87000,
+      "saleDate": "2026-03-30T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        87000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:54:27.619Z"
+    },
+    {
+      "id": 72,
+      "itemName": "18-46-0 สามห่วง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 24,
+      "unit": "ตัน",
+      "unitPrice": 26500,
+      "total": 636000,
+      "saleDate": "2026-04-02T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-03T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        636000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:59:34.044Z"
+    },
+    {
+      "id": 76,
+      "itemName": "21-0-0 โฟม สามห่วง",
+      "customer": "ร้านน้องน้ำฝนการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 11000,
+      "total": 363000,
+      "saleDate": "2026-04-04T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        363000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:04:27.311Z"
+    },
+    {
+      "id": 77,
+      "itemName": "18-46-0 สามห่วง",
+      "customer": "บริษัท พีอาร์เอ็ม รีเจเนอร์เรทิฟ อะกรีคัลเจอร์ จำกัด",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 1,
+      "unit": "ตัน",
+      "unitPrice": 26000,
+      "total": 26000,
+      "saleDate": "2026-04-07T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        26000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:09:36.782Z"
+    },
+    {
+      "id": 67,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "บริษัท สมบูรณ์พืชไทย จำกัด",
+      "customerPhone": "086-4892059 , 093-5846325",
+      "customerAddress": "60/6 หมู่ 2 ต.ป่าชิง อ.จะนะ จ.สงขลา90130",
+      "quantity": 28,
+      "unit": "ตัน",
+      "unitPrice": 8400,
+      "total": 235200,
+      "saleDate": "2026-03-30T00:00:00.000Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "note": null,
+      "createdAt": "2026-05-09T15:55:57.263Z"
+    },
+    {
+      "id": 65,
+      "itemName": "0-0-60 สามห่วง",
+      "customer": "ร้านเชนการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 10,
+      "unit": "ตัน",
+      "unitPrice": 14500,
+      "total": 145000,
+      "saleDate": "2026-03-28T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-30T00:00:00.000Z",
+        "2026-04-04T00:00:00.000Z",
+        "2026-04-18T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        45000,
+        50000,
+        50000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:53:19.994Z"
+    },
+    {
+      "id": 62,
+      "itemName": "0-0-60 สามห่วง",
+      "customer": "ร้านเวลาเกษตรและไฟฟ้า",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 16,
+      "unit": "ตัน",
+      "unitPrice": 15500,
+      "total": 248000,
+      "saleDate": "2026-03-25T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        248000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:51:08.373Z"
+    },
+    {
+      "id": 78,
+      "itemName": "คีเชอร์แมก",
+      "customer": "บริษัท พีอาร์เอ็ม รีเจเนอร์เรทิฟ อะกรีคัลเจอร์ จำกัด",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 1,
+      "unit": "ตัน",
+      "unitPrice": 9700,
+      "total": 9700,
+      "saleDate": "2026-04-07T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        9700
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:09:36.782Z"
+    },
+    {
+      "id": 79,
+      "itemName": "21-0-0 โฟม สามห่วง",
+      "customer": "ร้านบ้านลูกรัก",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 17,
+      "unit": "ตัน",
+      "unitPrice": 11000,
+      "total": 187000,
+      "saleDate": "2026-04-08T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-08T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        187000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:10:22.541Z"
+    },
+    {
+      "id": 81,
+      "itemName": "18-46-0 สามห่วง",
+      "customer": "สมโชค  โสมรักษ์",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 20,
+      "unit": "ตัน",
+      "unitPrice": 29000,
+      "total": 580000,
+      "saleDate": "2026-04-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-12T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        580000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:12:10.504Z"
+    },
+    {
+      "id": 80,
+      "itemName": "18-46-0 สามห่วง",
+      "customer": "ร้านสมบูรณ์การเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 30,
+      "unit": "ตัน",
+      "unitPrice": 29000,
+      "total": 870000,
+      "saleDate": "2026-04-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        870000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:11:13.650Z"
+    },
+    {
+      "id": 82,
+      "itemName": "18-46-0 สามห่วง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 13.6,
+      "unit": "ตัน",
+      "unitPrice": 28700,
+      "total": 390320,
+      "saleDate": "2026-04-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-16T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        390320
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:13:07.640Z"
+    },
+    {
+      "id": 83,
+      "itemName": "18-46-0 สามห่วง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 28700,
+      "total": 947100,
+      "saleDate": "2026-04-16T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        947100
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:13:56.364Z"
+    },
+    {
+      "id": 85,
+      "itemName": "18-3-3 แสงตะวัน",
+      "customer": "ร้านเขาฝ้ายการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 29,
+      "unit": "ตัน",
+      "unitPrice": 17300,
+      "total": 501700,
+      "saleDate": "2026-04-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-25T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        501700
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:16:00.260Z"
+    },
+    {
+      "id": 86,
+      "itemName": "8-20-30 รัสเซีย",
+      "customer": "ร้านเขาฝ้ายการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 5,
+      "unit": "ตัน",
+      "unitPrice": 25000,
+      "total": 125000,
+      "saleDate": "2026-04-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-25T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        125000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:16:00.260Z"
+    },
+    {
+      "id": 87,
+      "itemName": "0-0-60 เม็ด สามห่วง",
+      "customer": "หจก.ส.เพชรเคมีเกษตรภัณฑ์",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 10,
+      "unit": "ตัน",
+      "unitPrice": 15000,
+      "total": 150000,
+      "saleDate": "2026-04-21T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-06T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        150000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:17:03.276Z"
+    },
+    {
+      "id": 88,
+      "itemName": "0-0-60 เม็ด สามห่วง",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์ เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 1,
+      "unit": "ตัน",
+      "unitPrice": 17000,
+      "total": 17000,
+      "saleDate": "2026-05-06T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-07T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        17000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:19:51.571Z"
+    },
+    {
+      "id": 75,
+      "itemName": "0-0-60 เม็ด สามห่วง",
+      "customer": "ร้านน้องน้ำฝนการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 15000,
+      "total": 495000,
+      "saleDate": "2026-04-04T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-07T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        495000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:03:36.430Z"
+    },
+    {
+      "id": 71,
+      "itemName": "0-0-60 สามห่วง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 7,
+      "unit": "ตัน",
+      "unitPrice": 15500,
+      "total": 108500,
+      "saleDate": "2026-04-02T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-03T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        108500
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:59:34.044Z"
+    },
+    {
+      "id": 69,
+      "itemName": "18-46-0 สามห่วง",
+      "customer": "ร้านบ้านลูกรัก",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 4,
+      "unit": "ตัน",
+      "unitPrice": 28800,
+      "total": 115200,
+      "saleDate": "2026-03-31T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-31T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        115200
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:57:47.241Z"
+    },
+    {
+      "id": 58,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 3,
+      "unit": "ตัน",
+      "unitPrice": 26500,
+      "total": 79500,
+      "saleDate": "2026-03-21T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        79500
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:47:28.757Z"
+    },
+    {
+      "id": 50,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "customer": "ร้านบ้านลูกรัก",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 27000,
+      "total": 891000,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        891000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:37:58.003Z"
+    },
+    {
+      "id": 53,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 20,
+      "unit": "ตัน",
+      "unitPrice": 26500,
+      "total": 530000,
+      "saleDate": "2026-03-20T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        530000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:43:26.037Z"
+    },
+    {
+      "id": 46,
+      "itemName": "0-0-60 ตาชั่ง",
+      "customer": "ร้านบางผึ้งการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 33,
+      "unit": "ตัน",
+      "unitPrice": 14300,
+      "total": 471900,
+      "saleDate": "2026-03-19T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        471900
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:24:40.683Z"
+    },
+    {
+      "id": 42,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "ร้านน้องน้ำฝนการเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 4,
+      "unit": "ตัน",
+      "unitPrice": 7100.001,
+      "total": 28400.004,
+      "saleDate": "2026-03-17T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-20T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        28400.004
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:20:09.941Z"
+    },
+    {
+      "id": 34,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "บริษัท สวนปาล์มธรรมชาติ จำกัด (สำนักงานใหญ่)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 62.5,
+      "unit": "ตัน",
+      "unitPrice": 9600,
+      "total": 600000,
+      "saleDate": "2026-03-12T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-19T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        600000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:09:56.715Z"
+    },
+    {
+      "id": 30,
+      "itemName": "0-0-60 เม็ด เยอรมัน",
+      "customer": "สหกรณ์ชาวไร่สับปะรดสามร้อยยอด จำกัด",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 64,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "total": 896000,
+      "saleDate": "2026-03-05T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-10T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        896000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:26:45.704Z"
+    },
+    {
+      "id": 24,
+      "itemName": "16-20-0 จีน",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์  เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 200,
+      "unit": "ตัน",
+      "unitPrice": 15900,
+      "total": 3180000,
+      "saleDate": "2026-02-10T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        3180000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:15:56.190Z"
+    },
+    {
+      "id": 15,
+      "itemName": "0-0-38 สามห่วง",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์  เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 12.5,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "total": 175000,
+      "saleDate": "2026-01-23T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-26T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        175000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:00:27.857Z"
+    },
+    {
+      "id": 9,
+      "itemName": "12-12-17 (25) ฮอลแลนด์ สามห่วง",
+      "customer": "นายสมชัย  สุขจิตต์",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 0.125,
+      "unit": "ตัน",
+      "unitPrice": 29000,
+      "total": 3625,
+      "saleDate": "2026-01-12T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-27T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        3625
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:42:35.548Z"
+    },
+    {
+      "id": 2,
+      "itemName": "46-0-0 สามห่วง",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์  เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 2,
+      "unit": "ตัน",
+      "unitPrice": 15000,
+      "total": 30000,
+      "saleDate": "2026-01-06T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-13T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        30000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:33:39.657Z"
+    },
+    {
+      "id": 20,
+      "itemName": "16-20-0 จีน สามห่วง",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์  เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 2,
+      "unit": "ตัน",
+      "unitPrice": 16000,
+      "total": 32000,
+      "saleDate": "2026-02-03T00:00:00.000Z",
+      "paymentDates": [
+        "2026-02-05T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        32000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T08:11:33.926Z"
+    },
+    {
+      "id": 84,
+      "itemName": "18-46-0 สามห่วง",
+      "customer": "ณัฐพงษ์  นุรินรัมย์",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 15.4,
+      "unit": "ตัน",
+      "unitPrice": 28800,
+      "total": 443520,
+      "saleDate": "2026-04-19T00:00:00.000Z",
+      "paymentDates": [
+        "2026-04-19T00:00:00.000Z",
+        "2026-04-20T00:00:00.000Z",
+        "2026-04-22T00:00:00.000Z",
+        "2026-04-23T00:00:00.000Z",
+        "2026-04-24T00:00:00.000Z",
+        "2026-04-25T00:00:00.000Z",
+        "2026-04-26T00:00:00.000Z",
+        "2026-04-27T00:00:00.000Z",
+        "2026-04-28T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        50000,
+        43520,
+        50000,
+        50000,
+        50000,
+        50000,
+        50000,
+        50000,
+        50000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:14:49.625Z"
+    },
+    {
+      "id": 90,
+      "itemName": "18-46-0 รัสเซีย สามห่วง",
+      "customer": "ร้านสมบูรณ์การเกษตร",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 19,
+      "unit": "ตัน",
+      "unitPrice": 29100,
+      "total": 552900,
+      "saleDate": "2026-05-11T00:00:00.000Z",
+      "paymentDates": [],
+      "paymentAmounts": [],
+      "note": null,
+      "createdAt": "2026-05-12T14:38:30.669Z"
+    },
+    {
+      "id": 89,
+      "itemName": "21-0-0 จีน อุเบ สามห่วง",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์ เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 30,
+      "unit": "ตัน",
+      "unitPrice": 12500,
+      "total": 375000,
+      "saleDate": "2026-05-07T00:00:00.000Z",
+      "paymentDates": [
+        "2026-05-07T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        375000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T16:21:16.347Z"
+    },
+    {
+      "id": 38,
+      "itemName": "21-0-0 ทองแดง สามห่วง",
+      "customer": "บริษัท กลุ่มปาล์มธรรมชาติ จำกัด (สำนักงานใหญ่)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 9.5,
+      "unit": "ตัน",
+      "unitPrice": 9600,
+      "total": 91200,
+      "saleDate": "2026-03-16T00:00:00.000Z",
+      "paymentDates": [
+        "2026-03-27T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        91200
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T15:17:04.088Z"
+    },
+    {
+      "id": 3,
+      "itemName": "0-0-38 สามห่วง",
+      "customer": "ร้านเพชรเมืองแจ่ม (พงศกรณ์  เคนเต้า)",
+      "customerPhone": null,
+      "customerAddress": null,
+      "quantity": 3,
+      "unit": "ตัน",
+      "unitPrice": 14000,
+      "total": 42000,
+      "saleDate": "2026-01-06T00:00:00.000Z",
+      "paymentDates": [
+        "2026-01-13T00:00:00.000Z"
+      ],
+      "paymentAmounts": [
+        42000
+      ],
+      "note": null,
+      "createdAt": "2026-05-09T07:33:39.657Z"
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "name": "เอกพงษ์  ศรีณาเคนทร์",
+      "phone": null,
+      "email": null,
+      "address": "8/2 หมู่ 10 ต.คลองกระบือ อ.ปากพนัง จ.นครศรีธรรมราช 80330",
+      "createdAt": "2026-05-10T08:43:25.230Z"
+    },
+    {
+      "id": 3,
+      "name": "หจก.ส.เพชรเคมีเกษตรภัณฑ์",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.114Z"
+    },
+    {
+      "id": 4,
+      "name": "ร้านเขาฝ้ายการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.164Z"
+    },
+    {
+      "id": 5,
+      "name": "ณัฐพงษ์  นุรินรัมย์",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.209Z"
+    },
+    {
+      "id": 6,
+      "name": "ร้านบางผึ้งการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.257Z"
+    },
+    {
+      "id": 7,
+      "name": "ร้านสมบูรณ์การเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.301Z"
+    },
+    {
+      "id": 8,
+      "name": "สมโชค  โสมรักษ์",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.345Z"
+    },
+    {
+      "id": 9,
+      "name": "ร้านบ้านลูกรัก",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.388Z"
+    },
+    {
+      "id": 10,
+      "name": "บริษัท พีอาร์เอ็ม รีเจเนอร์เรทิฟ อะกรีคัลเจอร์ จำกัด",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.433Z"
+    },
+    {
+      "id": 11,
+      "name": "ร้านน้องน้ำฝนการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.477Z"
+    },
+    {
+      "id": 12,
+      "name": "ร้านมนูการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.520Z"
+    },
+    {
+      "id": 13,
+      "name": "ส.พนาการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.565Z"
+    },
+    {
+      "id": 14,
+      "name": "ร้านเชนการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.611Z"
+    },
+    {
+      "id": 15,
+      "name": "ร้านหนุมานการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.655Z"
+    },
+    {
+      "id": 16,
+      "name": "ร้านเวลาเกษตรและไฟฟ้า",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.702Z"
+    },
+    {
+      "id": 17,
+      "name": "ร้านอุทัยเจริญกิจ",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.746Z"
+    },
+    {
+      "id": 18,
+      "name": "ร้านไพศาล บ้านเขาไม้แก้ว",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.795Z"
+    },
+    {
+      "id": 19,
+      "name": "ร้านยิ่งเจริญคลังเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.839Z"
+    },
+    {
+      "id": 20,
+      "name": "หจก.โชคชัยพานิชย์ บางสะพาน",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.885Z"
+    },
+    {
+      "id": 21,
+      "name": "ร้านเกษตรไพศาล บ้านเขาไม้แก้ว",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.928Z"
+    },
+    {
+      "id": 22,
+      "name": "บริษัท กลุ่มปาล์มธรรมชาติ จำกัด (สำนักงานใหญ่)",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:53.974Z"
+    },
+    {
+      "id": 23,
+      "name": "ร้านน้องน้ำฝน",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.018Z"
+    },
+    {
+      "id": 24,
+      "name": "บริษัท สวนปาล์มธรรมชาติ จำกัด (สำนักงานใหญ่)",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.062Z"
+    },
+    {
+      "id": 25,
+      "name": "สมชัย สุขจิตร์",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.112Z"
+    },
+    {
+      "id": 26,
+      "name": "ร้าน ส.พนาการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.156Z"
+    },
+    {
+      "id": 27,
+      "name": "วีรวิทย์    ฤกษ์เรืองฤทธิ์",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.203Z"
+    },
+    {
+      "id": 28,
+      "name": "สหกรณ์ชาวไร่สับปะรดสามร้อยยอด จำกัด",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.248Z"
+    },
+    {
+      "id": 29,
+      "name": "ร้านเสาวนีย์เจริญ",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.292Z"
+    },
+    {
+      "id": 30,
+      "name": "ร้านน้องหมวดเคมีภัณฑ์ นบพิตำ",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.336Z"
+    },
+    {
+      "id": 32,
+      "name": "ร้านเกษตรวิทยา",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.429Z"
+    },
+    {
+      "id": 33,
+      "name": "หจก.อมตการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.474Z"
+    },
+    {
+      "id": 36,
+      "name": "ร้านเพชรการเกษตร (พงศกรณ์ เคนเต้า)",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.612Z"
+    },
+    {
+      "id": 38,
+      "name": "นายสมชัย  สุขจิตต์",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.700Z"
+    },
+    {
+      "id": 2,
+      "name": "ร้านเพชรเมืองแจ่ม (พงศกรณ์ เคนเต้า)",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:52.875Z"
+    },
+    {
+      "id": 41,
+      "name": "หจก.ส.เพชรเคมีเกษตรภัณฑ์",
+      "phone": null,
+      "email": null,
+      "address": "423 หมู่ 6 ต.หนองบัวระเหว อ.หนองบัวระเหว จ.ชัยภูมิ 36250",
+      "createdAt": "2026-05-10T09:16:41.182Z"
+    },
+    {
+      "id": 34,
+      "name": "สวนส้มโอภูสังข์ฉาย",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-10T08:53:54.521Z"
+    },
+    {
+      "id": 39,
+      "name": "บริษัท ฟาร์มปุ๋ย จำกัด",
+      "phone": null,
+      "email": null,
+      "address": "289/23 หมู่ 4 ถ.โฉลกรัฐ ต.มะขามเตีั้ย อ.เมืองสุราษฎร์ธานี จ.สุราษฏร์ธานี 84000",
+      "createdAt": "2026-05-10T08:53:54.744Z"
+    },
+    {
+      "id": 37,
+      "name": "ร้านโพธิ์งามการเกษตร",
+      "phone": null,
+      "email": null,
+      "address": "234 หมู่ 13 ต.หัวช้าง อ.จตุรพักตร จ.ร้อยเอ็ด 45180",
+      "createdAt": "2026-05-10T08:53:54.656Z"
+    },
+    {
+      "id": 42,
+      "name": "สวนส้มโดภูสังข์ฉาย",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-15T10:54:50.222Z"
+    },
+    {
+      "id": 43,
+      "name": "ร้านเพชรเมืองแจ่ม (พงศกรณ์  เคนเต้า)",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-15T10:54:50.335Z"
+    },
+    {
+      "id": 44,
+      "name": "ร้านเพชรเมืองแจ่ม (พงศ์กรณ์ เคนเต้า)",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "createdAt": "2026-05-15T10:54:50.382Z"
+    },
+    {
+      "id": 40,
+      "name": "บริษัท สมบูรณ์พืชไทย จำกัด",
+      "phone": "086-4892059 , 093-5846325",
+      "email": null,
+      "address": "60/6 หมู่ 2 ต.ป่าชิง อ.จะนะ จ.สงขลา 90130",
+      "createdAt": "2026-05-10T09:08:47.308Z"
+    }
+  ]
+}

@@ -23,6 +23,16 @@ type Invoice = {
   status: string;
   dueDate: string | null;
   paidAt: string | null;
+  itemName: string | null;
+  quantity: number | null;
+  unit: string | null;
+  unitPrice: number | null;
+  note: string | null;
+  saleDate: string | null;
+  paymentDates: string[];
+  paymentAmounts: number[];
+  needsReview: boolean;
+  reviewNotes: string | null;
   customer: Customer;
   salesperson: Salesperson;
   commission: {
@@ -41,6 +51,12 @@ type InvoiceEditForm = {
   total: string;
   status: string;
   dueDate: string;
+  itemName: string;
+  quantity: string;
+  unit: string;
+  unitPrice: string;
+  note: string;
+  saleDate: string;
 };
 
 const money = new Intl.NumberFormat("th-TH", {
@@ -106,13 +122,19 @@ export default function InvoicesPage() {
     total: "",
     status: "รอชำระ",
     dueDate: "",
+    itemName: "",
+    quantity: "",
+    unit: "",
+    unitPrice: "",
+    note: "",
+    saleDate: "",
   });
   const invoiceTotal = useMemo(
     () => invoices.reduce((sum, invoice) => sum + invoice.total, 0),
     [invoices],
   );
 
-  type StatusTab = "all" | "open" | "overdue" | "paid";
+  type StatusTab = "all" | "open" | "overdue" | "paid" | "review";
   const [statusTab, setStatusTab] = useState<StatusTab>("all");
 
   // Categorize each invoice (memoized): all / open (รอชำระ, ยังไม่เกิน) / overdue (รอชำระ, เกินกำหนด) / paid
@@ -124,6 +146,7 @@ export default function InvoicesPage() {
       open: { count: 0, total: 0 },
       overdue: { count: 0, total: 0 },
       paid: { count: 0, total: 0 },
+      review: { count: 0, total: 0 },
     };
     const tagged = invoices.map((inv) => {
       const norm = normalizeStatus(inv.status);
@@ -139,6 +162,10 @@ export default function InvoicesPage() {
       stats.all.total += inv.total;
       stats[tab].count += 1;
       stats[tab].total += inv.total;
+      if (inv.needsReview) {
+        stats.review.count += 1;
+        stats.review.total += inv.total;
+      }
       return { invoice: inv, tab };
     });
     return { stats, tagged };
@@ -146,7 +173,11 @@ export default function InvoicesPage() {
 
   const sortedInvoices = useMemo(() => {
     const filtered = tabStats.tagged
-      .filter(({ tab }) => statusTab === "all" || tab === statusTab)
+      .filter(({ invoice, tab }) => {
+        if (statusTab === "all") return true;
+        if (statusTab === "review") return invoice.needsReview;
+        return tab === statusTab;
+      })
       .map(({ invoice }) => invoice);
     return filtered.sort(
       (a, b) => compareInvoiceNumbers(a.invoiceNumber, b.invoiceNumber) || a.id - b.id,
@@ -211,6 +242,12 @@ export default function InvoicesPage() {
         commissionRate: 0,
         status: form.status,
         dueDate: form.dueDate,
+        itemName: form.itemName.trim() || null,
+        quantity: form.quantity ? Number(form.quantity) : null,
+        unit: form.unit.trim() || null,
+        unitPrice: form.unitPrice ? Number(form.unitPrice) : null,
+        note: form.note.trim() || null,
+        saleDate: form.saleDate || null,
       }),
     });
 
@@ -223,6 +260,12 @@ export default function InvoicesPage() {
         total: "",
         status: "รอชำระ",
         dueDate: "",
+        itemName: "",
+        quantity: "",
+        unit: "",
+        unitPrice: "",
+        note: "",
+        saleDate: "",
       });
       setFormOpen(false);
       await fetchData();
@@ -242,6 +285,12 @@ export default function InvoicesPage() {
       total: String(invoice.total),
       status: normalizeStatus(invoice.status),
       dueDate: toDateInputValue(invoice.dueDate),
+      itemName: invoice.itemName ?? "",
+      quantity: invoice.quantity != null ? String(invoice.quantity) : "",
+      unit: invoice.unit ?? "",
+      unitPrice: invoice.unitPrice != null ? String(invoice.unitPrice) : "",
+      note: invoice.note ?? "",
+      saleDate: toDateInputValue(invoice.saleDate),
     });
   };
 
@@ -272,6 +321,12 @@ export default function InvoicesPage() {
         total: Number(editForm.total),
         status: editForm.status,
         dueDate: editForm.dueDate,
+        itemName: editForm.itemName.trim() || null,
+        quantity: editForm.quantity ? Number(editForm.quantity) : null,
+        unit: editForm.unit.trim() || null,
+        unitPrice: editForm.unitPrice ? Number(editForm.unitPrice) : null,
+        note: editForm.note.trim() || null,
+        saleDate: editForm.saleDate || null,
       }),
     });
 
@@ -329,6 +384,15 @@ export default function InvoicesPage() {
     if (response.ok) {
       await fetchData();
     }
+  };
+
+  const markReviewed = async (id: number) => {
+    const response = await fetch(`/api/invoices/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ needsReview: false, reviewNotes: null }),
+    });
+    if (response.ok) await fetchData();
   };
 
   return (
@@ -414,6 +478,60 @@ export default function InvoicesPage() {
                 ))}
               </select>
             </label>
+            <label className="field">
+              <span className="field-label">ชื่อสินค้า</span>
+              <input
+                placeholder="เช่น ปุ๋ยสูตร 16-16-16"
+                value={form.itemName}
+                onChange={(event) => setForm({ ...form, itemName: event.target.value })}
+              />
+            </label>
+            <div className="field-grid-3">
+              <label className="field">
+                <span className="field-label">จำนวน</span>
+                <input
+                  type="number"
+                  step="0.001"
+                  min="0"
+                  value={form.quantity}
+                  onChange={(event) => setForm({ ...form, quantity: event.target.value })}
+                />
+              </label>
+              <label className="field">
+                <span className="field-label">หน่วย</span>
+                <input
+                  placeholder="เช่น ตัน, กระสอบ"
+                  value={form.unit}
+                  onChange={(event) => setForm({ ...form, unit: event.target.value })}
+                />
+              </label>
+              <label className="field">
+                <span className="field-label">ราคา/หน่วย</span>
+                <input
+                  type="number"
+                  step="0.001"
+                  min="0"
+                  value={form.unitPrice}
+                  onChange={(event) => setForm({ ...form, unitPrice: event.target.value })}
+                />
+              </label>
+            </div>
+            <label className="field">
+              <span className="field-label">วันที่ขาย</span>
+              <input
+                type="date"
+                value={form.saleDate}
+                onChange={(event) => setForm({ ...form, saleDate: event.target.value })}
+              />
+            </label>
+            <label className="field">
+              <span className="field-label">หมายเหตุ</span>
+              <textarea
+                rows={2}
+                value={form.note}
+                onChange={(event) => setForm({ ...form, note: event.target.value })}
+              />
+            </label>
             <div className="field-grid-2">
               <label className="field">
                 <span className="field-label">ยอดรวม (บาท)</span>
@@ -474,6 +592,25 @@ export default function InvoicesPage() {
                 ✕
               </button>
             </div>
+            {(() => {
+              const inv = invoices.find((i) => i.id === editingId);
+              if (!inv || !inv.needsReview) return null;
+              return (
+                <div className="review-banner">
+                  <div>
+                    <strong>⚠ รายการนี้ต้องตรวจสอบ</strong>
+                    {inv.reviewNotes ? <p className="cell-sub">{inv.reviewNotes}</p> : null}
+                  </div>
+                  <button
+                    type="button"
+                    className="btn-ghost"
+                    onClick={() => editingId !== null && markReviewed(editingId)}
+                  >
+                    ทำเครื่องหมายตรวจแล้ว
+                  </button>
+                </div>
+              );
+            })()}
             <div className="field-grid-2">
               <label className="field">
                 <span className="field-label">เล่มที่</span>
@@ -521,6 +658,58 @@ export default function InvoicesPage() {
                   </option>
                 ))}
               </select>
+            </label>
+            <label className="field">
+              <span className="field-label">ชื่อสินค้า</span>
+              <input
+                value={editForm.itemName}
+                onChange={(event) => updateEditForm({ itemName: event.target.value })}
+              />
+            </label>
+            <div className="field-grid-3">
+              <label className="field">
+                <span className="field-label">จำนวน</span>
+                <input
+                  type="number"
+                  step="0.001"
+                  min="0"
+                  value={editForm.quantity}
+                  onChange={(event) => updateEditForm({ quantity: event.target.value })}
+                />
+              </label>
+              <label className="field">
+                <span className="field-label">หน่วย</span>
+                <input
+                  value={editForm.unit}
+                  onChange={(event) => updateEditForm({ unit: event.target.value })}
+                />
+              </label>
+              <label className="field">
+                <span className="field-label">ราคา/หน่วย</span>
+                <input
+                  type="number"
+                  step="0.001"
+                  min="0"
+                  value={editForm.unitPrice}
+                  onChange={(event) => updateEditForm({ unitPrice: event.target.value })}
+                />
+              </label>
+            </div>
+            <label className="field">
+              <span className="field-label">วันที่ขาย</span>
+              <input
+                type="date"
+                value={editForm.saleDate}
+                onChange={(event) => updateEditForm({ saleDate: event.target.value })}
+              />
+            </label>
+            <label className="field">
+              <span className="field-label">หมายเหตุ</span>
+              <textarea
+                rows={2}
+                value={editForm.note}
+                onChange={(event) => updateEditForm({ note: event.target.value })}
+              />
             </label>
             <div className="field-grid-2">
               <label className="field">
@@ -592,6 +781,7 @@ export default function InvoicesPage() {
               <div className="invoice-tabs" role="tablist" aria-label="กรองตามสถานะ">
                 {([
                   { key: "all", label: "ทั้งหมด" },
+                  { key: "review", label: "⚠ รอตรวจสอบ" },
                   { key: "open", label: "ค้างชำระ" },
                   { key: "overdue", label: "เกินกำหนด" },
                   { key: "paid", label: "ชำระแล้ว" },
@@ -621,6 +811,7 @@ export default function InvoicesPage() {
                   <col className="col-doc" />
                   <col className="col-due" />
                   <col className="col-customer" />
+                  <col className="col-item" />
                   <col className="col-sales" />
                   <col className="col-total" />
                   <col className="col-status" />
@@ -632,6 +823,7 @@ export default function InvoicesPage() {
                     <th>เลขที่</th>
                     <th>ครบกำหนด</th>
                     <th>ลูกค้า</th>
+                    <th>สินค้า / จำนวน</th>
                     <th>เซลส์</th>
                     <th className="num">ยอดรวม</th>
                     <th>สถานะ</th>
@@ -640,13 +832,18 @@ export default function InvoicesPage() {
                 </thead>
                 <tbody>
                   {sortedInvoices.map((invoice) => (
-                    <tr key={invoice.id}>
+                    <tr key={invoice.id} className={invoice.needsReview ? "row-needs-review" : undefined}>
                       {(() => {
                         const parts = parseInvoiceNumber(invoice.invoiceNumber);
                         return (
                           <>
                             <td>
-                              <strong className="cell-strong">{parts.book || "-"}</strong>
+                              <div className="cell-with-badge">
+                                <strong className="cell-strong">{parts.book || (invoice.needsReview ? "-" : "-")}</strong>
+                                {invoice.needsReview ? (
+                                  <span className="review-badge" title={invoice.reviewNotes ?? "รอตรวจสอบ"}>⚠</span>
+                                ) : null}
+                              </div>
                             </td>
                             <td>
                               <strong className="cell-strong">{parts.doc || invoice.invoiceNumber}</strong>
@@ -663,6 +860,20 @@ export default function InvoicesPage() {
                       </td>
                       <td>
                         <strong className="cell-strong">{invoice.customer.name}</strong>
+                      </td>
+                      <td>
+                        {invoice.itemName ? (
+                          <>
+                            <span className="cell-strong">{invoice.itemName}</span>
+                            {invoice.quantity != null ? (
+                              <span className="cell-sub">
+                                {" "}{invoice.quantity}{invoice.unit ? ` ${invoice.unit}` : ""}
+                              </span>
+                            ) : null}
+                          </>
+                        ) : (
+                          <span className="cell-sub">ไม่ระบุ</span>
+                        )}
                       </td>
                       <td>
                         <span className="cell-strong">{invoice.salesperson.name}</span>

@@ -38,6 +38,16 @@ export async function PATCH(
       status?: string;
       dueDate?: Date | null;
       paidAt?: Date | null;
+      itemName?: string | null;
+      quantity?: number | null;
+      unit?: string | null;
+      unitPrice?: number | null;
+      note?: string | null;
+      saleDate?: Date | null;
+      paymentDates?: Date[];
+      paymentAmounts?: number[];
+      needsReview?: boolean;
+      reviewNotes?: string | null;
     } = {};
 
     if (hasOwn(body, "invoiceNumber")) {
@@ -112,6 +122,72 @@ export async function PATCH(
     if (hasOwn(body, "paidAt")) {
       const paidAt = String(body.paidAt ?? "").trim();
       updateData.paidAt = paidAt ? new Date(paidAt) : null;
+    }
+
+    if (hasOwn(body, "itemName")) {
+      const v = String(body.itemName ?? "").trim();
+      updateData.itemName = v || null;
+    }
+    if (hasOwn(body, "unit")) {
+      const v = String(body.unit ?? "").trim();
+      updateData.unit = v || null;
+    }
+    if (hasOwn(body, "note")) {
+      const v = String(body.note ?? "").trim();
+      updateData.note = v || null;
+    }
+    if (hasOwn(body, "quantity")) {
+      const raw = body.quantity;
+      if (raw === null || raw === "" || raw === undefined) {
+        updateData.quantity = null;
+      } else {
+        const n = Number(raw);
+        if (!Number.isFinite(n) || n < 0) {
+          return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
+        }
+        updateData.quantity = n;
+      }
+    }
+    if (hasOwn(body, "unitPrice")) {
+      const raw = body.unitPrice;
+      if (raw === null || raw === "" || raw === undefined) {
+        updateData.unitPrice = null;
+      } else {
+        const n = Number(raw);
+        if (!Number.isFinite(n) || n < 0) {
+          return NextResponse.json({ error: "Invalid invoice data" }, { status: 400 });
+        }
+        updateData.unitPrice = n;
+      }
+    }
+    if (hasOwn(body, "saleDate")) {
+      const v = String(body.saleDate ?? "").trim();
+      updateData.saleDate = v ? new Date(v) : null;
+    }
+    if (hasOwn(body, "paymentDates")) {
+      const arr = Array.isArray(body.paymentDates) ? body.paymentDates : [];
+      updateData.paymentDates = arr
+        .map((entry) => {
+          const t = String(entry ?? "").trim();
+          if (!t) return null;
+          const d = new Date(t);
+          return Number.isNaN(d.getTime()) ? null : d;
+        })
+        .filter((d): d is Date => d !== null);
+    }
+    if (hasOwn(body, "paymentAmounts")) {
+      const arr = Array.isArray(body.paymentAmounts) ? body.paymentAmounts : [];
+      updateData.paymentAmounts = arr.map((entry) => {
+        const n = Number(entry);
+        return Number.isFinite(n) && n >= 0 ? n : 0;
+      });
+    }
+    if (hasOwn(body, "needsReview")) {
+      updateData.needsReview = Boolean(body.needsReview);
+    }
+    if (hasOwn(body, "reviewNotes")) {
+      const v = String(body.reviewNotes ?? "").trim();
+      updateData.reviewNotes = v || null;
     }
 
     if (Object.keys(updateData).length === 0) {

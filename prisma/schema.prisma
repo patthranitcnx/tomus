@@ -34,6 +34,16 @@ model Invoice {
   customerId     Int
   salesperson    Salesperson    @relation(fields: [salespersonId], references: [id], onDelete: Cascade)
   salespersonId  Int
+  itemName       String?
+  quantity       Float?
+  unit           String?
+  unitPrice      Float?
+  note           String?
+  saleDate       DateTime?
+  paymentDates   DateTime[]     @default([])
+  paymentAmounts Float[]        @default([])
+  needsReview    Boolean        @default(false)
+  reviewNotes    String?
   total          Float
   commissionRate Float
   commissionTons Float          @default(0)
