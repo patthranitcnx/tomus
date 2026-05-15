@@ -2070,6 +2070,59 @@ button:disabled {
   color: #6b5b3f;
 }
 
+/* Reconcile page */
+.reconcile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.reconcile-card {
+  background: #fff;
+  border: 1px solid #e3ebe7;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.reconcile-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed #e3ebe7;
+}
+.reconcile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 720px) {
+  .reconcile-grid { grid-template-columns: 1fr; }
+}
+.reconcile-col h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  color: #4a6a5b;
+}
+.reconcile-col dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 0.75rem;
+  font-size: 0.9rem;
+}
+.reconcile-col dl > div {
+  display: contents;
+}
+.reconcile-col dt {
+  color: #7a8a82;
+  font-weight: 500;
+}
+.reconcile-col dd {
+  margin: 0;
+  color: #2a3a32;
+}
+
 /* Multi-item editor */
 .items-editor {
   display: flex;

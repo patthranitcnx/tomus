@@ -27,6 +27,7 @@ const navItems = [
   { href: "/sale-records", label: "รายการขาย", icon: TrendingUp },
   { href: "/expenses", label: "ค่าใช้จ่าย", icon: ReceiptText },
   { href: "/invoices", label: "ใบแจ้งหนี้", icon: FileText },
+  { href: "/reconcile", label: "กระทบยอด", icon: Edit3 },
   { href: "/commissions", label: "คอมมิชชั่น", icon: Coins },
   { href: "/sales", label: "ทีมขาย", icon: WalletCards },
   { href: "/reports", label: "รายงาน", icon: BarChart3 },
