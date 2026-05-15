@@ -18,6 +18,13 @@ type SaleRecord = {
   note: string | null;
 };
 
+type CustomerOption = {
+  id: string;
+  name: string;
+  phone: string;
+  address: string;
+};
+
 type SaleItemForm = {
   id: string;
   itemName: string;
@@ -60,6 +67,17 @@ const createItem = (): SaleItemForm => ({
 });
 
 const toDateInputValue = (date: string | null) => (date ? new Date(date).toISOString().slice(0, 10) : "");
+const toDateKey = (date: Date) =>
+  [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ].join("-");
+const todayDateKey = () => toDateKey(new Date());
+const monthDateRange = (date = new Date()) => ({
+  start: toDateKey(new Date(date.getFullYear(), date.getMonth(), 1)),
+  end: toDateKey(new Date(date.getFullYear(), date.getMonth() + 1, 0)),
+});
 const createPaymentEntry = (): PaymentEntryForm => ({ date: "", amount: "" });
 const normalizePaymentEntries = (paymentDates?: string[], paymentAmounts?: number[]) =>
   paymentDates && paymentDates.length > 0
@@ -72,24 +90,54 @@ const paymentEntryPayload = (paymentEntries: PaymentEntryForm[]) => ({
   paymentDates: paymentEntries.map((entry) => entry.date),
   paymentAmounts: paymentEntries.map((entry) => Number(entry.amount) || 0),
 });
-const formatPaymentEntries = (paymentDates: string[], paymentAmounts: number[]) =>
+const paymentEntriesForDisplay = (paymentDates: string[], paymentAmounts: number[]) =>
   paymentDates
     .filter(Boolean)
-    .map((date, index) => {
-      const label = new Date(date).toLocaleDateString("th-TH");
-      const amount = paymentAmounts[index];
+    .map((date, index) => ({
+      date,
+      label: new Date(date).toLocaleDateString("th-TH", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
+      amount: paymentAmounts[index] ?? 0,
+    }));
 
-      return Number.isFinite(amount) && amount > 0 ? `${label} (${money.format(amount)})` : label;
-    })
-    .join(", ");
+const getPaymentMeta = (saleRecord: SaleRecord) => {
+  const entries = paymentEntriesForDisplay(saleRecord.paymentDates, saleRecord.paymentAmounts ?? []);
+  const paidAmount = entries.reduce((sum, entry) => sum + (Number.isFinite(entry.amount) ? entry.amount : 0), 0);
+  const hasPaymentAmounts = entries.some((entry) => entry.amount > 0);
+  const remainingAmount = Math.max(saleRecord.total - paidAmount, 0);
+  const status =
+    entries.length === 0
+      ? "pending"
+      : hasPaymentAmounts && paidAmount < saleRecord.total
+        ? "partial"
+        : "paid";
+
+  return {
+    entries,
+    hasPaymentAmounts,
+    paidAmount,
+    remainingAmount,
+    status,
+    statusLabel: status === "pending" ? "รอชำระ" : status === "partial" ? "จ่ายบางส่วน" : "ชำระครบ",
+  };
+};
 
 export default function SaleRecordsPage() {
   const [saleRecords, setSaleRecords] = useState<SaleRecord[]>([]);
+  const [customerOptions, setCustomerOptions] = useState<CustomerOption[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<SaleEditForm | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [paymentFilter, setPaymentFilter] = useState("all");
+  const [activeTab, setActiveTab] = useState<"create" | "history" | "summary">("create");
+  const [dateRange, setDateRange] = useState(() => monthDateRange());
   const [form, setForm] = useState({
     customer: "",
     customerPhone: "",
@@ -99,8 +147,24 @@ export default function SaleRecordsPage() {
     note: "",
   });
   const [items, setItems] = useState<SaleItemForm[]>([createItem()]);
+  const customerKeyword = form.customer.trim().toLowerCase();
 
   const total = useMemo(() => saleRecords.reduce((sum, item) => sum + item.total, 0), [saleRecords]);
+  const totalPaid = useMemo(() => saleRecords.reduce((sum, item) => sum + getPaymentMeta(item).paidAmount, 0), [saleRecords]);
+  const totalRemaining = useMemo(() => saleRecords.reduce((sum, item) => sum + getPaymentMeta(item).remainingAmount, 0), [saleRecords]);
+  const customerSuggestions = useMemo(() => {
+    if (!customerKeyword) {
+      return customerOptions.slice(0, 6);
+    }
+
+    return customerOptions
+      .filter((customer) =>
+        [customer.name, customer.phone, customer.address]
+          .filter(Boolean)
+          .some((value) => value.toLowerCase().includes(customerKeyword)),
+      )
+      .slice(0, 6);
+  }, [customerKeyword, customerOptions]);
   const sortedSaleRecords = useMemo(
     () =>
       [...saleRecords].sort((a, b) => {
@@ -110,8 +174,42 @@ export default function SaleRecordsPage() {
       }),
     [saleRecords],
   );
+  const dateFilteredSaleRecords = useMemo(
+    () =>
+      sortedSaleRecords.filter((saleRecord) => {
+        const saleDate = toDateInputValue(saleRecord.saleDate);
+        const matchesStart = !dateRange.start || saleDate >= dateRange.start;
+        const matchesEnd = !dateRange.end || saleDate <= dateRange.end;
+
+        return matchesStart && matchesEnd;
+      }),
+    [dateRange.end, dateRange.start, sortedSaleRecords],
+  );
+  const filteredSaleRecords = useMemo(() => {
+    const normalizedSearch = searchTerm.trim().toLowerCase();
+
+    return dateFilteredSaleRecords.filter((saleRecord) => {
+      const paymentMeta = getPaymentMeta(saleRecord);
+      const matchesStatus = paymentFilter === "all" || paymentMeta.status === paymentFilter;
+      const matchesSearch =
+        normalizedSearch.length === 0 ||
+        [
+          saleRecord.itemName,
+          saleRecord.customer,
+          saleRecord.customerPhone,
+          saleRecord.customerAddress,
+          saleRecord.note,
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase()
+          .includes(normalizedSearch);
+
+      return matchesStatus && matchesSearch;
+    });
+  }, [dateFilteredSaleRecords, paymentFilter, searchTerm]);
   const dailySummary = useMemo(() => {
-    const grouped = sortedSaleRecords.reduce<Record<string, { label: string; total: number; count: number }>>((summary, saleRecord) => {
+    const grouped = dateFilteredSaleRecords.reduce<Record<string, { label: string; total: number; count: number }>>((summary, saleRecord) => {
       const date = new Date(saleRecord.saleDate);
       const key = [
         date.getFullYear(),
@@ -140,7 +238,7 @@ export default function SaleRecordsPage() {
     return Object.entries(grouped)
       .map(([date, summary]) => ({ date, ...summary }))
       .sort((a, b) => b.date.localeCompare(a.date));
-  }, [sortedSaleRecords]);
+  }, [dateFilteredSaleRecords]);
   const formTotal = useMemo(
     () =>
       items.reduce((sum, item) => {
@@ -163,9 +261,131 @@ export default function SaleRecordsPage() {
     setLoading(false);
   };
 
+  const fetchCustomers = async () => {
+    const response = await fetch("/api/customers");
+    const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      return;
+    }
+
+    setCustomerOptions(
+      data.map((customer: { id: number; name: string; phone: string | null; address: string | null }) => ({
+        id: `customer-${customer.id}`,
+        name: customer.name,
+        phone: customer.phone || "",
+        address: customer.address || "",
+      })),
+    );
+  };
+
   useEffect(() => {
     fetchSaleRecords();
+    fetchCustomers();
   }, []);
+
+  useEffect(() => {
+    const applyHashTab = () => {
+      const hash = window.location.hash.replace("#", "");
+
+      if (hash === "history" || hash === "history-all") {
+        setActiveTab("history");
+      }
+
+      if (hash === "summary") {
+        setActiveTab("summary");
+      }
+
+      if (hash === "history-all") {
+        setDateRange({ start: "", end: "" });
+      }
+    };
+
+    applyHashTab();
+    window.addEventListener("hashchange", applyHashTab);
+
+    return () => window.removeEventListener("hashchange", applyHashTab);
+  }, []);
+
+  useEffect(() => {
+    const saleRecordCustomerOptions = saleRecords
+      .filter((saleRecord) => saleRecord.customer)
+      .map((saleRecord) => ({
+        id: `sale-record-${saleRecord.id}`,
+        name: saleRecord.customer || "",
+        phone: saleRecord.customerPhone || "",
+        address: saleRecord.customerAddress || "",
+      }));
+    const uniqueCustomers = new Map<string, CustomerOption>();
+
+    [...customerOptions, ...saleRecordCustomerOptions].forEach((customer) => {
+      const key = customer.name.trim().toLowerCase();
+
+      if (!key) {
+        return;
+      }
+
+      if (!uniqueCustomers.has(key)) {
+        uniqueCustomers.set(key, customer);
+        return;
+      }
+
+      const existingCustomer = uniqueCustomers.get(key)!;
+      uniqueCustomers.set(key, {
+        ...existingCustomer,
+        phone: existingCustomer.phone || customer.phone,
+        address: existingCustomer.address || customer.address,
+      });
+    });
+
+    if (uniqueCustomers.size !== customerOptions.length) {
+      setCustomerOptions(Array.from(uniqueCustomers.values()).sort((a, b) => a.name.localeCompare(b.name, "th")));
+    }
+  }, [customerOptions, saleRecords]);
+
+  const selectCustomer = (customer: CustomerOption) => {
+    setForm((currentForm) => ({
+      ...currentForm,
+      customer: customer.name,
+      customerPhone: customer.phone || currentForm.customerPhone,
+      customerAddress: customer.address || currentForm.customerAddress,
+    }));
+  };
+
+  const updateCustomerName = (name: string) => {
+    const exactCustomer = customerOptions.find((customer) => customer.name.toLowerCase() === name.trim().toLowerCase());
+
+    setForm((currentForm) => ({
+      ...currentForm,
+      customer: name,
+      customerPhone: exactCustomer?.phone || currentForm.customerPhone,
+      customerAddress: exactCustomer?.address || currentForm.customerAddress,
+    }));
+  };
+
+  const applyDatePreset = (preset: "today" | "month" | "all") => {
+    if (preset === "today") {
+      const today = todayDateKey();
+      setDateRange({ start: today, end: today });
+      return;
+    }
+
+    if (preset === "month") {
+      const range = monthDateRange();
+      setDateRange(range);
+      return;
+    }
+
+    setDateRange({ start: "", end: "" });
+  };
+
+  const switchTab = (tab: "create" | "history" | "summary") => {
+    setActiveTab(tab);
+
+    if (typeof window !== "undefined") {
+      window.history.replaceState(null, "", tab === "create" ? window.location.pathname : `#${tab}`);
+    }
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -309,6 +529,10 @@ export default function SaleRecordsPage() {
   };
 
   const deleteSaleRecord = async (id: number) => {
+    if (selectedId === id) {
+      setSelectedId(null);
+    }
+
     await fetch(`/api/sale-records/${id}`, { method: "DELETE" });
     await fetchSaleRecords();
   };
@@ -320,14 +544,87 @@ export default function SaleRecordsPage() {
           <p className="eyebrow">รายการขาย</p>
           <h1>บันทึกการขายสินค้า</h1>
         </div>
-        <article className="mini-total">
-          <span>ยอดขายรวม</span>
-          <strong>{money.format(total)}</strong>
-        </article>
+        <div className="mini-total-grid">
+          <article className="mini-total">
+            <span>ยอดขายรวม</span>
+            <strong>{money.format(total)}</strong>
+          </article>
+          <article className="mini-total">
+            <span>ชำระแล้ว</span>
+            <strong>{money.format(totalPaid)}</strong>
+          </article>
+          <article className="mini-total">
+            <span>ค้างชำระ</span>
+            <strong>{money.format(totalRemaining)}</strong>
+          </article>
+        </div>
       </header>
 
-      <section className="workspace-grid">
-        <form className="panel form" onSubmit={handleSubmit}>
+      <div className="sale-page-tabs" aria-label="ส่วนงานรายการขาย">
+        <button
+          type="button"
+          className={activeTab === "create" ? "active" : undefined}
+          onClick={() => switchTab("create")}
+        >
+          เพิ่มรายการขาย
+        </button>
+        <button
+          type="button"
+          className={activeTab === "history" ? "active" : undefined}
+          onClick={() => switchTab("history")}
+        >
+          ประวัติการขาย
+        </button>
+        <button
+          type="button"
+          className={activeTab === "summary" ? "active" : undefined}
+          onClick={() => switchTab("summary")}
+        >
+          สรุปรายวัน
+        </button>
+      </div>
+
+      {activeTab !== "create" && (
+        <section className="date-filter-panel">
+          <div className="date-range-bar">
+            <div>
+              <p className="eyebrow">ช่วงวันที่</p>
+              <strong>
+                {dateRange.start || "เริ่มต้น"} - {dateRange.end || "ล่าสุด"}
+              </strong>
+            </div>
+            <div className="date-range-actions">
+              <button type="button" className="secondary" onClick={() => applyDatePreset("today")}>
+                วันนี้
+              </button>
+              <button type="button" className="secondary" onClick={() => applyDatePreset("month")}>
+                เดือนนี้
+              </button>
+              <button type="button" className="secondary" onClick={() => applyDatePreset("all")}>
+                ทั้งหมด
+              </button>
+            </div>
+            <div className="date-range-inputs">
+              <input
+                type="date"
+                aria-label="วันที่เริ่มต้น"
+                value={dateRange.start}
+                onChange={(event) => setDateRange((currentRange) => ({ ...currentRange, start: event.target.value }))}
+              />
+              <input
+                type="date"
+                aria-label="วันที่สิ้นสุด"
+                value={dateRange.end}
+                onChange={(event) => setDateRange((currentRange) => ({ ...currentRange, end: event.target.value }))}
+              />
+            </div>
+          </div>
+        </section>
+      )}
+
+      <div className="sale-tab-content">
+        {activeTab === "create" && (
+        <form className="panel form sale-entry-form" onSubmit={handleSubmit}>
           <div className="section-header">
             <div>
               <p className="eyebrow">วันเดียวหลายรายการ</p>
@@ -335,7 +632,31 @@ export default function SaleRecordsPage() {
             </div>
             <strong>{money.format(formTotal)}</strong>
           </div>
-          <input placeholder="ลูกค้า" value={form.customer} onChange={(event) => setForm({ ...form, customer: event.target.value })} />
+          <div className="customer-autocomplete">
+            <input
+              placeholder="ลูกค้า"
+              value={form.customer}
+              onChange={(event) => updateCustomerName(event.target.value)}
+              list="sale-customer-options"
+            />
+            <datalist id="sale-customer-options">
+              {customerOptions.map((customer) => (
+                <option key={customer.id} value={customer.name} />
+              ))}
+            </datalist>
+            {customerSuggestions.length > 0 && form.customer && (
+              <div className="customer-suggestions">
+                {customerSuggestions.map((customer) => (
+                  <button type="button" key={customer.id} onClick={() => selectCustomer(customer)}>
+                    <strong>{customer.name}</strong>
+                    {(customer.phone || customer.address) && (
+                      <span>{[customer.phone, customer.address].filter(Boolean).join(" · ")}</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <input placeholder="เบอร์โทรลูกค้า" value={form.customerPhone} onChange={(event) => setForm({ ...form, customerPhone: event.target.value })} />
           <input placeholder="ที่อยู่ลูกค้า" value={form.customerAddress} onChange={(event) => setForm({ ...form, customerAddress: event.target.value })} />
           <input type="date" value={form.saleDate} onChange={(event) => setForm({ ...form, saleDate: event.target.value })} />
@@ -380,8 +701,9 @@ export default function SaleRecordsPage() {
           <textarea placeholder="หมายเหตุ" value={form.note} onChange={(event) => setForm({ ...form, note: event.target.value })} />
           <button disabled={saving}>{saving ? "กำลังบันทึก..." : `บันทึก ${items.length} รายการ`}</button>
         </form>
+        )}
 
-        <div className="content-stack">
+        {activeTab === "summary" && (
           <section className="panel">
             <div className="section-header">
               <div>
@@ -394,7 +716,7 @@ export default function SaleRecordsPage() {
               <p className="muted">กำลังโหลดข้อมูล...</p>
             ) : (
               <div className="table-wrap">
-                <table className="table">
+                <table className="table daily-summary-table">
                   <thead>
                     <tr>
                       <th>วันที่</th>
@@ -421,47 +743,171 @@ export default function SaleRecordsPage() {
               </div>
             )}
           </section>
+        )}
 
-          <section className="panel">
+        {activeTab === "history" && (
+          <section className="panel sales-history-panel">
             <div className="section-header">
               <div>
                 <p className="eyebrow">ทั้งหมด {saleRecords.length} รายการ</p>
                 <h2>ประวัติการขาย</h2>
               </div>
+              <div className="history-toolbar">
+                <input
+                  className="search-input"
+                  placeholder="ค้นหาลูกค้า / สินค้า"
+                  value={searchTerm}
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                />
+                <select
+                  className="inline-select"
+                  value={paymentFilter}
+                  onChange={(event) => setPaymentFilter(event.target.value)}
+                >
+                  <option value="all">ทุกสถานะ</option>
+                  <option value="pending">รอชำระ</option>
+                  <option value="partial">จ่ายบางส่วน</option>
+                  <option value="paid">ชำระครบ</option>
+                </select>
+              </div>
             </div>
 
             {loading ? (
               <p className="muted">กำลังโหลดข้อมูล...</p>
-            ) : sortedSaleRecords.length === 0 ? (
+            ) : filteredSaleRecords.length === 0 ? (
               <p className="muted">ยังไม่มีรายการขาย</p>
             ) : (
-              <div className="table-wrap">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>วันที่</th>
-                      <th>วันชำระเงิน</th>
-                      <th>สินค้า</th>
-                      <th>จำนวน</th>
-                      <th>ราคาต่อหน่วย</th>
-                      <th>รวม</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {sortedSaleRecords.map((saleRecord) => (
-                      <tr key={saleRecord.id}>
-                        {editingId === saleRecord.id && editForm ? (
-                          <>
-                            <td>
+              <div className="sale-record-list">
+                {filteredSaleRecords.map((saleRecord) => {
+                  const paymentMeta = getPaymentMeta(saleRecord);
+                  const isExpanded = selectedId === saleRecord.id;
+
+                  return (
+                    <article className={`sale-record-card ${isExpanded ? "is-expanded" : ""}`} key={saleRecord.id}>
+                      <button type="button" className="sale-record-summary" onClick={() => setSelectedId(isExpanded ? null : saleRecord.id)}>
+                        <span className="sale-record-date">{new Date(saleRecord.saleDate).toLocaleDateString("th-TH")}</span>
+                        <span className="sale-record-main">
+                          <strong>{saleRecord.customer || "-"}</strong>
+                          <span>{saleRecord.itemName}</span>
+                        </span>
+                        <span className="sale-record-amount">
+                          <strong>{money.format(saleRecord.total)}</strong>
+                          <span>{saleRecord.quantity} {saleRecord.unit || ""}</span>
+                        </span>
+                        <span className="sale-record-payment">
+                          <span className={`payment-status payment-status--${paymentMeta.status}`}>
+                            {paymentMeta.statusLabel}
+                          </span>
+                          <small>{paymentMeta.entries.length > 0 ? `${paymentMeta.entries.length} งวด` : "ไม่มีวันชำระ"}</small>
+                          {paymentMeta.hasPaymentAmounts && <small>{money.format(paymentMeta.paidAmount)}</small>}
+                        </span>
+                        <span className="sale-record-toggle">{isExpanded ? "ซ่อน" : "รายละเอียด"}</span>
+                      </button>
+
+                      {isExpanded && (
+                        <div className="sale-record-detail">
+                          <div className="detail-metrics">
+                            <article>
+                              <span>ยอดขาย</span>
+                              <strong>{money.format(saleRecord.total)}</strong>
+                            </article>
+                            <article>
+                              <span>ชำระแล้ว</span>
+                              <strong>{money.format(paymentMeta.paidAmount)}</strong>
+                            </article>
+                            <article>
+                              <span>ค้างชำระ</span>
+                              <strong>{money.format(paymentMeta.remainingAmount)}</strong>
+                            </article>
+                          </div>
+
+                          <div className="detail-grid">
+                            <div className="detail-block">
+                              <span>สินค้า</span>
+                              <strong>{saleRecord.itemName}</strong>
+                              <p>{saleRecord.quantity} {saleRecord.unit || ""} x {money.format(saleRecord.unitPrice)}</p>
+                            </div>
+
+                            {(saleRecord.customerPhone || saleRecord.customerAddress || saleRecord.note) && (
+                              <div className="detail-block">
+                                <span>ข้อมูลเพิ่มเติม</span>
+                                {saleRecord.customerPhone && <p>{saleRecord.customerPhone}</p>}
+                                {saleRecord.customerAddress && <p>{saleRecord.customerAddress}</p>}
+                                {saleRecord.note && <p>{saleRecord.note}</p>}
+                              </div>
+                            )}
+
+                            <div className="detail-block">
+                              <div className="detail-block-header">
+                                <span>งวดชำระเงิน</span>
+                                <strong>{paymentMeta.entries.length} งวด</strong>
+                              </div>
+                              {paymentMeta.entries.length > 0 ? (
+                                <div className="payment-timeline">
+                                  {paymentMeta.entries.map((entry, index) => (
+                                    <div className="payment-timeline-item" key={`${saleRecord.id}-${entry.date}-${index}`}>
+                                      <span>{entry.label}</span>
+                                      <strong>{entry.amount > 0 ? money.format(entry.amount) : "ไม่ระบุยอด"}</strong>
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : (
+                                <p className="muted">ยังไม่มีข้อมูลการชำระเงิน</p>
+                              )}
+                            </div>
+                          </div>
+
+                          {editingId === saleRecord.id && editForm ? (
+                            <div className="detail-edit-form">
+                              <div className="form-row">
+                                <input
+                                  className="table-input"
+                                  type="date"
+                                  value={editForm.saleDate}
+                                  onChange={(event) => updateEditForm({ saleDate: event.target.value })}
+                                />
+                                <input
+                                  className="table-input"
+                                  placeholder="ลูกค้า"
+                                  value={editForm.customer}
+                                  onChange={(event) => updateEditForm({ customer: event.target.value })}
+                                />
+                              </div>
                               <input
                                 className="table-input"
-                                type="date"
-                                value={editForm.saleDate}
-                                onChange={(event) => updateEditForm({ saleDate: event.target.value })}
+                                required
+                                placeholder="ชื่อสินค้า"
+                                value={editForm.itemName}
+                                onChange={(event) => updateEditForm({ itemName: event.target.value })}
                               />
-                            </td>
-                            <td>
+                              <div className="form-row">
+                                <input
+                                  className="table-input"
+                                  required
+                                  min="0"
+                                  step="0.001"
+                                  type="number"
+                                  placeholder="จำนวน"
+                                  value={editForm.quantity}
+                                  onChange={(event) => updateEditForm({ quantity: event.target.value })}
+                                />
+                                <input
+                                  className="table-input"
+                                  placeholder="หน่วย"
+                                  value={editForm.unit}
+                                  onChange={(event) => updateEditForm({ unit: event.target.value })}
+                                />
+                              </div>
+                              <input
+                                className="table-input"
+                                required
+                                min="0"
+                                step="0.001"
+                                type="number"
+                                placeholder="ราคาต่อหน่วย"
+                                value={editForm.unitPrice}
+                                onChange={(event) => updateEditForm({ unitPrice: event.target.value })}
+                              />
                               <div className="table-field-stack">
                                 {editForm.paymentEntries.map((paymentEntry, index) => (
                                   <div className="payment-row" key={index}>
@@ -491,75 +937,12 @@ export default function SaleRecordsPage() {
                                   เพิ่มวัน
                                 </button>
                               </div>
-                            </td>
-                            <td>
-                              <div className="table-field-stack">
-                                <input
-                                  className="table-input"
-                                  required
-                                  placeholder="ชื่อสินค้า"
-                                  value={editForm.itemName}
-                                  onChange={(event) => updateEditForm({ itemName: event.target.value })}
-                                />
-                                <input
-                                  className="table-input"
-                                  placeholder="ลูกค้า"
-                                  value={editForm.customer}
-                                  onChange={(event) => updateEditForm({ customer: event.target.value })}
-                                />
-                                <input
-                                  className="table-input"
-                                  placeholder="เบอร์โทรลูกค้า"
-                                  value={editForm.customerPhone}
-                                  onChange={(event) => updateEditForm({ customerPhone: event.target.value })}
-                                />
-                                <input
-                                  className="table-input"
-                                  placeholder="ที่อยู่ลูกค้า"
-                                  value={editForm.customerAddress}
-                                  onChange={(event) => updateEditForm({ customerAddress: event.target.value })}
-                                />
-                                <textarea
-                                  className="table-input table-textarea"
-                                  placeholder="หมายเหตุ"
-                                  value={editForm.note}
-                                  onChange={(event) => updateEditForm({ note: event.target.value })}
-                                />
-                              </div>
-                            </td>
-                            <td>
-                              <div className="table-field-stack table-field-stack--small">
-                                <input
-                                  className="table-input"
-                                  required
-                                  min="0"
-                                  step="0.001"
-                                  type="number"
-                                  placeholder="จำนวน"
-                                  value={editForm.quantity}
-                                  onChange={(event) => updateEditForm({ quantity: event.target.value })}
-                                />
-                                <input
-                                  className="table-input"
-                                  placeholder="หน่วย"
-                                  value={editForm.unit}
-                                  onChange={(event) => updateEditForm({ unit: event.target.value })}
-                                />
-                              </div>
-                            </td>
-                            <td>
-                              <input
-                                className="table-input"
-                                required
-                                min="0"
-                                step="0.001"
-                                type="number"
-                                value={editForm.unitPrice}
-                                onChange={(event) => updateEditForm({ unitPrice: event.target.value })}
+                              <textarea
+                                className="table-input table-textarea"
+                                placeholder="หมายเหตุ"
+                                value={editForm.note}
+                                onChange={(event) => updateEditForm({ note: event.target.value })}
                               />
-                            </td>
-                            <td>{money.format((Number(editForm.quantity) || 0) * (Number(editForm.unitPrice) || 0))}</td>
-                            <td>
                               <div className="table-actions">
                                 <button type="button" disabled={updating} onClick={() => saveEdit(saleRecord.id)}>
                                   {updating ? "บันทึก..." : "บันทึก"}
@@ -568,50 +951,27 @@ export default function SaleRecordsPage() {
                                   ยกเลิก
                                 </button>
                               </div>
-                            </td>
-                          </>
-                        ) : (
-                          <>
-                            <td>{new Date(saleRecord.saleDate).toLocaleDateString("th-TH")}</td>
-                            <td>
-                              {saleRecord.paymentDates.length > 0 ? (
-                                <>
-                                  {formatPaymentEntries(saleRecord.paymentDates, saleRecord.paymentAmounts ?? [])}
-                                  <span>ชำระแล้ว</span>
-                                </>
-                              ) : (
-                                <span>ยังไม่ชำระ</span>
-                              )}
-                            </td>
-                            <td>
-                              <strong>{saleRecord.itemName}</strong>
-                              <span>{saleRecord.customer || saleRecord.note || "-"}</span>
-                              {(saleRecord.customerPhone || saleRecord.customerAddress) && (
-                                <span>{[saleRecord.customerPhone, saleRecord.customerAddress].filter(Boolean).join(" · ")}</span>
-                              )}
-                            </td>
-                            <td>{saleRecord.quantity} {saleRecord.unit || ""}</td>
-                            <td>{money.format(saleRecord.unitPrice)}</td>
-                            <td>{money.format(saleRecord.total)}</td>
-                            <td>
-                              <div className="table-actions">
-                                <button type="button" className="btn-ghost" onClick={() => startEdit(saleRecord)}>
-                                  แก้ไข
-                                </button>
-                                <button type="button" className="btn-danger" onClick={() => deleteSaleRecord(saleRecord.id)}>ลบ</button>
-                              </div>
-                            </td>
-                          </>
-                        )}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                            </div>
+                          ) : (
+                            <div className="detail-actions">
+                              <button type="button" className="secondary" onClick={() => startEdit(saleRecord)}>
+                                แก้ไขรายการนี้
+                              </button>
+                              <button type="button" className="btn-danger" onClick={() => deleteSaleRecord(saleRecord.id)}>
+                                ลบ
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </article>
+                  );
+                })}
               </div>
             )}
           </section>
-        </div>
-      </section>
+        )}
+      </div>
     </div>
   );
 }
