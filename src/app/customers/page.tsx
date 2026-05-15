@@ -63,7 +63,6 @@ export default function CustomersPage() {
   const [updating, setUpdating] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<CustomerEditForm | null>(null);
-  const [importing, setImporting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
@@ -164,30 +163,6 @@ export default function CustomersPage() {
     }
 
     setUpdating(false);
-  };
-
-  const importSaleRecordCustomers = async () => {
-    setImporting(true);
-    setMessage(null);
-    setError(null);
-
-    try {
-      const response = await fetch("/api/customers/import-sale-records", {
-        method: "POST",
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(data.message || "นำเข้ารายชื่อลูกค้าสำเร็จ");
-        await fetchCustomers();
-      } else {
-        setError(data.error || "ไม่สามารถนำเข้ารายชื่อลูกค้าได้");
-      }
-    } catch {
-      setError("ไม่สามารถนำเข้ารายชื่อลูกค้าได้");
-    }
-
-    setImporting(false);
   };
 
   const deleteCustomer = async (id: number) => {
@@ -392,9 +367,6 @@ export default function CustomersPage() {
               <p className="eyebrow">ทั้งหมด {customers.length} ราย</p>
               <h2>รายชื่อลูกค้า</h2>
             </div>
-            <button type="button" className="btn-ghost" onClick={importSaleRecordCustomers} disabled={importing}>
-              {importing ? "กำลังดึง..." : "ดึงจากรายการขาย"}
-            </button>
             <input
               className="search-input"
               placeholder="ค้นหาลูกค้า"
