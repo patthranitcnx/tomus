@@ -575,13 +575,6 @@ export default function SaleRecordsPage() {
         >
           ประวัติการขาย
         </button>
-        <button
-          type="button"
-          className={activeTab === "summary" ? "active" : undefined}
-          onClick={() => switchTab("summary")}
-        >
-          สรุปรายวัน
-        </button>
       </div>
 
       {activeTab !== "create" && (

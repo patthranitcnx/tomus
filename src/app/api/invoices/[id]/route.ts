@@ -37,6 +37,7 @@ export async function PATCH(
       commissionTons?: number;
       status?: string;
       dueDate?: Date | null;
+      paidAt?: Date | null;
     } = {};
 
     if (hasOwn(body, "invoiceNumber")) {
@@ -106,6 +107,11 @@ export async function PATCH(
     if (hasOwn(body, "dueDate")) {
       const dueDate = String(body.dueDate ?? "").trim();
       updateData.dueDate = dueDate ? new Date(dueDate) : null;
+    }
+
+    if (hasOwn(body, "paidAt")) {
+      const paidAt = String(body.paidAt ?? "").trim();
+      updateData.paidAt = paidAt ? new Date(paidAt) : null;
     }
 
     if (Object.keys(updateData).length === 0) {

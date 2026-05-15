@@ -21,6 +21,7 @@ type Invoice = {
   commissionTons: number;
   status: string;
   dueDate: string | null;
+  paidAt: string | null;
   customer: Customer;
   salesperson: Salesperson;
   commission: {
@@ -74,6 +75,8 @@ export default function InvoicesPage() {
   const [updating, setUpdating] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<InvoiceEditForm | null>(null);
+  const [receivingPaymentId, setReceivingPaymentId] = useState<number | null>(null);
+  const [receivingPaymentDate, setReceivingPaymentDate] = useState("");
   const [form, setForm] = useState({
     invoiceNumber: "",
     customerId: "",
@@ -227,6 +230,40 @@ export default function InvoicesPage() {
     await fetchData();
   };
 
+  const markPaymentReceived = async (id: number, paidDate: string) => {
+    if (!paidDate) return;
+    
+    const response = await fetch(`/api/invoices/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        status: "ชำระแล้ว",
+        paidAt: paidDate 
+      }),
+    });
+    
+    if (response.ok) {
+      setReceivingPaymentId(null);
+      setReceivingPaymentDate("");
+      await fetchData();
+    }
+  };
+
+  const cancelPaymentReceived = async (id: number) => {
+    const response = await fetch(`/api/invoices/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        status: "รอชำระ",
+        paidAt: null 
+      }),
+    });
+    
+    if (response.ok) {
+      await fetchData();
+    }
+  };
+
   return (
     <div className="page-shell">
       <header className="page-header">
@@ -300,16 +337,7 @@ export default function InvoicesPage() {
             value={form.commissionRate}
             onChange={(event) => setForm({ ...form, commissionRate: event.target.value })}
           />
-          <select
-            value={form.status}
-            onChange={(event) => setForm({ ...form, status: event.target.value })}
-          >
-            {statusOptions.map((status) => (
-              <option key={status.value} value={status.value}>
-                {status.label}
-              </option>
-            ))}
-          </select>
+          <input type="hidden" value={form.status} />
           <input
             type="date"
             value={form.dueDate}
@@ -481,17 +509,43 @@ export default function InvoicesPage() {
                             <span>{money.format(invoice.commissionRate)} / ตัน</span>
                           </td>
                           <td>
-                            <select
-                              className="inline-select"
-                              value={normalizeStatus(invoice.status)}
-                              onChange={(event) => updateStatus(invoice.id, event.target.value)}
-                            >
-                              {statusOptions.map((status) => (
-                                <option key={status.value} value={status.value}>
-                                  {status.label}
-                                </option>
-                              ))}
-                            </select>
+                            <div className="table-field-stack table-field-stack--small">
+                              <span>{normalizeStatus(invoice.status)}</span>
+                              {invoice.status === "รอชำระ" && receivingPaymentId !== invoice.id ? (
+                                <button type="button" className="secondary" onClick={() => setReceivingPaymentId(invoice.id)}>
+                                  รับชำระ
+                                </button>
+                              ) : null}
+                              {invoice.status === "ชำระแล้ว" && invoice.paidAt ? (
+                                <>
+                                  <span>{new Date(invoice.paidAt).toLocaleDateString("th-TH")}</span>
+                                  <button type="button" className="btn-ghost" onClick={() => cancelPaymentReceived(invoice.id)}>
+                                    ยกเลิกรับชำระ
+                                  </button>
+                                </>
+                              ) : null}
+                              {receivingPaymentId === invoice.id ? (
+                                <div className="table-field-stack table-field-stack--compact">
+                                  <input
+                                    type="date"
+                                    aria-label="วันที่ชำระ"
+                                    value={receivingPaymentDate}
+                                    onChange={(event) => setReceivingPaymentDate(event.target.value)}
+                                  />
+                                  <div className="table-actions table-actions--compact">
+                                    <button type="button" onClick={() => markPaymentReceived(invoice.id, receivingPaymentDate)} disabled={!receivingPaymentDate}>
+                                      ยืนยัน
+                                    </button>
+                                    <button type="button" className="btn-ghost" onClick={() => {
+                                      setReceivingPaymentId(null);
+                                      setReceivingPaymentDate("");
+                                    }}>
+                                      ยกเลิก
+                                    </button>
+                                  </div>
+                                </div>
+                              ) : null}
+                            </div>
                           </td>
                           <td>
                             {invoice.commission ? money.format(invoice.commission.amount) : "-"}
