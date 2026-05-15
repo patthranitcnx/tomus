@@ -79,7 +79,31 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(customers);
+    const saleRecords = await prisma.saleRecord.findMany({
+      select: { customer: true, customerPhone: true },
+    });
+
+    const countByName = new Map<string, number>();
+    const countByPhone = new Map<string, number>();
+    for (const record of saleRecords) {
+      const nameKey = (record.customer ?? "").trim().toLowerCase();
+      const phoneKey = (record.customerPhone ?? "").trim();
+      if (nameKey) {
+        countByName.set(nameKey, (countByName.get(nameKey) ?? 0) + 1);
+      } else if (phoneKey) {
+        countByPhone.set(phoneKey, (countByPhone.get(phoneKey) ?? 0) + 1);
+      }
+    }
+
+    const withCounts = customers.map((customer) => {
+      const nameKey = customer.name.trim().toLowerCase();
+      const phoneKey = (customer.phone ?? "").trim();
+      const saleRecordCount =
+        (countByName.get(nameKey) ?? 0) + (phoneKey ? countByPhone.get(phoneKey) ?? 0 : 0);
+      return { ...customer, saleRecordCount };
+    });
+
+    return NextResponse.json(withCounts);
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch customers" }, { status: 500 });
   }

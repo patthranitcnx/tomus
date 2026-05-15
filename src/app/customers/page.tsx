@@ -10,6 +10,7 @@ type Customer = {
   email: string | null;
   address: string | null;
   invoices: Array<{ total: number }>;
+  saleRecordCount: number;
 };
 
 type CustomerEditForm = {
@@ -505,7 +506,6 @@ export default function CustomersPage() {
                   <tr>
                     <th>ชื่อ</th>
                     <th>ติดต่อ</th>
-                    <th>ใบแจ้งหนี้</th>
                     <th>ยอดขาย</th>
                     <th></th>
                   </tr>
@@ -524,12 +524,11 @@ export default function CustomersPage() {
                           {customer.phone || ""}
                           {customer.email ? <span>{customer.email}</span> : null}
                         </td>
-                        <td>{customer.invoices.length}</td>
                         <td>{money.format(total)}</td>
                         <td>
                           <div className="table-actions">
                             <button type="button" className="btn-ghost" onClick={() => openPurchases(customer)}>
-                              ดูรายการซื้อ
+                              ดูรายการซื้อ ({customer.invoices.length} ใบแจ้งหนี้ · {customer.saleRecordCount} ใบเสร็จ)
                             </button>
                             <button type="button" className="btn-ghost" onClick={() => startEdit(customer)}>
                               แก้ไข
