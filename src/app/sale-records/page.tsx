@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { formatThaiDate } from "@/lib/format-date";
 
 type SaleRecord = {
   id: number;
@@ -95,11 +96,7 @@ const paymentEntriesForDisplay = (paymentDates: string[], paymentAmounts: number
     .filter(Boolean)
     .map((date, index) => ({
       date,
-      label: new Date(date).toLocaleDateString("th-TH", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      }),
+      label: formatThaiDate(date),
       amount: paymentAmounts[index] ?? 0,
     }));
 
@@ -221,7 +218,7 @@ export default function SaleRecordsPage() {
         summary[key] = {
           label: date.toLocaleDateString("th-TH", {
             day: "numeric",
-            month: "long",
+            month: "short",
             year: "numeric",
           }),
           total: 0,
@@ -778,7 +775,7 @@ export default function SaleRecordsPage() {
                   return (
                     <article className={`sale-record-card ${isExpanded ? "is-expanded" : ""}`} key={saleRecord.id}>
                       <button type="button" className="sale-record-summary" onClick={() => setSelectedId(isExpanded ? null : saleRecord.id)}>
-                        <span className="sale-record-date">{new Date(saleRecord.saleDate).toLocaleDateString("th-TH")}</span>
+                        <span className="sale-record-date">{formatThaiDate(saleRecord.saleDate)}</span>
                         <span className="sale-record-main">
                           <strong>{saleRecord.customer || "-"}</strong>
                           <span>{saleRecord.itemName}</span>

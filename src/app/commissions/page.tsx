@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { compareInvoiceNumbers } from "@/lib/invoice-sorting";
+import { formatThaiDate } from "@/lib/format-date";
 
 type Customer = { id: number; name: string };
 type Salesperson = { id: number; name: string };
@@ -318,7 +319,7 @@ export default function CommissionsPage() {
                             <strong className="cell-strong">{inv.invoiceNumber}</strong>
                             {inv.dueDate && (
                               <span className="cell-sub">
-                                ครบ {new Date(inv.dueDate).toLocaleDateString("th-TH")}
+                                ครบ {formatThaiDate(inv.dueDate)}
                               </span>
                             )}
                           </td>
@@ -367,7 +368,7 @@ export default function CommissionsPage() {
                                   {inv.commission.paid
                                     ? `จ่ายแล้ว${
                                         inv.commission.paidAt
-                                          ? " " + new Date(inv.commission.paidAt).toLocaleDateString("th-TH")
+                                          ? " " + formatThaiDate(inv.commission.paidAt)
                                           : ""
                                       }`
                                     : "ยังไม่จ่าย"}

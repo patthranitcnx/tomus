@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { compareInvoiceNumbers } from "@/lib/invoice-sorting";
+import { formatThaiDate } from "@/lib/format-date";
 
 type Customer = {
   id: number;
@@ -655,7 +656,7 @@ export default function InvoicesPage() {
                       })()}
                       <td className="col-due-cell">
                         {invoice.dueDate ? (
-                          <span className="cell-strong">{new Date(invoice.dueDate).toLocaleDateString("th-TH")}</span>
+                          <span className="cell-strong">{formatThaiDate(invoice.dueDate)}</span>
                         ) : (
                           <span className="cell-sub">ไม่ระบุ</span>
                         )}
@@ -677,7 +678,7 @@ export default function InvoicesPage() {
                           ) : null}
                           {invoice.status === "ชำระแล้ว" && invoice.paidAt ? (
                             <>
-                              <span className="cell-sub">ชำระ {new Date(invoice.paidAt).toLocaleDateString("th-TH")}</span>
+                              <span className="cell-sub">ชำระ {formatThaiDate(invoice.paidAt)}</span>
                               <button type="button" className="receive-link" onClick={() => cancelPaymentReceived(invoice.id)}>
                                 ยกเลิกรับชำระ
                               </button>

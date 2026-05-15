@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { formatThaiDate } from "@/lib/format-date";
 
 type Purchase = {
   id: number;
@@ -74,7 +75,7 @@ const formatPaymentEntries = (paymentDates: string[], paymentAmounts: number[]) 
   paymentDates
     .filter(Boolean)
     .map((date, index) => {
-      const label = new Date(date).toLocaleDateString("th-TH");
+      const label = formatThaiDate(date);
       const amount = paymentAmounts[index];
 
       return Number.isFinite(amount) && amount > 0 ? `${label} (${money.format(amount)})` : label;
@@ -593,7 +594,7 @@ export default function PurchasesPage() {
                           </>
                         ) : (
                           <>
-                            <td>{new Date(purchase.purchaseDate).toLocaleDateString("th-TH")}</td>
+                            <td>{formatThaiDate(purchase.purchaseDate)}</td>
                             <td>
                               {purchase.paymentDates.length > 0 ? (
                                 <div className="payment-cell">
@@ -667,7 +668,7 @@ export default function PurchasesPage() {
                     ) : (
                       dailySummary.map((day) => (
                         <tr key={day.date.toISOString()}>
-                          <td>{day.date.toLocaleDateString("th-TH")}</td>
+                          <td>{formatThaiDate(day.date)}</td>
                           <td>{day.count}</td>
                           <td>{money.format(day.total)}</td>
                         </tr>

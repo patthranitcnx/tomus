@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { formatThaiDate } from "@/lib/format-date";
 
 type Expense = {
   id: number;
@@ -53,7 +54,7 @@ export default function ExpensesPage() {
 
       if (!summary[key]) {
         summary[key] = {
-          label: date.toLocaleDateString("th-TH", { month: "long", year: "numeric" }),
+          label: date.toLocaleDateString("th-TH", { month: "short", year: "numeric" }),
           total: 0,
           count: 0,
         };
@@ -302,7 +303,7 @@ export default function ExpensesPage() {
                         </>
                       ) : (
                         <>
-                          <td>{new Date(expense.expenseDate).toLocaleDateString("th-TH")}</td>
+                          <td>{formatThaiDate(expense.expenseDate)}</td>
                           <td>
                             <strong>{expense.title}</strong>
                             <span>{expense.note || "-"}</span>

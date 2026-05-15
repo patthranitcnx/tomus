@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { formatThaiDate } from "@/lib/format-date";
 
 type Customer = {
   id: number;
@@ -399,7 +400,7 @@ export default function CustomersPage() {
                       {purchases.invoices.map((invoice) => (
                         <tr key={invoice.id}>
                           <td>{invoice.invoiceNumber}</td>
-                          <td>{new Date(invoice.createdAt).toLocaleDateString("th-TH")}</td>
+                          <td>{formatThaiDate(invoice.createdAt)}</td>
                           <td>{invoice.salesperson?.name || "-"}</td>
                           <td>{invoice.status}</td>
                           <td style={{ textAlign: "right" }}>{money.format(invoice.total)}</td>
@@ -432,7 +433,7 @@ export default function CustomersPage() {
                     <tbody>
                       {purchases.saleRecords.map((record) => (
                         <tr key={record.id}>
-                          <td>{new Date(record.saleDate).toLocaleDateString("th-TH")}</td>
+                          <td>{formatThaiDate(record.saleDate)}</td>
                           <td>{record.itemName}</td>
                           <td style={{ textAlign: "right" }}>
                             {record.quantity}
