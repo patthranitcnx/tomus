@@ -3,6 +3,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { createPortal } from "react-dom";
 import {
   BarChart3,
   Coins,
@@ -73,8 +74,10 @@ export function Navbar() {
   const [profile, setProfile] = useState<CompanyProfile>(defaultProfile);
   const [draft, setDraft] = useState<CompanyProfile>(defaultProfile);
   const [editOpen, setEditOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const stored = parseStoredProfile(window.localStorage.getItem(profileStorageKey));
     setProfile(stored);
     setDraft(stored);
@@ -136,7 +139,93 @@ export function Navbar() {
     event.target.value = "";
   };
 
+  const companyProfileModal = editOpen ? (
+    <div
+      className="modal-backdrop"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) {
+          setEditOpen(false);
+        }
+      }}
+    >
+      <div className="modal-card company-profile-modal">
+        <div className="section-header">
+          <div>
+            <p className="eyebrow">ตั้งค่าธุรกิจ</p>
+            <h2>แก้ไขข้อมูลบริษัท</h2>
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="field-label" htmlFor="company-name">ชื่อบริษัท</label>
+          <input
+            id="company-name"
+            value={draft.companyName}
+            onChange={(event) => setDraft((current) => ({ ...current, companyName: event.target.value }))}
+            placeholder="ชื่อบริษัท"
+          />
+        </div>
+
+        <div className="field">
+          <label className="field-label" htmlFor="company-tax-id">เลขประจำตัวผู้เสียภาษี</label>
+          <input
+            id="company-tax-id"
+            value={draft.taxId}
+            onChange={(event) => setDraft((current) => ({ ...current, taxId: event.target.value }))}
+            placeholder="0-0000-00000-00-0"
+          />
+        </div>
+
+        <div className="field">
+          <label className="field-label" htmlFor="company-address">ที่อยู่</label>
+          <textarea
+            id="company-address"
+            className="company-address-input"
+            value={draft.address}
+            onChange={(event) => setDraft((current) => ({ ...current, address: event.target.value }))}
+            placeholder="ที่อยู่บริษัท"
+          />
+        </div>
+
+        <div className="field">
+          <label className="field-label" htmlFor="company-phone">เบอร์โทร</label>
+          <input
+            id="company-phone"
+            value={draft.phone}
+            onChange={(event) => setDraft((current) => ({ ...current, phone: event.target.value }))}
+            placeholder="02-xxx-xxxx"
+          />
+        </div>
+
+        <div className="field">
+          <label className="field-label" htmlFor="company-logo">โลโก้มุมซ้าย</label>
+          <input id="company-logo" type="file" accept="image/*" onChange={onLogoChange} />
+          {draft.logoDataUrl ? (
+            <div className="company-logo-preview-wrap">
+              <img src={draft.logoDataUrl} alt="ตัวอย่างโลโก้" className="company-logo-preview" />
+              <button
+                type="button"
+                className="btn-ghost"
+                onClick={() => setDraft((current) => ({ ...current, logoDataUrl: "" }))}
+              >
+                ลบโลโก้
+              </button>
+            </div>
+          ) : null}
+        </div>
+
+        <div className="modal-actions">
+          <button type="button" className="btn-ghost" onClick={() => setEditOpen(false)}>
+            ยกเลิก
+          </button>
+          <button type="button" onClick={saveProfile}>บันทึกข้อมูล</button>
+        </div>
+      </div>
+    </div>
+  ) : null;
+
   return (
+    <>
     <aside className="app-sidebar">
       <Link href="/" className="brand">
         <span className="brand-mark">
@@ -176,91 +265,8 @@ export function Navbar() {
           );
         })}
       </nav>
-
-      {editOpen && (
-        <div
-          className="modal-backdrop"
-          onClick={(event) => {
-            if (event.target === event.currentTarget) {
-              setEditOpen(false);
-            }
-          }}
-        >
-          <div className="modal-card company-profile-modal">
-            <div className="section-header">
-              <div>
-                <p className="eyebrow">ตั้งค่าธุรกิจ</p>
-                <h2>แก้ไขข้อมูลบริษัท</h2>
-              </div>
-            </div>
-
-            <div className="field">
-              <label className="field-label" htmlFor="company-name">ชื่อบริษัท</label>
-              <input
-                id="company-name"
-                value={draft.companyName}
-                onChange={(event) => setDraft((current) => ({ ...current, companyName: event.target.value }))}
-                placeholder="ชื่อบริษัท"
-              />
-            </div>
-
-            <div className="field">
-              <label className="field-label" htmlFor="company-tax-id">เลขประจำตัวผู้เสียภาษี</label>
-              <input
-                id="company-tax-id"
-                value={draft.taxId}
-                onChange={(event) => setDraft((current) => ({ ...current, taxId: event.target.value }))}
-                placeholder="0-0000-00000-00-0"
-              />
-            </div>
-
-            <div className="field">
-              <label className="field-label" htmlFor="company-address">ที่อยู่</label>
-              <textarea
-                id="company-address"
-                className="company-address-input"
-                value={draft.address}
-                onChange={(event) => setDraft((current) => ({ ...current, address: event.target.value }))}
-                placeholder="ที่อยู่บริษัท"
-              />
-            </div>
-
-            <div className="field">
-              <label className="field-label" htmlFor="company-phone">เบอร์โทร</label>
-              <input
-                id="company-phone"
-                value={draft.phone}
-                onChange={(event) => setDraft((current) => ({ ...current, phone: event.target.value }))}
-                placeholder="02-xxx-xxxx"
-              />
-            </div>
-
-            <div className="field">
-              <label className="field-label" htmlFor="company-logo">โลโก้มุมซ้าย</label>
-              <input id="company-logo" type="file" accept="image/*" onChange={onLogoChange} />
-              {draft.logoDataUrl ? (
-                <div className="company-logo-preview-wrap">
-                  <img src={draft.logoDataUrl} alt="ตัวอย่างโลโก้" className="company-logo-preview" />
-                  <button
-                    type="button"
-                    className="btn-ghost"
-                    onClick={() => setDraft((current) => ({ ...current, logoDataUrl: "" }))}
-                  >
-                    ลบโลโก้
-                  </button>
-                </div>
-              ) : null}
-            </div>
-
-            <div className="modal-actions">
-              <button type="button" className="btn-ghost" onClick={() => setEditOpen(false)}>
-                ยกเลิก
-              </button>
-              <button type="button" onClick={saveProfile}>บันทึกข้อมูล</button>
-            </div>
-          </div>
-        </div>
-      )}
     </aside>
+    {mounted && companyProfileModal ? createPortal(companyProfileModal, document.body) : null}
+    </>
   );
 }
