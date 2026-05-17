@@ -23,6 +23,7 @@ export async function GET() {
       include: {
         customer: { select: { id: true, name: true, phone: true, address: true } },
         salesperson: { select: { id: true, name: true } },
+        commission: true,
         items: { orderBy: [{ position: "asc" }, { id: "asc" }] },
       },
     });

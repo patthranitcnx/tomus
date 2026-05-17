@@ -61,6 +61,8 @@ type InvoiceEditForm = {
   documentNumber: string;
   customerId: string;
   salespersonId: string;
+  commissionTons: string;
+  commissionRate: string;
   status: string;
   dueDate: string;
   items: ItemFormRow[];
@@ -143,6 +145,7 @@ export default function InvoicesPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [editError, setEditError] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<InvoiceEditForm | null>(null);
   const [receivingPaymentId, setReceivingPaymentId] = useState<number | null>(null);
@@ -153,6 +156,8 @@ export default function InvoicesPage() {
     documentNumber: "",
     customerId: "",
     salespersonId: "",
+    commissionTons: "",
+    commissionRate: "",
     status: "รอชำระ",
     dueDate: "",
     items: [emptyItemRow()] as ItemFormRow[],
@@ -271,8 +276,8 @@ export default function InvoicesPage() {
         customerId: Number(form.customerId),
         salespersonId: Number(form.salespersonId),
         items,
-        commissionTons: 0,
-        commissionRate: 0,
+        commissionTons: Number(form.commissionTons) || 0,
+        commissionRate: Number(form.commissionRate) || 0,
         status: form.status,
         dueDate: form.dueDate,
         note: form.note.trim() || null,
@@ -286,6 +291,8 @@ export default function InvoicesPage() {
         documentNumber: "",
         customerId: "",
         salespersonId: "",
+        commissionTons: "",
+        commissionRate: "",
         status: "รอชำระ",
         dueDate: "",
         items: [emptyItemRow()],
@@ -309,12 +316,15 @@ export default function InvoicesPage() {
           unitPrice: String(item.unitPrice),
         }))
       : [emptyItemRow()];
+    setEditError("");
     setEditingId(invoice.id);
     setEditForm({
       bookNumber: parts.book,
       documentNumber: parts.doc,
       customerId: String(invoice.customer.id),
       salespersonId: String(invoice.salesperson.id),
+      commissionTons: String(invoice.commissionTons),
+      commissionRate: String(invoice.commissionRate),
       status: normalizeStatus(invoice.status),
       dueDate: toDateInputValue(invoice.dueDate),
       items: itemRows,
@@ -326,6 +336,7 @@ export default function InvoicesPage() {
   const cancelEdit = () => {
     setEditingId(null);
     setEditForm(null);
+    setEditError("");
   };
 
   const updateEditForm = (values: Partial<InvoiceEditForm>) => {
@@ -370,30 +381,44 @@ export default function InvoicesPage() {
     }
 
     setUpdating(true);
+    setEditError("");
 
     const invoiceNumber = buildInvoiceNumber(editForm.bookNumber, editForm.documentNumber);
     const items = itemRowsToPayload(editForm.items);
-    const response = await fetch(`/api/invoices/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        invoiceNumber,
-        customerId: Number(editForm.customerId),
-        salespersonId: Number(editForm.salespersonId),
-        items,
-        status: editForm.status,
-        dueDate: editForm.dueDate,
-        note: editForm.note.trim() || null,
-        saleDate: editForm.saleDate || null,
-      }),
-    });
+    try {
+      const response = await fetch(`/api/invoices/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          invoiceNumber,
+          customerId: Number(editForm.customerId),
+          salespersonId: Number(editForm.salespersonId),
+          items,
+          commissionTons: Number(editForm.commissionTons) || 0,
+          commissionRate: Number(editForm.commissionRate) || 0,
+          status: editForm.status,
+          dueDate: editForm.dueDate,
+          note: editForm.note.trim() || null,
+          saleDate: editForm.saleDate || null,
+        }),
+      });
 
-    if (response.ok) {
+      if (!response.ok) {
+        const data = await response.json().catch(() => null) as { error?: string } | null;
+        setEditError(data?.error ?? "บันทึกการแก้ไขไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง");
+        return;
+      }
+
+      const updatedInvoice = await response.json() as Invoice;
+      setInvoices((currentInvoices) =>
+        currentInvoices.map((invoice) => (invoice.id === id ? updatedInvoice : invoice)),
+      );
       cancelEdit();
-      await fetchData();
+    } catch (error) {
+      setEditError("เชื่อมต่อระบบบันทึกไม่ได้ กรุณาลองใหม่อีกครั้ง");
+    } finally {
+      setUpdating(false);
     }
-
-    setUpdating(false);
   };
 
   const updateStatus = async (id: number, status: string) => {
@@ -522,13 +547,13 @@ export default function InvoicesPage() {
               </select>
             </label>
             <label className="field">
-              <span className="field-label">เซลส์</span>
+              <span className="field-label">เซลส์ / ผู้รับคอมมิชชั่น</span>
               <select
                 required
                 value={form.salespersonId}
                 onChange={(event) => setForm({ ...form, salespersonId: event.target.value })}
               >
-                <option value="">เลือกเซลส์</option>
+                <option value="">เลือกผู้รับคอมมิชชั่น</option>
                 {salespeople.map((person) => (
                   <option key={person.id} value={person.id}>
                     {person.name}
@@ -616,6 +641,33 @@ export default function InvoicesPage() {
                 onChange={(event) => setForm({ ...form, note: event.target.value })}
               />
             </label>
+            <div className="field-grid-2">
+              <label className="field">
+                <span className="field-label">จำนวนตันที่คิดคอมมิชชั่น</span>
+                <input
+                  min="0"
+                  step="0.001"
+                  type="number"
+                  placeholder="0"
+                  value={form.commissionTons}
+                  onChange={(event) => setForm({ ...form, commissionTons: event.target.value })}
+                />
+              </label>
+              <label className="field">
+                <span className="field-label">ค่าคอมมิชชั่น (บาท/ตัน)</span>
+                <input
+                  min="0"
+                  step="0.001"
+                  type="number"
+                  placeholder="0.00"
+                  value={form.commissionRate}
+                  onChange={(event) => setForm({ ...form, commissionRate: event.target.value })}
+                />
+              </label>
+            </div>
+            <p className="field-note">
+              ค่าคอมรวม {money.format((Number(form.commissionTons) || 0) * (Number(form.commissionRate) || 0))}
+            </p>
             <div className="field-grid-2">
               <div className="field">
                 <span className="field-label">ยอดรวม (บาท)</span>
@@ -730,7 +782,7 @@ export default function InvoicesPage() {
               </select>
             </label>
             <label className="field">
-              <span className="field-label">เซลส์</span>
+              <span className="field-label">เซลส์ / ผู้รับคอมมิชชั่น</span>
               <select
                 required
                 value={editForm.salespersonId}
@@ -822,6 +874,31 @@ export default function InvoicesPage() {
               />
             </label>
             <div className="field-grid-2">
+              <label className="field">
+                <span className="field-label">จำนวนตันที่คิดคอมมิชชั่น</span>
+                <input
+                  min="0"
+                  step="0.001"
+                  type="number"
+                  value={editForm.commissionTons}
+                  onChange={(event) => updateEditForm({ commissionTons: event.target.value })}
+                />
+              </label>
+              <label className="field">
+                <span className="field-label">ค่าคอมมิชชั่น (บาท/ตัน)</span>
+                <input
+                  min="0"
+                  step="0.001"
+                  type="number"
+                  value={editForm.commissionRate}
+                  onChange={(event) => updateEditForm({ commissionRate: event.target.value })}
+                />
+              </label>
+            </div>
+            <p className="field-note">
+              ค่าคอมรวม {money.format((Number(editForm.commissionTons) || 0) * (Number(editForm.commissionRate) || 0))}
+            </p>
+            <div className="field-grid-2">
               <div className="field">
                 <span className="field-label">ยอดรวม (บาท)</span>
                 <div className="form-total-display">{money.format(editTotal)}</div>
@@ -848,6 +925,7 @@ export default function InvoicesPage() {
                 ))}
               </select>
             </label>
+            {editError ? <p className="form-error">{editError}</p> : null}
             <div className="modal-actions">
               <button type="button" className="btn-ghost" onClick={cancelEdit}>
                 ยกเลิก
@@ -966,7 +1044,7 @@ export default function InvoicesPage() {
                     <th>ครบกำหนด</th>
                     <th>ลูกค้า</th>
                     <th>สินค้า / จำนวน</th>
-                    <th>เซลส์</th>
+                    <th>ผู้รับคอมฯ</th>
                     <th className="num">ยอดรวม</th>
                     <th>สถานะ</th>
                     <th></th>
@@ -1024,43 +1102,49 @@ export default function InvoicesPage() {
                       </td>
                       <td className="num">{money.format(invoice.total)}</td>
                       <td>
-                        <div className="status-cell">
-                          <span className={statusBadgeClass(invoice.status)}>{normalizeStatus(invoice.status)}</span>
-                          {invoice.status === "รอชำระ" && receivingPaymentId !== invoice.id ? (
-                            <button type="button" className="receive-link" onClick={() => setReceivingPaymentId(invoice.id)}>
-                              + บันทึกการรับชำระ
-                            </button>
-                          ) : null}
-                          {invoice.status === "ชำระแล้ว" && invoice.paidAt ? (
-                            <>
-                              <span className="cell-sub">ชำระ {formatThaiDate(invoice.paidAt)}</span>
-                              <button type="button" className="receive-link" onClick={() => cancelPaymentReceived(invoice.id)}>
-                                ยกเลิกรับชำระ
-                              </button>
-                            </>
-                          ) : null}
-                          {receivingPaymentId === invoice.id ? (
-                            <div className="receive-box">
-                              <input
-                                type="date"
-                                aria-label="วันที่ชำระ"
-                                value={receivingPaymentDate}
-                                onChange={(event) => setReceivingPaymentDate(event.target.value)}
-                              />
-                              <div className="table-actions table-actions--compact">
-                                <button type="button" onClick={() => markPaymentReceived(invoice.id, receivingPaymentDate)} disabled={!receivingPaymentDate}>
-                                  ยืนยัน
+                        {(() => {
+                          const normalizedStatus = normalizeStatus(invoice.status);
+
+                          return (
+                            <div className="status-cell">
+                              <span className={statusBadgeClass(invoice.status)}>{normalizedStatus}</span>
+                              {normalizedStatus === "รอชำระ" && receivingPaymentId !== invoice.id ? (
+                                <button type="button" className="receive-link" onClick={() => setReceivingPaymentId(invoice.id)}>
+                                  + บันทึกการรับชำระ
                                 </button>
-                                <button type="button" className="btn-ghost" onClick={() => {
-                                  setReceivingPaymentId(null);
-                                  setReceivingPaymentDate("");
-                                }}>
-                                  ยกเลิก
-                                </button>
-                              </div>
+                              ) : null}
+                              {normalizedStatus === "ชำระแล้ว" && invoice.paidAt ? (
+                                <>
+                                  <span className="cell-sub">ชำระ {formatThaiDate(invoice.paidAt)}</span>
+                                  <button type="button" className="receive-link" onClick={() => cancelPaymentReceived(invoice.id)}>
+                                    ยกเลิกรับชำระ
+                                  </button>
+                                </>
+                              ) : null}
+                              {receivingPaymentId === invoice.id ? (
+                                <div className="receive-box">
+                                  <input
+                                    type="date"
+                                    aria-label="วันที่ชำระ"
+                                    value={receivingPaymentDate}
+                                    onChange={(event) => setReceivingPaymentDate(event.target.value)}
+                                  />
+                                  <div className="table-actions table-actions--compact">
+                                    <button type="button" onClick={() => markPaymentReceived(invoice.id, receivingPaymentDate)} disabled={!receivingPaymentDate}>
+                                      ยืนยัน
+                                    </button>
+                                    <button type="button" className="btn-ghost" onClick={() => {
+                                      setReceivingPaymentId(null);
+                                      setReceivingPaymentDate("");
+                                    }}>
+                                      ยกเลิก
+                                    </button>
+                                  </div>
+                                </div>
+                              ) : null}
                             </div>
-                          ) : null}
-                        </div>
+                          );
+                        })()}
                       </td>
                       <td>
                         <div className="table-actions">

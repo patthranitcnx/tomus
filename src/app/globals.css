@@ -1915,6 +1915,13 @@ button:disabled {
   color: #4a5b54;
 }
 
+.field-note {
+  margin: -0.25rem 0 0;
+  color: #52645c;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .field input,
 .field select {
   width: 100%;
@@ -1933,6 +1940,13 @@ button:disabled {
   margin-top: 0.4rem;
   padding-top: 0.85rem;
   border-top: 1px solid #eef2f0;
+}
+
+.form-error {
+  margin: 0;
+  color: #b3261e;
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 .edit-number-grid {
@@ -2318,4 +2332,3 @@ button:disabled {
   color: #7a857d;
   margin-top: 0.15rem;
 }
-

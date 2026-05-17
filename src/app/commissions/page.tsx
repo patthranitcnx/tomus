@@ -52,6 +52,8 @@ const invoiceMonth = (inv: Invoice): string => {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 };
 
+const invoiceCommissionAmount = (inv: Invoice) => inv.commissionTons * inv.commissionRate;
+
 export default function CommissionsPage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [salespeople, setSalespeople] = useState<Salesperson[]>([]);
@@ -79,10 +81,10 @@ export default function CommissionsPage() {
     fetchData();
   }, []);
 
-  // Filtered invoices (only those with a commission row)
+  // Filtered invoices: commission values come directly from each invoice.
   const filtered = useMemo(() => {
     return invoices
-      .filter((inv) => inv.commission !== null)
+      .filter((inv) => inv.commission !== null || invoiceCommissionAmount(inv) > 0)
       .filter((inv) => (filterSales ? String(inv.salesperson.id) === filterSales : true))
       .filter((inv) => (filterMonth ? invoiceMonth(inv) === filterMonth : true))
       .filter((inv) => {
@@ -109,7 +111,7 @@ export default function CommissionsPage() {
     let paid = 0;
     let unpaid = 0;
     for (const inv of filtered) {
-      const amt = inv.commission?.amount ?? 0;
+      const amt = invoiceCommissionAmount(inv);
       total += amt;
       if (inv.commission?.paid) paid += amt;
       else unpaid += amt;
@@ -188,7 +190,7 @@ export default function CommissionsPage() {
       <header className="page-header">
         <div>
           <p className="eyebrow">คอมมิชชั่น</p>
-          <h1>บริหารค่าคอมมิชชั่นเซลส์</h1>
+          <h1>บริหารค่าคอมมิชชั่น</h1>
         </div>
         <div className="commission-summary">
           <article className="mini-total">
@@ -210,12 +212,12 @@ export default function CommissionsPage() {
         <div className="section-header">
           <div>
             <p className="eyebrow">ตัวกรอง</p>
-            <h2>เลือกเซลส์ / เดือน / สถานะ</h2>
+            <h2>เลือกผู้รับคอมมิชชั่น / เดือน / สถานะ</h2>
           </div>
         </div>
         <div className="commission-filter">
           <label className="field">
-            <span className="field-label">เซลส์</span>
+            <span className="field-label">ผู้รับคอมมิชชั่น</span>
             <select value={filterSales} onChange={(e) => setFilterSales(e.target.value)}>
               <option value="">ทุกคน</option>
               {salespeople.map((s) => (
@@ -255,8 +257,8 @@ export default function CommissionsPage() {
         </section>
       ) : (
         grouped.map((group) => {
-          const groupTotal = group.rows.reduce((s, r) => s + (r.commission?.amount ?? 0), 0);
-          const groupPaid = group.rows.reduce((s, r) => s + (r.commission?.paid ? r.commission.amount : 0), 0);
+          const groupTotal = group.rows.reduce((s, r) => s + invoiceCommissionAmount(r), 0);
+          const groupPaid = group.rows.reduce((s, r) => s + (r.commission?.paid ? invoiceCommissionAmount(r) : 0), 0);
           const groupUnpaid = groupTotal - groupPaid;
           const unpaidCount = group.rows.filter((r) => r.commission && !r.commission.paid).length;
           return (
@@ -305,7 +307,7 @@ export default function CommissionsPage() {
                       <th>ลูกค้า</th>
                       <th className="num">จำนวนตัน</th>
                       <th className="num">บาท/ตัน</th>
-                      <th className="num">ค่าคอม</th>
+                      <th className="num">ค่าคอมจากใบแจ้งหนี้</th>
                       <th>สถานะการจ่าย</th>
                       <th></th>
                     </tr>
@@ -353,7 +355,7 @@ export default function CommissionsPage() {
                             )}
                           </td>
                           <td className="num">
-                            <strong>{money.format(inv.commission?.amount ?? 0)}</strong>
+                            <strong>{money.format(invoiceCommissionAmount(inv))}</strong>
                           </td>
                           <td>
                             {inv.commission ? (
